@@ -1,0 +1,27 @@
+# BC-250 + JF13K compact case
+
+Engineering project for a compact, quiet, 3D-printable Steam Machine-style enclosure built around:
+
+`AMD BC-250 + mounting adapter + JIUSHARK JF13K + modular PSU`
+
+The design is still in the research and geometry-validation phase. Dimensions and compatibility are not treated as final until they are confirmed by source CAD or physical measurement.
+
+## Current direction
+
+- Common chassis for the BC-250 and JF13K assembly.
+- Replaceable horizontal and vertical support/base modules.
+- Independent replaceable PSU carriers, initially for Cisco UCSC-PSU-650W V02 and later FlexATX.
+- Controlled top-down intake through the two JF13K fans.
+- Serviceable front USB hub, 2.5-inch drive mount, and ESP32 relay-controller tray.
+
+## Project files
+
+- `BC-250-JF13K-agent-context.md` - original project context and priorities.
+- `DESIGN-BRIEF.md` - evolving engineering requirements and decisions.
+- `SOURCES.md` - reference registry, pinned revisions, formats, licenses, and preliminary measurements.
+- `references/printables-*` - downloaded reference models retained with their source PDFs and license information.
+- `tools/inspect_3mf.py` - small utility for reporting raw 3MF vertex bounds.
+
+## Important
+
+The repository contains third-party reference files under different licenses. Review `SOURCES.md` and the source PDF in each reference directory before reusing or redistributing a model. Reference geometry is not automatically part of the final case design.

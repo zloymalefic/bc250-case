@@ -1,0 +1,12 @@
+.DS_Store
+tmp/
+
+# Download packages are preserved locally; extracted, licensed references are tracked.
+/*.zip
+
+# External Git repositories are pinned in SOURCES.md and should be cloned separately.
+/references/hafriedlander-bc250-case/
+/references/onemorecap-bc250-shell-case/
+/references/nexgen-steammachine/
+/references/bc250-pc-remote-control/
+
