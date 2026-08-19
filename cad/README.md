@@ -2,6 +2,8 @@
 
 `layout-a-envelope.scad` is the first parameterized packaging model for the recommended longitudinal two-level architecture.
 
+`support-horizontal.scad` and `support-vertical.scad` are the first printable support prototypes. Both use the common parameters in `lib/common.scad`; see `SUPPORT-INTERFACE.md` for the mechanical contract and unresolved details.
+
 It is intentionally not a printable enclosure. The model is used to:
 
 - expose dimensional assumptions;
@@ -29,4 +31,6 @@ Reproducible exports:
 openscad -o exports/layout-a-envelope.stl layout-a-envelope.scad
 openscad -D 'show_chassis=false' -D 'export_projection=true' \
   -o previews/layout-a-top.svg layout-a-envelope.scad
+openscad -o exports/support-horizontal-v0.1.stl support-horizontal.scad
+openscad -o exports/support-vertical-v0.1.stl support-vertical.scad
 ```

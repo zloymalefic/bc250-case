@@ -22,6 +22,8 @@ The design is still in the research and geometry-validation phase. Dimensions an
 - `TECHNICAL-REPORT-01.md` - layout comparison and the selected two-level architecture.
 - `cad/layout-a-envelope.scad` - parameterized collision/envelope model for layout A.
 - `cad/exports/layout-a-envelope.stl` - compiled validation export; not a printable final case.
+- `cad/support-horizontal.scad` and `cad/support-vertical.scad` - interchangeable support prototypes using a common M4 interface.
+- `cad/SUPPORT-INTERFACE.md` - dimensions, fasteners, and unresolved validation points for both orientations.
 - `cad/previews/layout-a-top.svg` - reproducible top-view projection for quick browser inspection.
 - `references/printables-*` - downloaded reference models retained with their source PDFs and license information.
 - `tools/inspect_3mf.py` - small utility for reporting raw 3MF vertex bounds.
