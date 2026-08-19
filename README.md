@@ -14,6 +14,8 @@ The design is still in the research and geometry-validation phase. Dimensions an
 - Controlled top-down intake through the two JF13K fans.
 - Serviceable front USB hub, 2.5-inch drive mount, and ESP32 relay-controller tray.
 
+![Exterior concept v0.1](cad/previews/exterior-concept-v0.1.svg)
+
 ## Project files
 
 - `BC-250-JF13K-agent-context.md` - original project context and priorities.
@@ -21,6 +23,8 @@ The design is still in the research and geometry-validation phase. Dimensions an
 - `SOURCES.md` - reference registry, pinned revisions, formats, licenses, and preliminary measurements.
 - `TECHNICAL-REPORT-01.md` - layout comparison and the selected two-level architecture.
 - `cad/layout-a-envelope.scad` - parameterized collision/envelope model for layout A.
+- `cad/exterior-concept-v0.1.scad` - complete exterior architecture concept in horizontal or vertical orientation.
+- `cad/exports/exterior-concept-*-v0.1.3mf` - compiled horizontal and vertical concept assemblies.
 - `cad/exports/layout-a-envelope.stl` - compiled validation export; not a printable final case.
 - `cad/support-horizontal.scad` and `cad/support-vertical.scad` - interchangeable support prototypes using a common M4 interface.
 - `cad/SUPPORT-INTERFACE.md` - dimensions, fasteners, and unresolved validation points for both orientations.
