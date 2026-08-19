@@ -14,7 +14,7 @@ The design is still in the research and geometry-validation phase. Dimensions an
 - Controlled top-down intake through the two JF13K fans.
 - Serviceable front USB hub, 2.5-inch drive mount, and ESP32 relay-controller tray.
 
-![Exterior concept v0.1](cad/previews/exterior-concept-v0.1.svg)
+![Nyacom-inspired exterior adaptation v0.2](cad/previews/exterior-nyacom-v0.2.svg)
 
 ## Project files
 
@@ -23,8 +23,13 @@ The design is still in the research and geometry-validation phase. Dimensions an
 - `SOURCES.md` - reference registry, pinned revisions, formats, licenses, and preliminary measurements.
 - `TECHNICAL-REPORT-01.md` - layout comparison and the selected two-level architecture.
 - `cad/layout-a-envelope.scad` - parameterized collision/envelope model for layout A.
-- `cad/exterior-concept-v0.1.scad` - complete exterior architecture concept in horizontal or vertical orientation.
-- `cad/exports/exterior-concept-*-v0.1.3mf` - compiled horizontal and vertical concept assemblies.
+- `cad/exterior-nyacom-v0.2.scad` - replacement exterior direction closely based on the Nyacom industrial case language.
+- `cad/NYACOM-ADAPTATION.md` - retained design features, necessary JF13K changes, and derivative-license note.
+- `cad/exports/exterior-nyacom-*-v0.2.3mf` - compiled horizontal and vertical Nyacom-style concept assemblies.
+- `cad/power-button-nexgen-v0.1.scad` - recreated three-part, backlit, rotatable NexGen-style button module.
+- `cad/psu-universal-internal-v0.1.scad` - common internal rail with separate Cisco and FlexATX adapters.
+- `cad/NEXGEN-MECHANISMS.md` - exact NexGen mechanisms selected for reuse and their project-specific constraints.
+- `cad/PSU-INTERFACE.md` - fully internal PSU interface and flush-rear requirement.
 - `cad/exports/layout-a-envelope.stl` - compiled validation export; not a printable final case.
 - `cad/support-horizontal.scad` and `cad/support-vertical.scad` - interchangeable support prototypes using a common M4 interface.
 - `cad/SUPPORT-INTERFACE.md` - dimensions, fasteners, and unresolved validation points for both orientations.

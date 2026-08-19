@@ -4,7 +4,11 @@
 
 `support-horizontal.scad` and `support-vertical.scad` are the first printable support prototypes. Both use the common parameters in `lib/common.scad`; see `SUPPORT-INTERFACE.md` for the mechanical contract and unresolved details.
 
-`exterior-concept-v0.1.scad` is the first complete visual enclosure concept. It establishes the Steam Machine silhouette, removable JF13K mesh panel, restrained side exhaust, modular front insert, and both presentation orientations. See `EXTERIOR-CONCEPT.md` for scope and limitations.
+`exterior-nyacom-v0.2.scad` is the active exterior direction. It follows the supplied Nyacom reference closely while replacing its stock-cooler airflow with a two-field JF13K intake. See `NYACOM-ADAPTATION.md`.
+
+`psu-universal-internal-v0.1.scad` defines a fully internal common PSU rail with separate Cisco and FlexATX adapters. Nothing in this interface may protrude through the Nyacom-style rear ring; see `PSU-INTERFACE.md`.
+
+`power-button-nexgen-v0.1.scad` recreates the NexGen three-part button architecture as a removable mounting plate, translucent light pipe, and replaceable cap. See `NEXGEN-MECHANISMS.md` for measured reference envelopes and adopted constraints.
 
 It is intentionally not a printable enclosure. The model is used to:
 
@@ -35,7 +39,11 @@ openscad -D 'show_chassis=false' -D 'export_projection=true' \
   -o previews/layout-a-top.svg layout-a-envelope.scad
 openscad -o exports/support-horizontal-v0.1.stl support-horizontal.scad
 openscad -o exports/support-vertical-v0.1.stl support-vertical.scad
-openscad -o exports/exterior-concept-horizontal-v0.1.3mf exterior-concept-v0.1.scad
+openscad -o exports/exterior-nyacom-horizontal-v0.2.3mf exterior-nyacom-v0.2.scad
 openscad -D 'orientation="vertical"' \
-  -o exports/exterior-concept-vertical-v0.1.3mf exterior-concept-v0.1.scad
+  -o exports/exterior-nyacom-vertical-v0.2.3mf exterior-nyacom-v0.2.scad
+openscad -o exports/power-button-nexgen-v0.1.3mf power-button-nexgen-v0.1.scad
+openscad -o exports/psu-internal-cisco-v0.1.stl psu-universal-internal-v0.1.scad
+openscad -D 'variant="flexatx"' \
+  -o exports/psu-internal-flexatx-v0.1.stl psu-universal-internal-v0.1.scad
 ```

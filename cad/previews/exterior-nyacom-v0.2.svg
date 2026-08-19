@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820">
+  <defs>
+    <linearGradient id="nbody" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#30343a"/><stop offset="1" stop-color="#111318"/></linearGradient>
+    <pattern id="nhoney" width="16" height="14" patternUnits="userSpaceOnUse"><path d="M4 1h8l4 6-4 6H4L0 7z" fill="#090b0e"/></pattern>
+    <filter id="nshadow" x="-20%" y="-30%" width="150%" height="180%"><feGaussianBlur stdDeviation="14"/></filter>
+    <clipPath id="fan1"><circle cx="567" cy="354" r="105"/></clipPath>
+    <clipPath id="fan2"><circle cx="817" cy="354" r="105"/></clipPath>
+  </defs>
+  <rect width="1400" height="820" fill="#f3f4f6"/>
+  <text x="70" y="72" font-family="system-ui,sans-serif" font-size="34" font-weight="700" fill="#191c21">BC-250 + JF13K — Nyacom adaptation v0.2</text>
+  <text x="70" y="108" font-family="system-ui,sans-serif" font-size="18" fill="#60656d">Octagonal tunnel · coloured end rings · snap-fit broad-side cover · dual 120 mm intake</text>
+  <ellipse cx="690" cy="645" rx="570" ry="46" fill="#101114" opacity=".16" filter="url(#nshadow)"/>
+
+  <!-- long Nyacom-like tunnel -->
+  <path d="M176 270L222 214H1120L1192 270V580L1120 638H222L176 580Z" fill="url(#nbody)" stroke="#080a0d" stroke-width="8"/>
+  <!-- front yellow octagonal ring -->
+  <path d="M176 270L222 214H292L330 250V600L292 638H222L176 580Z" fill="#edb80e" stroke="#17191e" stroke-width="6"/>
+  <path d="M197 285L232 242H278L304 267V582L278 610H232L197 566Z" fill="#24282e" stroke="#0b0d10" stroke-width="5"/>
+  <!-- rear red ring -->
+  <path d="M1120 214L1192 270V580L1120 638H1080V214Z" fill="#d92c22" stroke="#16191e" stroke-width="6"/>
+  <path d="M1102 246L1166 286V563L1102 605Z" fill="#20242a"/>
+
+  <!-- magnetic broad-side panel with blue stripe -->
+  <path d="M345 250H1048L1070 270V578L1048 600H345L324 578V270Z" fill="#20242a" stroke="#2580ff" stroke-width="6"/>
+  <path d="M358 268H1036L1052 283V565L1036 582H358L342 565V283Z" fill="#171a1f" stroke="#080a0d" stroke-width="3"/>
+
+  <!-- twin fan intake fields -->
+  <g clip-path="url(#fan1)"><rect x="455" y="242" width="225" height="225" fill="url(#nhoney)"/></g>
+  <g clip-path="url(#fan2)"><rect x="705" y="242" width="225" height="225" fill="url(#nhoney)"/></g>
+  <circle cx="567" cy="354" r="108" fill="none" stroke="#505760" stroke-width="6"/>
+  <circle cx="817" cy="354" r="108" fill="none" stroke="#505760" stroke-width="6"/>
+
+  <!-- Nyacom-like diagonal gills -->
+  <g stroke="#07090b" stroke-width="10" stroke-linecap="round">
+    <path d="M927 500l46-14"/><path d="M927 522l46-14"/><path d="M927 544l46-14"/>
+    <path d="M986 500l46-14"/><path d="M986 522l46-14"/><path d="M986 544l46-14"/>
+  </g>
+
+  <!-- recessed front controls -->
+  <circle cx="250" cy="328" r="18" fill="#080a0d" stroke="#8c939c" stroke-width="4"/><circle cx="250" cy="328" r="8" fill="#2580ff"/>
+  <rect x="224" y="380" width="51" height="20" rx="3" fill="#090b0d" stroke="#8c939c" stroke-width="3"/>
+  <rect x="235" y="421" width="31" height="13" rx="6" fill="#090b0d" stroke="#8c939c" stroke-width="3"/>
+  <g stroke="#090b0d" stroke-width="7" stroke-linecap="round"><path d="M225 488h49"/><path d="M225 510h49"/><path d="M225 532h49"/><path d="M225 554h49"/></g>
+
+  <text x="176" y="704" font-family="system-ui,sans-serif" font-size="22" font-weight="650" fill="#252a31">Horizontal concept — common 330 × 170 × 170 mm chassis</text>
+  <g font-family="system-ui,sans-serif" font-size="16" fill="#565d67">
+    <circle cx="180" cy="758" r="6" fill="#edb80e"/><text x="196" y="764">Nyacom-style removable end ring</text>
+    <circle cx="505" cy="758" r="6" fill="#2580ff"/><text x="521" y="764">Snap-fit cover and accent stripe</text>
+    <circle cx="830" cy="758" r="6" fill="#20242a"/><text x="846" y="764">Two JF13K fan fields</text>
+  </g>
+</svg>
