@@ -19,6 +19,10 @@ The design is still in the research and geometry-validation phase. Dimensions an
 - `BC-250-JF13K-agent-context.md` - original project context and priorities.
 - `DESIGN-BRIEF.md` - evolving engineering requirements and decisions.
 - `SOURCES.md` - reference registry, pinned revisions, formats, licenses, and preliminary measurements.
+- `TECHNICAL-REPORT-01.md` - layout comparison and the selected two-level architecture.
+- `cad/layout-a-envelope.scad` - parameterized collision/envelope model for layout A.
+- `cad/exports/layout-a-envelope.stl` - compiled validation export; not a printable final case.
+- `cad/previews/layout-a-top.svg` - reproducible top-view projection for quick browser inspection.
 - `references/printables-*` - downloaded reference models retained with their source PDFs and license information.
 - `tools/inspect_3mf.py` - small utility for reporting raw 3MF vertex bounds.
 
