@@ -11,7 +11,7 @@ use <peripheral-bay-v0.1.scad>
 
 $fn = 40;
 
-part = "assembly"; // front-core | rear-core | board-spine-front | board-spine-rear | front-panel | front-button-mount | front-usb-cassette | ssd-cassette | rear-blank-board | rear-blank-psu | rear-cover-horizontal | rear-cover-vertical | assembly
+part = "assembly"; // front-core | rear-core | board-spine-front | board-spine-rear | front-panel | front-button-mount | front-usb-cassette | ssd-cassette | esp32-cassette | rear-blank-board | rear-blank-psu | rear-cover-horizontal | rear-cover-vertical | assembly
 exploded_gap = 0;
 show_fasteners = true;
 show_equipment = true;
@@ -150,6 +150,20 @@ ssd_retention_global = [ssd_origin[0], ssd_origin[1] + 4,
                         ssd_origin[2] + ssd_tray_size[0] / 2];
 ssd_insert_boss_length = 9;
 
+// Side-load ESP32 relay cassette below JF13K. The fan cover hides its service
+// opening; antenna side faces the plastic intake side rather than the PSU.
+esp_tray_size = [68, 68, 2.4];
+esp_device = [60, 60, 22];
+esp_origin = [180, 70, 5];
+esp_receiver_y0 = 68;
+esp_receiver_y1 = body[1] - wall;
+esp_rail_wall = 3;
+esp_rail_height = 4.4;
+esp_service_opening = [74, 28]; // X width, Z height
+esp_service_origin = [esp_origin[0] - 3, 4];
+esp_top_gap = jf13k_origin[2] -
+    (esp_origin[2] + esp_tray_size[2] + esp_device[2]);
+
 module oct_prism_x(length, width, height, cut) {
     translate([0, 0, height])
         rotate([0, 90, 0])
@@ -169,6 +183,13 @@ module open_shell() {
 
         translate([side_intake_origin[0], body[1] - wall - 1, side_intake_origin[1]])
             cube([side_intake_opening[0], wall + 2, side_intake_opening[1]]);
+
+        // Hidden extension below the fan opening lets the ESP32 cassette slide
+        // out after the removable intake cover is released.
+        translate([esp_service_origin[0], body[1] - wall - 1,
+                   esp_service_origin[1]])
+            cube([esp_service_opening[0], wall + 2,
+                  esp_service_opening[1]]);
     }
 }
 
@@ -398,6 +419,36 @@ module ssd_receiver_rails() {
               2.0, 4]);
 }
 
+module esp32_cassette_global() {
+    translate(esp_origin) esp32_cassette();
+}
+
+module esp32_receiver_rails() {
+    rail_length = esp_receiver_y1 - esp_receiver_y0;
+    // Two X-edge guides run to the intake-side service opening.
+    for (x = [esp_origin[0] - esp_rail_wall,
+              esp_origin[0] + esp_tray_size[0]])
+        translate([x, esp_receiver_y0, wall])
+            cube([esp_rail_wall, rail_length, esp_rail_height]);
+
+    // Inward lips retain the 2.4 mm cassette plate without covering the PCB.
+    translate([esp_origin[0] - esp_rail_wall, esp_receiver_y0,
+               esp_origin[2] + esp_tray_size[2]])
+        cube([esp_rail_wall + 1.2, rail_length, 1.0]);
+    translate([esp_origin[0] + esp_tray_size[0] - 1.2, esp_receiver_y0,
+               esp_origin[2] + esp_tray_size[2]])
+        cube([esp_rail_wall + 1.2, rail_length, 1.0]);
+
+    // Inner stop fixes insertion depth.
+    translate([esp_origin[0] - esp_rail_wall, esp_receiver_y0, wall])
+        cube([esp_tray_size[0] + 2 * esp_rail_wall, 3, esp_rail_height + 1]);
+
+    // Small vertical nub engages the cassette's edge notch at full insertion.
+    translate([esp_origin[0] + esp_tray_size[0],
+               esp_origin[1] + esp_tray_size[1] - 4, esp_origin[2] - 0.1])
+        cylinder(h = esp_tray_size[2] + 0.2, d = 2.2);
+}
+
 module rear_cover_screw_holes(x0, length) {
     for (y = rear_mount_y, z = rear_mount_z)
         translate([x0 - 0.1, y, z])
@@ -571,6 +622,7 @@ module complete_core() {
         psu_receiver_bridges();
         front_panel_seat_and_receivers();
         ssd_receiver_rails();
+        esp32_receiver_rails();
     }
 }
 
@@ -629,6 +681,8 @@ else if (part == "front-usb-cassette")
     usb_cassette();
 else if (part == "ssd-cassette")
     ssd_cassette();
+else if (part == "esp32-cassette")
+    esp32_cassette();
 else if (part == "rear-blank-board")
     service_blank(rear_blank_widths[0]);
 else if (part == "rear-blank-psu")
@@ -646,6 +700,7 @@ else {
     color([0.10, 0.11, 0.13]) front_button_mount_global();
     color([0.14, 0.15, 0.17]) front_usb_cassette_global();
     color([0.38, 0.40, 0.44]) ssd_cassette_global();
+    color([0.18, 0.36, 0.62]) esp32_cassette_global();
     if (show_fasteners && exploded_gap == 0) fastener_proxies();
     if (show_equipment && exploded_gap == 0) vertical_equipment_proxies();
     if (rear_cover == "horizontal")
@@ -698,7 +753,11 @@ echo("2.5-inch bay origin/receiver X bounds mm",
      [ssd_origin, [ssd_receiver_x0, ssd_receiver_x1 + ssd_insert_boss_length]]);
 echo("2.5-inch supported device mm", ssd_device);
 echo("2.5-inch retention", "4x device M3 plus 1x front-access cassette M3");
-echo("release status", "core validation only; ESP32 bay and final connector cuts not yet integrated");
+echo("ESP32 bay origin/service opening mm",
+     [esp_origin, esp_service_origin, esp_service_opening]);
+echo("ESP32 provisional device/top gap mm", [esp_device, esp_top_gap]);
+echo("ESP32 retention", "adjustable post slots plus side-rail printed detent");
+echo("release status", "core validation only; final ESP32 posts and connector cuts not yet frozen");
 
 assert(split_x + collar_length <= 250, "Front core exceeds preliminary print envelope");
 assert(body[0] - split_x <= 250, "Rear core exceeds preliminary print envelope");
@@ -726,3 +785,7 @@ assert(ssd_origin[0] + ssd_tray_size[2] + ssd_device[2] < jf13k_origin[0],
        "2.5-inch drive reaches the JF13K envelope");
 assert(ssd_origin[1] + ssd_tray_size[1] <= body[1] - wall,
        "2.5-inch cassette exceeds the inner side wall");
+assert(esp_top_gap >= 3, "ESP32 envelope reaches the JF13K keepout");
+assert(esp_origin[0] >= jf13k_origin[0] &&
+       esp_origin[0] + esp_tray_size[0] <= jf13k_origin[0] + jf13k[0],
+       "ESP32 bay is not contained below the JF13K footprint");

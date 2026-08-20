@@ -27,3 +27,7 @@ prototype. Final inner relief/stand-off is intentionally deferred until a
 physical fan-side check; it may rise locally beyond the nominal body-side datum.
 The released covers must not touch the fan frames, screws, blades, or wiring and
 must repeat the airflow/no-contact check independently of the main chassis.
+
+The rear/lower fan-cover half also hides the ESP32 cassette service extension.
+Its local lower skirt must reach the Z=4 mm body datum over X=177–251 mm; this
+requirement is frozen even though the final fan-cover depth remains deferred.

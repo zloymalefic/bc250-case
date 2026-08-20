@@ -48,6 +48,10 @@ below 6 mm. See `JF13K-PHOTO-FIT.md` for the evidence and residual checks.
   mm M3 pattern and slides in the free pocket ahead of JF13K;
 - two guide walls, retaining lips, a rear stop and one front-access M3 screw
   form a complete chassis interface without blocking the cooler intake.
+- the 68 × 68 mm ESP32 relay cassette sits horizontally under JF13K, leaving
+  3.6 mm nominal clearance to the cooler envelope;
+- bottom guide rails, an inner stop and a printed detent allow side removal;
+  the future fan cover must hide the 74 × 28 mm lower service extension.
 
 ## Assembly sequence for the core
 
@@ -66,6 +70,8 @@ The exact screw length and insert pilot remain provisional until the fit coupon 
    port alignment is frozen.
 3. Physically check the Anker cassette, M3 button inserts, and switch travel.
 4. Verify the selected 2.5-inch drive's SATA/power cable direction.
+5. Measure the actual ESP32 relay-board hole pattern and connector exits, then
+   freeze its adjustable posts.
 3. Final BC-250 edge clamps and non-contact JF13K transport pads after physical
    keepout checks.
 4. Two rear-cover variants on one four-point M3 interface: a shallow horizontal

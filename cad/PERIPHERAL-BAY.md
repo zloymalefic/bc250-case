@@ -23,7 +23,15 @@ check, but it does not change the cassette or body envelope.
 - separate 68 × 68 mm open-edge cassette;
 - adjustable PCB-post slots;
 - dedicated programming-USB opening;
-- antenna edge remains open and must face the plastic front/side panel;
-- intended location is the front lower pocket, outside the PSU envelope and away from its power wiring.
+- antenna edge remains open and faces the plastic intake side;
+- horizontal position below JF13K, with 3.6 mm nominal vertical clearance;
+- two bottom rails guide the cassette toward the intake side;
+- a printed edge detent retains it without another screw;
+- a 74 × 28 mm hidden service extension lets it slide out after the fan cover
+  is removed.
 
-Final post positions, connector cut-outs, and cable restraints require measurement of the actual combined ESP32-WROOM dual-relay board.
+The final fan-cover geometry must include a lower skirt over this service
+extension down to Z=4 mm. Final post positions, connector cut-outs, and cable
+restraints still require measurement of the actual combined ESP32-WROOM
+dual-relay board; the adjustable cassette allows the main chassis work to
+continue before that measurement.

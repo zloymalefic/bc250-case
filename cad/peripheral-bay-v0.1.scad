@@ -9,6 +9,8 @@ ssd_envelope = [100.5, 69.9, 15];
 ssd_tray = [110, 80, 2.4];
 esp_envelope = [60, 60, 22];
 esp_tray = [68, 68, 2.4];
+esp_board_clearance = 0.6;
+esp_detent_center = [esp_tray[0], esp_tray[1] - 4];
 
 slot_d = 3.6;
 slot_length = 12;
@@ -64,6 +66,10 @@ module esp32_cassette() {
             translate([0, 0, esp_tray[2]]) cube([3, esp_tray[1], 8]);
             translate([esp_tray[0] - 3, 0, esp_tray[2]]) cube([3, esp_tray[1], 8]);
             translate([0, 0, esp_tray[2]]) cube([esp_tray[0], 3, 8]);
+
+            // Low pull tab remains accessible from the side service opening.
+            translate([esp_tray[0] / 2 - 10, esp_tray[1], 0])
+                cube([20, 6, 4]);
         }
 
         // Four broad slots accept sliding PCB posts after hole measurement.
@@ -72,6 +78,10 @@ module esp32_cassette() {
 
         // Service opening for USB programming cable.
         translate([esp_tray[0] / 2 - 8, -0.1, 5]) cube([16, 4, 5]);
+
+        // Edge notch engages a small printed detent in the chassis rail.
+        translate([esp_detent_center[0], esp_detent_center[1], -0.1])
+            cylinder(h = esp_tray[2] + 0.2, d = 2.8);
     }
 }
 
@@ -87,4 +97,5 @@ echo("supported_ssd_envelope_mm", ssd_envelope);
 echo("ssd_bottom_hole_pitch_mm", ssd_hole_pitch);
 echo("ssd_retention", "1x front-access M3 plus 4x device M3");
 echo("esp32_board_envelope_provisional_mm", esp_envelope);
+echo("esp32_retention", "four adjustable post slots plus side-rail detent");
 assert(ssd_envelope[2] <= 15, "SSD exceeds supported maximum thickness");

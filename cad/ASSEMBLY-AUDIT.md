@@ -23,7 +23,7 @@ All production-looking exports have therefore been withdrawn. `cad/exports/` now
 | NexGen PSU adapter ↔ receiver | defined, unvalidated | Server/FlexATX/LOP plate depths fit the common guides and interior clamps; print clearance remains untested. |
 | Cisco PSU ↔ server adapter | reference-derived | Use the supplied NexGen universal server-PSU mount with an inward offset; no separate Cisco body measurement is required. |
 | 2.5-inch cassette ↔ chassis | integrated, unvalidated | Front-load 110 × 80 mm cassette has guide walls, lips, rear stop and one accessible M3 retainer. It supports 7–15 mm devices; physical fit and cable direction remain open. |
-| ESP32 cassette ↔ chassis | impossible | No mating bay exists; board hole pattern is unmeasured. |
+| ESP32 cassette ↔ chassis | integrated, provisional | Horizontal 68 × 68 mm cassette has bottom guide rails, inner stop, printed detent and hidden side-service opening. Board posts and cable cuts await actual hardware. |
 | Horizontal supports ↔ chassis | partially defined | Four bosses exist, but inserts and assembled fit are unvalidated. |
 | Vertical rear/base cover ↔ chassis | integrated, unvalidated | The tapered cover and rear core share four M3 axes; insert fit, connector bend radius, and load test remain open. |
 
@@ -41,5 +41,5 @@ Confirmed architecture: BC-250 and the major internal components are vertical al
 4. Validate the integrated common PSU receiver with its clearance coupon and
    selected adapter plate.
 5. Add horizontal and vertical supports against explicit chassis interfaces.
-6. Add the ESP32 module after its receiver and adjustable board posts exist.
+6. Freeze ESP32 sliding-post positions and cable exits after actual-board fit.
 7. Run collision and manifold checks, then populate `cad/exports/release/<version>/` as one versioned set.
