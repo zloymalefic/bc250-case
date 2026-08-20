@@ -4,14 +4,19 @@ The yellow Nyacom-style front insert is now independent from both service compon
 
 - front panel: 125 × 165 × 4 mm;
 - NexGen-derived button opening: 45.2 × 32.3 mm;
-- replaceable USB cassette opening: 58.6 × 42.6 mm;
-- cassette face: 58 × 42 × 3 mm;
-- provisional PCB tray: 52 × 30 × 12 mm;
-- front apertures: one USB-A data port and one USB-C data port;
+- replaceable vertical USB cassette opening: 28.6 × 71.0 mm;
+- cassette face: 27.93 × 70.35 × 3 mm;
+- baseline hub: Anker A7516 four-port USB 3.0, 103 × 30 × 10 mm;
+- front apertures: four vertical USB-A data ports;
 - hidden hooks retain the main panel and USB cassette;
 - concealed release notches permit servicing without visible screws.
+- two M3 insert bosses and edge ribs retain the NexGen-derived button plate.
 
-The USB cassette is intentionally provisional. The front panel and its standard opening should not change when a specific inexpensive hub is selected; only the small cassette rails and port cut-outs are regenerated from measured hardware.
+NexGen PRO V2 explicitly specifies the Anker four-port hub and its supplied USB
+cover measures approximately 70.35 × 27.93 × 12.65 mm. This is the current
+baseline. If a cheaper hub is selected later, only the small cassette is
+reworked; the 28.6 × 71.0 mm front-panel interface and its receiver rails remain
+unchanged wherever possible.
 
 The rear USB return is now specified independently in `USB-RETURN-INTERFACE.md`.
 Its provisional per-adapter envelope is 32 × 30 × 29 mm plus clearance; only a

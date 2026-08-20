@@ -35,6 +35,11 @@ below 6 mm. See `JF13K-PHOTO-FIT.md` for the evidence and residual checks.
   support shoulder, and four matching hidden snap receivers in the front core;
 - the panel remains separately printable and removable without opening the
   structural chassis seam.
+- two ribbed M3 insert bosses now retain the NexGen-derived button plate;
+- the baseline Anker A7516 hub uses a vertical 28.6 × 71.0 mm opening and a
+  separately printable four-port cassette with two hidden hooks;
+- the cassette carries the 103 × 30 × 10 mm hub envelope, so a future cheaper
+  hub changes the cassette rather than the main front panel wherever possible.
 - both rear-cover variants now share two vertical snap seats: a 71.30 × 144.30
   mm board/I/O blank and a 47.30 × 144.30 mm PSU blank;
 - each rear blank has four hidden hooks and a 2 mm support shoulder; final
@@ -55,6 +60,7 @@ The exact screw length and insert pilot remain provisional until the fit coupon 
 1. Validate front- and rear-panel hooks with the existing clearance coupon.
 2. Add final connector apertures to the replaceable rear blanks after cable and
    port alignment is frozen.
+3. Physically check the Anker cassette, M3 button inserts, and switch travel.
 3. Final BC-250 edge clamps and non-contact JF13K transport pads after physical
    keepout checks.
 4. Two rear-cover variants on one four-point M3 interface: a shallow horizontal

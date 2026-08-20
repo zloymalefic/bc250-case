@@ -6,10 +6,11 @@ use <board-spine-v0.1.scad>
 use <psu-universal-internal-v0.2.scad>
 use <front-service-module-v0.1.scad>
 use <rear-service-blanks-v0.1.scad>
+use <power-button-nexgen-v0.1.scad>
 
 $fn = 40;
 
-part = "assembly"; // front-core | rear-core | board-spine-front | board-spine-rear | front-panel | rear-blank-board | rear-blank-psu | rear-cover-horizontal | rear-cover-vertical | assembly
+part = "assembly"; // front-core | rear-core | board-spine-front | board-spine-rear | front-panel | front-button-mount | front-usb-cassette | rear-blank-board | rear-blank-psu | rear-cover-horizontal | rear-cover-vertical | assembly
 exploded_gap = 0;
 show_fasteners = true;
 show_equipment = true;
@@ -317,6 +318,25 @@ module front_service_panel_global() {
     ]) front_panel();
 }
 
+module front_button_mount_global() {
+    multmatrix([
+        [0, 0, -1, front_panel_rear_x],
+        [1, 0,  0, front_panel_inset[0]],
+        [0, 1,  0, front_panel_inset[1]],
+        [0, 0,  0, 1]
+    ]) translate([8.35, 116.35, 4 - 5.1]) mounting_plate();
+}
+
+module front_usb_cassette_global() {
+    multmatrix([
+        [0, 0, -1, front_panel_rear_x],
+        [1, 0,  0, front_panel_inset[0]],
+        [0, 1,  0, front_panel_inset[1]],
+        [0, 0,  0, 1]
+    ]) translate([88 + (28.6 - 27.93) / 2,
+                   75 + (71.0 - 70.35) / 2, 4]) usb_cassette();
+}
+
 module rear_cover_screw_holes(x0, length) {
     for (y = rear_mount_y, z = rear_mount_z)
         translate([x0 - 0.1, y, z])
@@ -541,6 +561,10 @@ else if (part == "board-spine-rear")
         board_spine_global("rear");
 else if (part == "front-panel")
     front_panel();
+else if (part == "front-button-mount")
+    mounting_plate();
+else if (part == "front-usb-cassette")
+    usb_cassette();
 else if (part == "rear-blank-board")
     service_blank(rear_blank_widths[0]);
 else if (part == "rear-blank-psu")
@@ -555,6 +579,8 @@ else {
     color([0.16, 0.17, 0.19]) translate([exploded_gap, 0, 0]) rear_core_global();
     color([0.24, 0.25, 0.29]) board_spine_global();
     color([0.76, 0.12, 0.09]) front_service_panel_global();
+    color([0.10, 0.11, 0.13]) front_button_mount_global();
+    color([0.14, 0.15, 0.17]) front_usb_cassette_global();
     if (show_fasteners && exploded_gap == 0) fastener_proxies();
     if (show_equipment && exploded_gap == 0) vertical_equipment_proxies();
     if (rear_cover == "horizontal")

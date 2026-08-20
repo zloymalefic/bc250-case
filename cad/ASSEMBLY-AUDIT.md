@@ -14,8 +14,8 @@ All production-looking exports have therefore been withdrawn. `cad/exports/` now
 | Intake halves ↔ chassis | aligned, unvalidated | Eight hook coordinates match eight receiver coordinates. Clearance and release access still require coupon results. |
 | Front panel ↔ chassis | integrated, unvalidated | The 125 × 165 mm panel has a recessed shoulder and four matching hidden receivers in the front core. Snap coupon result remains open. |
 | Rear service blanks ↔ both rear covers | integrated, unvalidated | Two vertical blanks share identical 2 mm seats and four hidden receivers each in the horizontal cover and tower base. Connector cuts and snap coupon remain open. |
-| Button ↔ front panel | impossible | Button plate has two M3 holes; front panel provides no bosses or inserts. |
-| USB cassette ↔ front panel | unvalidated | Nominal face clearance exists, but hook receivers and actual hub envelope are not confirmed. |
+| Button ↔ front panel | integrated, unvalidated | Two M3 plate axes now match two ribbed insert bosses. Insert fit and switch travel remain open. |
+| Anker A7516 cassette ↔ front panel | integrated, unvalidated | Vertical 28.6 × 71.0 mm opening, two hidden receivers, four USB-A cuts, and a 103 × 30 × 10 mm cradle are modeled. Physical fit remains open. |
 | Board spine ↔ chassis | integrated, unvalidated | Eight transverse M4 axes now match eight webbed core bosses. M4 insert fit and load testing remain open. |
 | BC-250 ↔ board spine | partially defined | Bare PCB envelope is now 308.0 × 144.3 × 1.6 mm and the split pocket is modeled; final edge clamps still require a real-board keepout check. |
 | JF13K ↔ spine/chassis | partially defined | Official envelope and photo-derived placement are frozen; the spine load path reaches the shell. Non-contact transport-pad locations remain open. |
