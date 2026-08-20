@@ -18,8 +18,8 @@ jf13k_top_z = board_plane_z + jf13k_stack_above_board;
 
 module chassis_assembly() {
     color([0.08, 0.09, 0.11, 0.28]) {
-        import("exports/chassis-front-v0.2.stl");
-        translate([165, 0, 0]) import("exports/chassis-rear-v0.2.stl");
+        import("exports/chassis-front-v0.3.stl");
+        translate([165, 0, 0]) import("exports/chassis-rear-v0.3.stl");
     }
 }
 

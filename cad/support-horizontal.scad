@@ -1,7 +1,7 @@
 // Horizontal support set: two printable skids using the common M4 interface.
 include <lib/common.scad>
 
-skid_length = 142;
+skid_length = chassis[1] - 28;
 skid_width = 28;
 skid_height = support_pad_h;
 skid_radius = 5;

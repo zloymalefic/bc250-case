@@ -51,7 +51,7 @@ Reproducible exports:
 openscad -o exports/layout-a-envelope.stl layout-a-envelope.scad
 openscad -D 'show_chassis=false' -D 'export_projection=true' \
   -o previews/layout-a-top.svg layout-a-envelope.scad
-openscad -o exports/support-horizontal-v0.1.stl support-horizontal.scad
+openscad -o exports/support-horizontal-v0.2.stl support-horizontal.scad
 openscad -o exports/support-vertical-v0.1.stl support-vertical.scad
 openscad -o exports/exterior-nyacom-horizontal-v0.2.3mf exterior-nyacom-v0.2.scad
 openscad -D 'orientation="vertical"' \
@@ -63,8 +63,8 @@ python3 ../tools/prepare_nexgen_button_logo.py \
 openscad -o exports/psu-internal-cisco-v0.1.stl psu-universal-internal-v0.1.scad
 openscad -D 'variant="flexatx"' \
   -o exports/psu-internal-flexatx-v0.1.stl psu-universal-internal-v0.1.scad
-openscad -D 'part="front"' -o exports/chassis-front-v0.2.stl chassis-split-v0.1.scad
-openscad -D 'part="rear"' -o exports/chassis-rear-v0.2.stl chassis-split-v0.1.scad
+openscad -D 'part="front"' -o exports/chassis-front-v0.3.stl chassis-split-v0.1.scad
+openscad -D 'part="rear"' -o exports/chassis-rear-v0.3.stl chassis-split-v0.1.scad
 openscad -o exports/snap-fit-coupon-v0.1.stl snap-fit-coupon-v0.1.scad
 openscad -D 'part="left"' -o exports/intake-panel-left-v0.1.stl intake-panel-snap-v0.1.scad
 openscad -D 'part="right"' -o exports/intake-panel-right-v0.1.stl intake-panel-snap-v0.1.scad

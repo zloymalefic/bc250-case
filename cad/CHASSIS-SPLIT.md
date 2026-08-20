@@ -17,6 +17,8 @@ The 330 mm Nyacom-style structural tunnel is divided at X=165 mm:
 - continuous internal tray ledges run along both lower side walls;
 - ledge top is Z=49 mm, matching the integrated board-tray origin;
 - the intake opening and receiver pattern cross the chassis split without placing a hook directly on the joint.
+- four 13 mm reinforced floor bosses provide the corrected 258 × 99 mm horizontal-support pattern;
+- bosses accept M4 clearance screws and provisional 5.6 mm heat-set-insert pilots installed from inside.
 
 The collar clearance is provisional. Before printing complete shell sections, produce a short interface coupon using the selected material, layer height, and printer profile.
 

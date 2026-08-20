@@ -12,7 +12,9 @@ The common chassis remains identical in horizontal and vertical use. Orientation
 
 ## Horizontal set
 
-Two identical 142 × 28 × 8 mm transverse skids. Each skid has two chassis screws on the common 114 mm pitch and two 12 × 1.5 mm recesses for optional rubber pads. The parts fit even a small printer and can be replaced independently.
+Two identical 127 × 28 × 8 mm transverse skids. Each skid has two chassis screws on the corrected 99 mm transverse pitch and two 12 × 1.5 mm recesses for optional rubber pads. The parts fit even a small printer and can be replaced independently.
+
+Four reinforced bosses are integrated into the chassis floor at X=36/294 mm and Y=28/127 mm. M4 screws pass through the skids into provisional 5.6 mm heat-set-insert pilots. Final pilot diameter must follow the selected insert manufacturer's recommendation and a material coupon.
 
 ## Vertical set
 

@@ -25,6 +25,12 @@ receiver_y = [panel_origin[1] + 4, panel_origin[1] + 131 - 4];
 receiver_block = [12, 9, 12];
 tray_ledge_z = 45;
 tray_ledge = [body[0] - 12, 7, 4];
+support_station_x = [36, body[0] - 36];
+support_station_y = [28, body[1] - 28];
+support_boss_d = 13;
+support_boss_h = 10;
+support_screw_d = 4.5;
+support_insert_pilot_d = 5.6; // provisional; tune to selected M4 insert
 
 module oct_prism_x(length, width, height, cut) {
     translate([0, 0, height])
@@ -63,6 +69,20 @@ module tray_ledges() {
     translate([6, body[1] - 3.4 - tray_ledge[1], tray_ledge_z]) cube(tray_ledge);
 }
 
+module support_bosses() {
+    for (x = support_station_x, y = support_station_y)
+        translate([x, y, 3]) cylinder(h = support_boss_h, d = support_boss_d);
+}
+
+module support_boss_holes() {
+    for (x = support_station_x, y = support_station_y) {
+        // Screw clearance through the floor.
+        translate([x, y, -0.1]) cylinder(h = 6.2, d = support_screw_d);
+        // Heat-set insert pilot opens from the inside.
+        translate([x, y, 5.5]) cylinder(h = support_boss_h + 0.2, d = support_insert_pilot_d);
+    }
+}
+
 module snap_receiver_cutouts() {
     for (half_x = [panel_origin[0], panel_origin[0] + panel_half_length],
          local_x = receiver_x_local,
@@ -84,6 +104,7 @@ module functional_shell() {
             full_open_shell();
             receiver_blocks();
             tray_ledges();
+            support_bosses();
         }
 
         // Large dual-fan intake. The split panels overlap this opening.
@@ -91,6 +112,7 @@ module functional_shell() {
             cube([intake_opening[0], intake_opening[1], wall + 2]);
 
         snap_receiver_cutouts();
+        support_boss_holes();
     }
 }
 
@@ -164,5 +186,6 @@ echo("collar_clearance_per_side_mm", collar_clearance);
 echo("intake_opening_mm", intake_opening);
 echo("snap_receiver_count", 8);
 echo("tray_ledge_top_z_mm", tray_ledge_z + tray_ledge[2]);
+echo("horizontal_support_pitch_mm", [support_station_x[1] - support_station_x[0], support_station_y[1] - support_station_y[0]]);
 assert(split_x + collar_length <= 250, "Front section exceeds preliminary 250 mm print-bed limit");
 assert(body[0] - split_x <= 250, "Rear section exceeds preliminary 250 mm print-bed limit");
