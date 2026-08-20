@@ -31,6 +31,7 @@ Additional source projects, direct links, adopted features, pinned revisions, an
 - `DESIGN-BRIEF.md` - evolving engineering requirements and decisions.
 - `SOURCES.md` - reference registry, pinned revisions, formats, licenses, and preliminary measurements.
 - `ATTRIBUTION.md` - complete credits, direct links, adopted features, and derivative-license notices.
+- `docs/FINAL-VISUALIZATION.md` - final Blender/GLB rendering, viewing, and exploded-view delivery plan.
 - `TECHNICAL-REPORT-01.md` - layout comparison and the selected two-level architecture.
 - `cad/layout-a-envelope.scad` - parameterized collision/envelope model for layout A.
 - `cad/exterior-nyacom-v0.2.scad` - replacement exterior direction closely based on the Nyacom industrial case language.
