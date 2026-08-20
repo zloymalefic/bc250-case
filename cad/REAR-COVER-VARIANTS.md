@@ -9,6 +9,8 @@ an Xbox Series X-like tower.
 - four M3 axes at Y = 30/125 mm and Z = 5/190 mm;
 - four blind heat-set insert bosses integrated into the rear structural core;
 - common 125 × 165 mm service-cassette envelope for later PSU and I/O inserts;
+- two portrait inserts sit side-by-side inside that envelope: provisional
+  openings 72 × 145 mm for board I/O and 48 × 145 mm for PSU;
 - no PSU bracket or electrical connector projects outside the case envelope.
 
 ## Horizontal rear cover
@@ -19,13 +21,13 @@ common service-cassette opening and uses four short countersunk M3 screws.
 ## Vertical rear/base cover
 
 The case is rotated so its rear X+ face points down. The replacement cover is a
-44 mm-deep open frame with a 185 × 225 mm desk footprint:
+single red 44 mm-deep truncated-pyramid shell expanding continuously from the
+155 × 195 mm rear face to a 185 × 225 mm desk footprint:
 
-- four longitudinal structural rails carry the enclosure load;
-- the central 40 mm cavity remains open for HDMI/DP, power and USB plugs;
-- cables can turn and leave through any open side rather than being sharply bent
-  against the desk;
-- the outer ring has four 12 mm recesses for adhesive rubber or TPU pads;
+- the continuous 8 mm perimeter shell carries the enclosure load;
+- the 38 mm-deep internal cavity remains open for HDMI/DP, power and USB plugs;
+- two opposed side openings let cables leave without a sharp desk bend;
+- the desk face has four 12 mm recesses for adhesive rubber or TPU pads;
 - four bottom-access M3 screws retain the complete base.
 
 The architecture follows the idea of DeepCool's 47.5 mm-tall Vertical Base 100
@@ -38,6 +40,6 @@ This is an integrated source model, not a release STL. Before release:
 
 1. Measure the longest connector body plus safe bend radius.
 2. Print the fit coupon and select the actual M3 insert pilot.
-3. Load-test the four rails and outer ring with the assembled case mass.
+3. Load-test the tapered perimeter shell with the assembled case mass.
 4. Replace the blank service-cassette envelope with measured Cisco PSU and
    BC-250 I/O inserts.

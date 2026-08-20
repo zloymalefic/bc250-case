@@ -90,10 +90,12 @@
     <path class="panel" d="M14 39L40 14H270L296 39V351L270 376H40L14 351Z"/>
     <!-- Common 125 × 165 mm service cassette, shown at the same 2 px/mm scale. -->
     <rect x="30" y="30" width="250" height="330" rx="4" fill="#0c0f13" stroke="#77818c" stroke-width="2"/>
-    <rect class="outline" x="48" y="55" width="214" height="128" rx="4"/>
-    <rect class="outline" x="48" y="211" width="214" height="118" rx="4"/>
-    <text class="inside" x="155" y="124" text-anchor="middle">BC-250 I/O — после замеров</text>
-    <text class="inside" x="155" y="275" text-anchor="middle">сменная вставка Cisco PSU</text>
+    <rect class="outline" x="42" y="50" width="116" height="290" rx="4"/>
+    <rect class="outline" x="168" y="50" width="96" height="290" rx="4"/>
+    <text class="inside" x="100" y="187" text-anchor="middle">BC-250 I/O</text>
+    <text class="inside" x="100" y="207" text-anchor="middle">после замеров</text>
+    <text class="inside" x="216" y="187" text-anchor="middle">Cisco</text>
+    <text class="inside" x="216" y="207" text-anchor="middle">PSU</text>
     <circle cx="60" cy="16" r="5" fill="#afb6bf"/><circle cx="250" cy="16" r="5" fill="#afb6bf"/>
     <circle cx="60" cy="374" r="5" fill="#afb6bf"/><circle cx="250" cy="374" r="5" fill="#afb6bf"/>
     <path class="dim" marker-start="url(#arr)" marker-end="url(#arr)" d="M0 420H310"/>
@@ -110,15 +112,13 @@
       <!-- side-shell is 660×390; after rotation it is 390×660 -->
       <use href="#side-shell" class="case"/>
       <path class="front" d="M0 32L32 0H46V390H32L0 358Z"/>
-      <path class="rear" d="M614 0H628L660 32V358L628 390H614Z"/>
       <rect x="58" y="46" width="544" height="298" rx="5" fill="url(#mesh)" stroke="#59636e" stroke-width="2"/>
     </g>
-    <!-- Desk-facing base: body width 195, footprint width 225, height 44. -->
-    <path class="base" d="M0 720H450V808H0Z"/>
-    <rect x="30" y="736" width="390" height="45" fill="#f3f4f6" stroke="#69737e" stroke-width="2"/>
-    <path class="cable" d="M205 721v32q0 18 20 18h108"/>
-    <path class="cable" d="M245 721v18q0 18-20 18H118"/>
-    <text class="small" x="225" y="800" text-anchor="middle">44 мм: штекеры вниз, кабели выходят в стороны</text>
+    <!-- One continuous red part: rear end plate plus tapered desk plinth. -->
+    <path class="rear" d="M30 674H420V720L450 808H0L30 720Z"/>
+    <path class="slot" d="M390 754H438L445 780H390Z"/>
+    <path class="cable" d="M410 766h58q18 0 18 17v8"/>
+    <text class="inside" x="225" y="800" text-anchor="middle">44 мм: монолитная крышка и боковой выход кабелей</text>
     <path class="dim" marker-start="url(#arr)" marker-end="url(#arr)" d="M0 840H450"/>
     <text class="caption" x="225" y="866" text-anchor="middle">225 мм в этой проекции</text>
     <text class="caption" x="225" y="894" text-anchor="middle">общая высота 330 + 44 = 374 мм</text>

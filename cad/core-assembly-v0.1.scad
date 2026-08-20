@@ -37,6 +37,9 @@ rear_boss_d = 14;
 rear_boss_depth = 10;
 rear_cover_clearance_d = 3.4;
 rear_service_opening = [125, 165];
+rear_module_gap = 5;
+rear_module_widths = [72, 48];
+rear_module_height = 145;
 
 horizontal_cover_depth = 6;
 vertical_cover_depth = 44;
@@ -46,6 +49,7 @@ vertical_base_footprint = [
     body[2] + 2 * vertical_base_overhang
 ];
 vertical_base_ring_depth = 4;
+vertical_base_wall = 8;
 vertical_pad_d = 12;
 vertical_pad_recess = 1.0;
 
@@ -147,47 +151,61 @@ module rear_cover_screw_holes(x0, length) {
         }
 }
 
-module rear_service_window(length, margin = 0.4) {
-    translate([
-        body[0] - 0.1,
-        (body[1] - rear_service_opening[0]) / 2 - margin,
-        (body[2] - rear_service_opening[1]) / 2 - margin
-    ])
-        cube([length + 0.2,
-              rear_service_opening[0] + 2 * margin,
-              rear_service_opening[1] + 2 * margin]);
+module rear_module_windows(length) {
+    y0 = (body[1] - rear_service_opening[0]) / 2;
+    z0 = (body[2] - rear_module_height) / 2;
+    translate([body[0] - 0.1, y0, z0])
+        cube([length + 0.2, rear_module_widths[0], rear_module_height]);
+    translate([body[0] - 0.1,
+               y0 + rear_module_widths[0] + rear_module_gap, z0])
+        cube([length + 0.2, rear_module_widths[1], rear_module_height]);
 }
 
 module rear_cover_horizontal_global() {
     difference() {
         translate([body[0], 0, 0])
             oct_prism_x(horizontal_cover_depth, body[1], body[2], chamfer);
-        rear_service_window(horizontal_cover_depth);
+        rear_module_windows(horizontal_cover_depth);
         rear_cover_screw_holes(body[0], horizontal_cover_depth);
     }
 }
 
-module vertical_base_outer_ring() {
-    outer_y = -vertical_base_overhang;
-    outer_z = -vertical_base_overhang;
-    x0 = body[0] + vertical_cover_depth - vertical_base_ring_depth;
-    difference() {
-        translate([x0, outer_y, outer_z])
-            oct_prism_x(vertical_base_ring_depth,
-                        vertical_base_footprint[0], vertical_base_footprint[1],
-                        chamfer + vertical_base_overhang);
-        translate([x0 - 0.1, -0.5, -0.5])
-            oct_prism_x(vertical_base_ring_depth + 0.2,
-                        body[1] + 1, body[2] + 1, chamfer + 0.5);
+module vertical_base_outer_solid() {
+    hull() {
+        translate([body[0], 0, 0])
+            oct_prism_x(1, body[1], body[2], chamfer);
+        translate([body[0] + vertical_cover_depth - 1,
+                   -vertical_base_overhang, -vertical_base_overhang])
+            oct_prism_x(1, vertical_base_footprint[0],
+                        vertical_base_footprint[1], chamfer + vertical_base_overhang);
     }
 }
 
-module vertical_base_pillars() {
-    // Four open-sided rails leave the full centre free for plugs and cable bends.
-    for (y = rear_mount_y, z = rear_mount_z)
-        translate([body[0], y, z])
-        rotate([0, 90, 0])
-            cylinder(h = vertical_cover_depth, d = rear_boss_d);
+module vertical_base_inner_cavity() {
+    // The first 6 mm remain as the service-panel plane; the rest is hollow.
+    hull() {
+        translate([body[0] + horizontal_cover_depth, vertical_base_wall, vertical_base_wall])
+            oct_prism_x(1, body[1] - 2 * vertical_base_wall,
+                        body[2] - 2 * vertical_base_wall, chamfer - vertical_base_wall);
+        translate([body[0] + vertical_cover_depth - 1,
+                   -vertical_base_overhang + vertical_base_wall,
+                   -vertical_base_overhang + vertical_base_wall])
+            oct_prism_x(2, vertical_base_footprint[0] - 2 * vertical_base_wall,
+                        vertical_base_footprint[1] - 2 * vertical_base_wall,
+                        chamfer + vertical_base_overhang - vertical_base_wall);
+    }
+}
+
+module vertical_base_cable_exits() {
+    // Opposed side openings route plugs out without cutting the load-bearing corners.
+    exit_x = body[0] + 18;
+    exit_length = vertical_cover_depth - 20;
+    exit_z = 55;
+    exit_height = 85;
+    translate([exit_x, -vertical_base_overhang - 1, exit_z])
+        cube([exit_length, vertical_base_overhang + vertical_base_wall + 2, exit_height]);
+    translate([exit_x, body[1] - vertical_base_wall - 1, exit_z])
+        cube([exit_length, vertical_base_overhang + vertical_base_wall + 2, exit_height]);
 }
 
 module vertical_pad_recesses() {
@@ -202,10 +220,10 @@ module vertical_pad_recesses() {
 
 module rear_cover_vertical_global() {
     difference() {
-        union() {
-            vertical_base_outer_ring();
-            vertical_base_pillars();
-        }
+        vertical_base_outer_solid();
+        vertical_base_inner_cavity();
+        rear_module_windows(horizontal_cover_depth + 0.2);
+        vertical_base_cable_exits();
         rear_cover_screw_holes(body[0], vertical_cover_depth);
         vertical_pad_recesses();
     }
@@ -268,9 +286,9 @@ else {
     if (show_fasteners && exploded_gap == 0) fastener_proxies();
     if (show_equipment && exploded_gap == 0) vertical_equipment_proxies();
     if (rear_cover == "horizontal")
-        color([0.30, 0.31, 0.34]) rear_cover_horizontal_global();
+        color([0.64, 0.12, 0.10]) rear_cover_horizontal_global();
     else if (rear_cover == "vertical")
-        color([0.30, 0.31, 0.34]) rear_cover_vertical_global();
+        color([0.64, 0.12, 0.10]) rear_cover_vertical_global();
 }
 
 echo("part", part);
@@ -281,8 +299,10 @@ echo("front print bounds nominal mm", [split_x + collar_length, body[1], body[2]
 echo("rear print bounds nominal mm", [body[0] - split_x, body[1], body[2]]);
 echo("rear cover variants", ["horizontal", "vertical"]);
 echo("common rear service cassette mm", rear_service_opening);
+echo("rear module windows YxZ mm", [[rear_module_widths[0], rear_module_height],
+                                    [rear_module_widths[1], rear_module_height]]);
 echo("vertical base depth/footprint mm", [vertical_cover_depth, vertical_base_footprint]);
-echo("vertical base cable cavity mm", vertical_cover_depth - vertical_base_ring_depth);
+echo("vertical base cable cavity depth mm", vertical_cover_depth - horizontal_cover_depth);
 echo("rear-cover fasteners", "4x M3; horizontal length provisional 10 mm; vertical length provisional 45 mm");
 echo("board orientation", "vertical X-Z plane");
 echo("board envelope/origin mm", [board, board_origin]);
