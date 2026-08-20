@@ -3,6 +3,7 @@
 // Units: millimetres. Global axes: X front-to-rear, Y left-to-right, Z bottom-to-top.
 
 use <board-spine-v0.1.scad>
+use <psu-universal-internal-v0.2.scad>
 
 $fn = 40;
 
@@ -93,6 +94,16 @@ m4_insert_pilot_d = 5.6; // provisional; select with a dedicated insert coupon
 m4_insert_depth = 8;
 spine_to_psu_gap = cisco_origin[2] -
     (spine_origin[2] + spine_mount_z_local[0] + spine_boss_d / 2);
+
+// NexGen-compatible universal receiver is fused into the rear core.  These
+// values mirror psu-universal-internal-v0.2.scad and are asserted here so the
+// two sources cannot drift silently.
+psu_receiver_origin = [293.15, 18.5, 30];
+psu_receiver_outer = [24.85, 118, 54.34];
+psu_receiver_rear_x = 318;
+psu_bridge_overlap = 0.4;
+psu_bridge_depth = 3;
+psu_bridge_height = 4;
 
 module oct_prism_x(length, width, height, cut) {
     translate([0, 0, height])
@@ -206,6 +217,23 @@ module board_spine_global(which = "assembly") {
     }
 }
 
+module psu_receiver_bridges() {
+    // Four short corner bridges fuse the receiver's rear seat to the two side
+    // walls.  They stay out of the 110 x 46.34 mm adapter opening.
+    left_length = psu_receiver_origin[1] - wall + psu_bridge_overlap;
+    right_y = psu_receiver_origin[1] + psu_receiver_outer[1];
+    right_length = body[1] - wall - right_y + psu_bridge_overlap;
+    for (z = [psu_receiver_origin[2],
+              psu_receiver_origin[2] + psu_receiver_outer[2] - psu_bridge_height]) {
+        translate([psu_receiver_rear_x - psu_bridge_depth,
+                   wall - psu_bridge_overlap, z])
+            cube([psu_bridge_depth, left_length, psu_bridge_height]);
+        translate([psu_receiver_rear_x - psu_bridge_depth,
+                   right_y, z])
+            cube([psu_bridge_depth, right_length, psu_bridge_height]);
+    }
+}
+
 module rear_cover_screw_holes(x0, length) {
     for (y = rear_mount_y, z = rear_mount_z)
         translate([x0 - 0.1, y, z])
@@ -299,6 +327,8 @@ module complete_core() {
     union() {
         open_shell();
         spine_core_bosses();
+        receiver();
+        psu_receiver_bridges();
     }
 }
 
@@ -391,6 +421,11 @@ echo("board-spine M4 global axes X/Z mm",
       [for (z = spine_mount_z_local) spine_origin[2] + z]]);
 echo("board-spine fasteners", "8x M4 into core-side heat-set inserts; dimensions provisional");
 echo("lower board-spine boss to PSU gap mm", spine_to_psu_gap);
+echo("integrated PSU receiver bounds mm",
+     [psu_receiver_origin,
+      psu_receiver_origin + psu_receiver_outer]);
+echo("PSU receiver rear setback mm", body[0] - psu_receiver_rear_x);
+echo("PSU interface", "NexGen 110 x 46.34 mm server/FlexATX/LOP family; receiver fused to rear core");
 echo("release status", "core validation only; end panels and tray not yet integrated");
 
 assert(split_x + collar_length <= 250, "Front core exceeds preliminary print envelope");
@@ -405,3 +440,7 @@ assert(spine_boss_length > m4_insert_depth, "Board-spine boss is too short for i
 assert(spine_origin[0] >= wall && spine_origin[0] + spine_frame[0] <= body[0] - wall,
        "Board spine exceeds inner chassis length");
 assert(spine_to_psu_gap >= 2, "Lower board-spine bosses collide with PSU bay");
+assert(abs(psu_receiver_origin[0] + psu_receiver_outer[0] - psu_receiver_rear_x) < 0.01,
+       "PSU receiver constants drifted from the internal receiver source");
+assert(psu_receiver_rear_x < body[0] - wall,
+       "PSU receiver reaches the rear exterior plane");

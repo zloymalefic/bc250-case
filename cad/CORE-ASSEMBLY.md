@@ -26,6 +26,11 @@ below 6 mm. See `JF13K-PHOTO-FIT.md` for the evidence and residual checks.
 - the board/spine datum is shifted 4 mm below geometric centre, preserving
   2.65 mm between the lower 12 mm bosses and the provisional PSU envelope;
 - both spine halves can be exported from the master coordinate source.
+- the common NexGen 110 × 46.34 mm PSU receiver is fused into the rear core by
+  four short corner bridges to the side walls;
+- its rear extent stops at X=318, leaving 12 mm to the outside rear plane;
+- server, FlexATX, and LOP adapter plates remain interchangeable service parts,
+  while no PSU bracket protrudes outside the enclosure.
 
 ## Assembly sequence for the core
 
@@ -45,4 +50,5 @@ The exact screw length and insert pilot remain provisional until the fit coupon 
    keepout checks.
 4. Two rear-cover variants on one four-point M3 interface: a shallow horizontal
    cover and a 44 mm open cable-management base for tower orientation.
-4. One internal PSU-rail pattern shared by rail and chassis.
+4. Validate the internal PSU receiver and selected adapter with a clearance
+   coupon before installing hardware.

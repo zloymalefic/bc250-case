@@ -14,6 +14,8 @@ inside the shell; no Cisco body measurement is required to design the receiver.
 - the PSU-specific mount may be revised from the supplied NexGen adapter, but
   every feature must remain at or in front of X=318 mm.
 
-`psu-universal-internal-v0.2.scad` is a printable receiver and clamp study. The
-actual server-PSU adapter plate can be adapted from NexGen without changing the
-case, rear cover, or receiver.
+`psu-universal-internal-v0.2.scad` remains the dimensional receiver/clamp source.
+The receiver module is now fused into the rear half by
+`core-assembly-v0.1.scad`; only the two clamp bars and the selected adapter plate
+remain separate service parts. The actual server-PSU adapter plate can be
+adapted from NexGen without changing the case or either rear-cover variant.
