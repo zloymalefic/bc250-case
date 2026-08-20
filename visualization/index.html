@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BC-250 Case — 3D assembly</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="importmap">
+    {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}
+  </script>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <p class="eyebrow">BC-250 / JF13K · CORE v0.1</p>
+        <h1>Интерактивная сборка корпуса</h1>
+      </div>
+      <div class="status"><span></span><strong id="status">Загрузка геометрии…</strong></div>
+    </header>
+
+    <section class="viewer" aria-label="Трёхмерная модель корпуса">
+      <canvas id="scene"></canvas>
+      <div class="view-actions">
+        <button data-view="iso" class="active">3/4</button>
+        <button data-view="front">Спереди</button>
+        <button data-view="side">Сбоку</button>
+        <button data-view="rear">Сзади</button>
+      </div>
+      <div id="hint">ЛКМ — вращение · колесо — масштаб · ПКМ — сдвиг</div>
+      <div id="part-label" hidden></div>
+    </section>
+
+    <aside class="controls">
+      <section>
+        <h2>Сборка</h2>
+        <label class="range-row"><span>Разнести детали <output id="explode-value">0%</output></span><input id="explode" type="range" min="0" max="100" value="0"></label>
+        <label class="switch-row"><span>Автовращение</span><input id="rotate" type="checkbox"><i></i></label>
+        <label class="switch-row"><span>Внутренние компоненты</span><input id="equipment" type="checkbox" checked><i></i></label>
+        <label class="switch-row"><span>Каркас корпуса</span><input id="shell" type="checkbox" checked><i></i></label>
+      </section>
+      <section>
+        <h2>Задняя крышка</h2>
+        <div class="segmented">
+          <button data-rear="vertical" class="active">Вертикальная</button>
+          <button data-rear="horizontal">Горизонтальная</button>
+          <button data-rear="none">Снять</button>
+        </div>
+      </section>
+      <section class="legend">
+        <h2>Состав</h2>
+        <button data-focus="shell"><b style="--swatch:#252a30"></b><span>Корпус и каркас</span></button>
+        <button data-focus="service"><b style="--swatch:#d84730"></b><span>Сервисные панели</span></button>
+        <button data-focus="board"><b style="--swatch:#277653"></b><span>Плата BC-250</span></button>
+        <button data-focus="cooler"><b style="--swatch:#83a8d8"></b><span>Кулер JF13K</span></button>
+        <button data-focus="psu"><b style="--swatch:#c27a31"></b><span>Блок питания Cisco</span></button>
+      </section>
+      <p class="note">Геометрия корпуса выгружена из текущего OpenSCAD master. Модель имеет статус <strong>validation-only</strong> и не является релизом для печати.</p>
+    </aside>
+  </main>
+  <script type="module" src="viewer.js"></script>
+</body>
+</html>
