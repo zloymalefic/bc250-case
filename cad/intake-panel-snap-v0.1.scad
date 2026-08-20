@@ -35,7 +35,9 @@ module fan_field(cx) {
         dx = column * 9 + ((abs(row) % 2) * 4.5);
         dy = row * 8;
         if (dx * dx + dy * dy < 46 * 46)
-            translate([cx + dx, panel_half[1] / 2 + dy, -1])
+            // The cover is raised 4 mm to clear the ESP32 service cover;
+            // keep the grille field on the unchanged physical fan axis.
+            translate([cx + dx, panel_half[1] / 2 - 4 + dy, -1])
                 cylinder(h = panel_half[2] + 2,
                          d = 6.8, $fn = 6);
     }

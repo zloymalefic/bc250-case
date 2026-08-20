@@ -152,16 +152,25 @@ ssd_insert_boss_length = 9;
 // opening; antenna side faces the plastic intake side rather than the PSU.
 esp_tray_size = [68, 68, 2.4];
 esp_device = [60, 60, 22];
-esp_origin = [180, 70, 5];
-esp_receiver_y0 = 68;
-esp_receiver_y1 = body[1] - wall;
+// Keep the complete ESP32 bay 8 mm behind the intake wall.  This includes the
+// cassette and both receiver rails, so no guide edge is visible through the
+// service opening when its cover is removed.
+esp_inset_from_previous = 8;
+esp_origin = [180, 70 - esp_inset_from_previous, 5];
+esp_receiver_y0 = 68 - esp_inset_from_previous;
+esp_receiver_y1 = body[1] - wall - 6 - esp_inset_from_previous;
 esp_rail_wall = 3;
 esp_rail_height = 4.4;
 esp_service_opening = esp_contract_opening; // X width, Z height
 esp_service_origin = [esp_origin[0] - 3, 4];
 esp_cover_size = esp_contract_cover;
 esp_cover_origin = [esp_service_origin[0] - 12, 0];
-esp_cover_magnet_local = esp_contract_magnets;
+esp_cover_snap_x = esp_contract_snap_x;
+esp_cover_snap_y = esp_contract_snap_y;
+esp_snap_arm_width = 8;
+esp_snap_arm_drop = 8;
+esp_snap_barb_height = 2;
+esp_snap_slot_clearance = 0.30;
 esp_top_gap = jf13k_origin[2] -
     (esp_origin[2] + esp_tray_size[2] + esp_device[2]);
 
@@ -222,15 +231,44 @@ module open_shell() {
         // This prevents coincident/overlapping plastic around the service bay.
         esp32_cover_envelope_global();
 
-        // Blind pockets open from the recessed seat into the remaining shell.
-        // All four axes lie on solid frame outside the 74 mm service opening.
-        for (p = esp_cover_magnet_local)
-            translate([esp_cover_origin[0] + p[0], body[1] - 2.9,
-                       esp_cover_origin[1] + p[1]])
-                rotate([90, 0, 0])
-                    cylinder(h = magnet_pocket_depth + 0.2,
-                             d = magnet_pocket_d);
+        // Four stepped receiver pockets for the ESP32 side snaps.  The narrow
+        // channel lets each cantilever flex during insertion; the wider inner
+        // cavity leaves a positive shoulder for the barb to catch behind.
+        esp32_snap_receiver_pockets_global();
+
     }
+}
+
+function esp_snap_inner_z(y) = y < chamfer ? 1 - chamfer + y : 1;
+
+module esp32_snap_receiver_pocket_local(side, y) {
+    root_z = esp_snap_inner_z(y);
+    channel_x0 = side == "left" ? esp_cover_snap_x[0] - 2.5
+                                 : esp_cover_snap_x[1] - 0.4;
+    cavity_x0 = side == "left" ? esp_cover_snap_x[0] - 3.7
+                                : esp_cover_snap_x[1] - 0.4;
+    // Slot through the profiled skin for the 2.2 mm arm.
+    translate([channel_x0, y - esp_snap_arm_width / 2 - esp_snap_slot_clearance,
+               root_z - 6.2])
+        cube([2.9, esp_snap_arm_width + 2 * esp_snap_slot_clearance, 6.8]);
+    // Barb chamber at full insertion; its exterior-facing roof is the catch.
+    translate([cavity_x0, y - esp_snap_arm_width / 2 - esp_snap_slot_clearance,
+               root_z - esp_snap_arm_drop - esp_snap_slot_clearance])
+        cube([4.1, esp_snap_arm_width + 2 * esp_snap_slot_clearance,
+              esp_snap_barb_height + 2 * esp_snap_slot_clearance]);
+}
+
+module esp32_snap_receiver_pockets_global() {
+    multmatrix([
+        [1, 0, 0, esp_cover_origin[0]],
+        [0, 0, 1, body[1] - wall],
+        [0, 1, 0, esp_cover_origin[1]],
+        [0, 0, 0, 1]
+    ])
+        for (y = esp_cover_snap_y) {
+            esp32_snap_receiver_pocket_local("left", y);
+            esp32_snap_receiver_pocket_local("right", y);
+        }
 }
 
 module intake_magnets_and_guides_global(panel_x) {
@@ -238,7 +276,9 @@ module intake_magnets_and_guides_global(panel_x) {
     // tongue rails take shear and brace the broad opening along X.
     multmatrix([
         [1, 0, 0, panel_x],
-        [0, 0, 1, body[1] - wall],
+        // 0.4 mm overlap fuses bosses and shear guides into the side wall;
+        // a coplanar contact would export as floating mesh islands.
+        [0, 0, 1, body[1] - wall + 0.8],
         [0, 1, 0, intake_panel_z],
         [0, 0, 0, 1]
     ])
@@ -254,7 +294,8 @@ module intake_magnets_and_guides_global(panel_x) {
 }
 
 module intake_magnets_and_guides() {
-    for (x = intake_panel_x) intake_magnets_and_guides_global(x);
+    for (panel_x = intake_panel_x)
+        intake_magnets_and_guides_global(panel_x);
 }
 
 module esp32_cover_envelope_global() {
@@ -272,8 +313,7 @@ module esp32_service_cover_global() {
         [0, 0, 1, body[1] - wall],
         [0, 1, 0, esp_cover_origin[1]],
         [0, 0, 0, 1]
-    ]) esp32_service_cover(esp_cover_size, chamfer,
-                           esp_cover_magnet_local);
+    ]) esp32_service_cover(esp_cover_size, chamfer);
 }
 
 module assembly_fit_audit() {
@@ -532,6 +572,19 @@ module ssd_receiver_rails() {
                ssd_retention_global[2] - 2])
         cube([ssd_insert_boss_length + 0.5,
               2.0, 4]);
+
+    // Narrow structural straps prevent the receiver becoming a floating
+    // internal island. The lower pair reaches the floor outside the board
+    // backplate airflow corridor; the upper pair reaches the side wall.
+    for (x = [ssd_receiver_x0, ssd_receiver_x1 - 3]) {
+        translate([x, ssd_origin[1] - ssd_rail_wall, wall - 0.4])
+            cube([3, ssd_rail_wall,
+                  ssd_origin[2] - wall + 0.8]);
+        translate([x, ssd_origin[1] + ssd_tray_size[1],
+                   ssd_origin[2]])
+            cube([3, body[1] - wall -
+                     (ssd_origin[1] + ssd_tray_size[1]) + 0.4, 6]);
+    }
 }
 
 module esp32_cassette_global() {
@@ -543,7 +596,7 @@ module esp32_receiver_rails() {
     // Two X-edge guides run to the intake-side service opening.
     for (x = [esp_origin[0] - esp_rail_wall,
               esp_origin[0] + esp_tray_size[0]])
-        translate([x, esp_receiver_y0, wall])
+        translate([x, esp_receiver_y0, wall - 0.4])
             cube([esp_rail_wall, rail_length, esp_rail_height]);
 
     // Inward lips retain the 2.4 mm cassette plate without covering the PCB.
@@ -555,7 +608,7 @@ module esp32_receiver_rails() {
         cube([esp_rail_wall + 1.2, rail_length, 1.0]);
 
     // Inner stop fixes insertion depth.
-    translate([esp_origin[0] - esp_rail_wall, esp_receiver_y0, wall])
+    translate([esp_origin[0] - esp_rail_wall, esp_receiver_y0, wall - 0.4])
         cube([esp_tray_size[0] + 2 * esp_rail_wall, 3, esp_rail_height + 1]);
 
     // Small vertical nub engages the cassette's edge notch at full insertion.
@@ -816,6 +869,19 @@ assert(esp_top_gap >= 3, "ESP32 envelope reaches the JF13K keepout");
 assert(esp_origin[0] >= jf13k_origin[0] &&
        esp_origin[0] + esp_tray_size[0] <= jf13k_origin[0] + jf13k[0],
        "ESP32 bay is not contained below the JF13K footprint");
+assert(esp_receiver_y0 <= esp_origin[1] &&
+       esp_receiver_y1 >= esp_origin[1] + esp_tray_size[1],
+       "ESP32 receiver rails do not support the complete cassette travel");
+assert(esp_receiver_y1 <= body[1] - wall - 4,
+       "ESP32 receiver rails remain visible in the service opening");
+assert(esp_receiver_y0 < esp_origin[1] && wall - 0.4 < wall,
+       "ESP32 receiver rails lack a structural overlap with the chassis floor");
+assert(esp_origin[0] - esp_rail_wall >= wall &&
+       esp_origin[0] + esp_tray_size[0] + esp_rail_wall <= body[0] - wall,
+       "ESP32 receiver rails leave the chassis envelope");
+assert(esp_origin[2] >= wall &&
+       esp_origin[2] + esp_rail_height + 1 <= body[2] - wall,
+       "ESP32 receiver support leaves the chassis envelope");
 assert(bounds_inside(board_bounds, inner_bounds),
        "Board envelope leaves the canonical inner chassis volume");
 assert(bounds_inside(psu_bounds, inner_bounds),
@@ -841,11 +907,16 @@ assert(esp_cover_origin[0] <= esp_service_origin[0] &&
        esp_cover_origin[1] + esp_cover_size[1] >=
            esp_service_origin[1] + esp_service_opening[1],
        "ESP32 cover no longer contains its service opening");
-for (p = esp_cover_magnet_local)
-    assert(p[0] < esp_service_origin[0] - esp_cover_origin[0] ||
-           p[0] > esp_service_origin[0] - esp_cover_origin[0] +
-                  esp_service_opening[0] ||
-           p[1] < esp_service_origin[1] - esp_cover_origin[1] ||
-           p[1] > esp_service_origin[1] - esp_cover_origin[1] +
-                  esp_service_opening[1],
-           "ESP32 cover magnet axis enters the service opening");
+assert(esp_cover_origin[0] >= 0 &&
+       esp_cover_origin[0] + esp_cover_size[0] <= body[0] &&
+       esp_cover_origin[1] >= 0 &&
+       esp_cover_origin[1] + esp_cover_size[1] <= body[2],
+       "ESP32 cover exceeds the exterior chassis envelope");
+assert(esp_cover_origin[1] + esp_cover_size[1] <= intake_panel_z,
+       "ESP32 service cover overlaps the intake cover");
+assert(abs(esp_cover_snap_x[0] -
+           (esp_service_origin[0] - esp_cover_origin[0])) < 0.01 &&
+       abs(esp_cover_snap_x[1] -
+           (esp_service_origin[0] - esp_cover_origin[0] +
+            esp_service_opening[0])) < 0.01,
+       "ESP32 side snaps no longer align with the opening edges");

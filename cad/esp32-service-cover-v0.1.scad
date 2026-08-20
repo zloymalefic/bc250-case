@@ -1,5 +1,5 @@
-// Separate magnetic cover for the side-load ESP32 relay cassette.
-include <lib/magnet-interface.scad>
+// Separate snap-fit cover for the side-load ESP32 relay cassette.
+include <lib/snap-interface.scad>
 include <lib/interface-contracts.scad>
 
 $fn = 40;
@@ -9,8 +9,14 @@ $fn = 40;
 // flush with the straight Y=155 side wall.
 cover = esp_contract_cover;
 cover_chamfer = 5;
-magnet_points = esp_contract_magnets;
+snap_x = esp_contract_snap_x;
+snap_y = esp_contract_snap_y;
 flat_inner_z = 1;
+
+// Inner surface follows the enclosure's lower 16 mm chamfer.  A snap anchored
+// to the constant Z=1 plane at the lower edge would sit outside the case.
+function inner_z_at(y, case_chamfer = 16) =
+    y < case_chamfer ? flat_inner_z - case_chamfer + y : flat_inner_z;
 
 module cover_outline_2d(cover_size = cover) {
     polygon([[cover_chamfer, 0], [cover_size[0] - cover_chamfer, 0],
@@ -19,12 +25,6 @@ module cover_outline_2d(cover_size = cover) {
              [cover_size[0] - cover_chamfer, cover_size[1]],
              [cover_chamfer, cover_size[1]], [0, cover_size[1] - cover_chamfer],
              [0, cover_chamfer]]);
-}
-
-module slot(length = 40, width = 3.2) {
-    hull()
-        for (x = [-length / 2 + width / 2, length / 2 - width / 2])
-            translate([x, 0, -20]) cylinder(h = 30, d = width);
 }
 
 module flush_chamfered_solid(cover_size = cover, case_chamfer = 16,
@@ -51,18 +51,20 @@ module flush_chamfered_solid(cover_size = cover, case_chamfer = 16,
     }
 }
 
-module esp32_service_cover(cover_size = cover, case_chamfer = 16,
-                           points = magnet_points) {
+module esp32_service_cover(cover_size = cover, case_chamfer = 16) {
     difference() {
-        flush_chamfered_solid(cover_size, case_chamfer, cover_size[2]);
+        union() {
+            flush_chamfered_solid(cover_size, case_chamfer, cover_size[2]);
 
-        // Narrow vents preserve Wi-Fi/thermal openness without exposing the bay.
-        for (y = [13, 20, 27])
-            translate([cover_size[0] / 2, y, 0]) slot();
-
-        for (p = points)
-            translate([p[0], p[1], flat_inner_z])
-                magnet_pocket_positive();
+            // Two hooks per side engage the vertical opening edges.  Side
+            // retention avoids the intake cover immediately above this part.
+            for (y = snap_y) {
+                translate([snap_x[0], y, inner_z_at(y, case_chamfer)])
+                    rotate([0, 0, 90]) snap_hook();
+                translate([snap_x[1], y, inner_z_at(y, case_chamfer)])
+                    rotate([0, 0, -90]) snap_hook();
+            }
+        }
 
         // Small 5 x 2 mm bottom chamfer/notch for a fingernail or plastic pick.
         translate([cover_size[0] / 2 - 2.5, -0.1,
@@ -74,5 +76,10 @@ module esp32_service_cover(cover_size = cover, case_chamfer = 16,
 esp32_service_cover();
 
 echo("ESP32 service cover mm", cover);
-echo("retention", "4 pairs of 8 x 2 mm magnets");
+echo("retention", "4 hidden cantilever snap hooks");
 echo("bottom pry notch mm", [5, 2]);
+echo("exterior openings", "none; solid outer face");
+assert(cover[2] >= 3, "ESP32 cover is thinner than the structural minimum");
+assert(snap_y[1] <= cover[1], "ESP32 snap axes exceed the cover");
+assert(inner_z_at(snap_y[0], case_chamfer) < 0,
+       "Lower ESP32 snaps do not follow the enclosure chamfer inward");
