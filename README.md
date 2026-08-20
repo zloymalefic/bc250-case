@@ -46,6 +46,7 @@ Additional source projects, direct links, adopted features, pinned revisions, an
 - `cad/intake-panel-snap-v0.1.scad` - two independently replaceable JF13K intake halves with hidden hooks.
 - `cad/snap-fit-coupon-v0.1.scad` - required snap-clearance test before full-panel printing.
 - `cad/front-service-module-v0.1.scad` - snap-fit Nyacom front insert with independent button and USB cassette modules.
+- `cad/board-tray-v0.1.scad` - split open-centre BC-250 tray with adjustable slots and JF13K load-path anchors.
 - `cad/exports/layout-a-envelope.stl` - compiled validation export; not a printable final case.
 - `cad/support-horizontal.scad` and `cad/support-vertical.scad` - interchangeable support prototypes using a common M4 interface.
 - `cad/SUPPORT-INTERFACE.md` - dimensions, fasteners, and unresolved validation points for both orientations.

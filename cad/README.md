@@ -16,6 +16,8 @@
 
 `front-service-module-v0.1.scad` combines a Nyacom-style snap-fit front panel with independent openings for the NexGen-derived button and a replaceable USB-A/USB-C cassette. See `FRONT-SERVICE-MODULE.md`.
 
+`board-tray-v0.1.scad` is a split structural perimeter frame for the BC-250. It preserves a continuous 12 mm backplate channel and includes independent anchors for future JF13K transport supports. See `BOARD-TRAY.md`.
+
 It is intentionally not a printable enclosure. The model is used to:
 
 - expose dimensional assumptions;
@@ -62,4 +64,6 @@ openscad -D 'part="left"' -o exports/intake-panel-left-v0.1.stl intake-panel-sna
 openscad -D 'part="right"' -o exports/intake-panel-right-v0.1.stl intake-panel-snap-v0.1.scad
 openscad -D 'part="panel"' -o exports/front-panel-nyacom-v0.1.stl front-service-module-v0.1.scad
 openscad -D 'part="usb-cassette"' -o exports/usb-hub-cassette-v0.1.stl front-service-module-v0.1.scad
+openscad -D 'part="front"' -o exports/board-tray-front-v0.1.stl board-tray-v0.1.scad
+openscad -D 'part="rear"' -o exports/board-tray-rear-v0.1.stl board-tray-v0.1.scad
 ```
