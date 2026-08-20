@@ -8,11 +8,12 @@ The design is in a controlled recovery and geometry-validation phase. There is c
 
 ## Based on and inspired by
 
-This enclosure is explicitly based on and inspired by three primary community projects:
+This enclosure is explicitly based on and inspired by two primary community projects:
 
 - [nyacom's AMD BC-250 Industrial Style Case for FlexATX](https://www.printables.com/model/1737913-nyacoms-amd-bc-250-industrial-style-case-for-flexa) - primary exterior design, proportions, end-ring language, and removable-cover concept;
 - [NexGen3D DIY Steam Machine PRO V2](https://www.printables.com/model/1793043-nexgen3d-diy-steam-machine-pro-v2-liquid-cooled-bc/files) - power-button assembly, serviceable snap/slot panels, universal PSU mounting strategy, and modular internal architecture.
-- [NexGen3D DIY Steam Machine REDUX Edition](https://www.printables.com/model/1649679-nexgen3d-diy-steam-machine-redux-edition) - dual 180-degree USB routing cover, updated two-piece rotatable button, unified rear PSU brackets, split covers, and removable storage caddy.
+
+The later [NexGen3D REDUX Edition](https://www.printables.com/model/1649679-nexgen3d-diy-steam-machine-redux-edition) is retained as a revision cross-check for mechanisms already adopted from PRO V2, plus its editable blank button and later storage/split-cover refinements.
 
 Additional source projects, direct links, adopted features, pinned revisions, and licensing notes are documented in [ATTRIBUTION.md](ATTRIBUTION.md) and [SOURCES.md](SOURCES.md). This is an independent community derivative and is not an official product of the referenced creators or hardware vendors.
 

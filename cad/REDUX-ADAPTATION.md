@@ -1,43 +1,37 @@
-# NexGen3D Steam Machine REDUX — adaptation notes
+# NexGen3D REDUX — delta review against PRO V2
 
 Source: [Printables model 1649679](https://www.printables.com/model/1649679-nexgen3d-diy-steam-machine-redux-edition), archive downloaded 2026-08-20.
 
-Redux is not a dimensional donor for the Nyacom exterior. It is used for service mechanisms and modular interfaces.
+## Correction
 
-## Dual 180-degree USB routing hood
+Redux does not introduce the project's USB return, rotatable illuminated button, replaceable faceplates, vertical stand, or modular PSU strategy. Those mechanisms were already present in the previously supplied NexGen PRO V2 archive and were already project requirements.
 
-- Reference part: `redux-optional-usb-cover.3mf`.
-- Raw mesh envelope: approximately 12.65 × 70.35 × 32.58 mm.
-- It protects two 180-degree USB 3.0 adapters that loop rear BC-250 ports back into the enclosure.
-- Adapter direction is critical. Redux documentation specifies the black version and warns that the blue version connects in the opposite direction.
-- Our hood will be redrawn against measured BC-250 ports and exact adapters; Redux geometry will not be copied into the Nyacom shell.
-- It must not obstruct video output, exhaust, PSU removal, or either support orientation.
+PRO V2 already contains:
 
-This mechanism may replace the earlier single angled-adapter pocket if two suitable adapters are confirmed.
+- `Case/pro-v2-usb-cover-multi-material.3mf` and a requirement for two black 180-degree USB adapters;
+- a three-body rotatable button: mounting plate, translucent rear section, and separate cap;
+- separate server PSU, FlexATX/FSP500, and Mean Well LOP mounts;
+- replaceable faceplates and access panels;
+- horizontal feet and a vertical stand.
 
-## Bazzite power-button cap
+## Actual Redux value
 
-- Redux V4.2.1 uses a two-piece cover: a translucent rear body carries ring-LED light and the visible cap rotates by 90 degrees.
-- Editable `blank-button.step` and `blank-faceplate.step` are included.
-- Our button retains the rotatable architecture and gains a separate Bazzite-logo cap.
-- The cap remains independent from the switch body so orientation changes require no rewiring.
-- Exact Bazzite artwork and permitted trademark treatment must be sourced before release.
+Redux remains useful only as a later revision comparison:
 
-## Principles selected for development
+- `blank-button.step` gives an editable starting point for checking the future Bazzite cap;
+- V4.2.1 documents refined snap tabs and a revised two-part button-cover implementation;
+- split-cover joiners provide another way to fit large panels on 220 mm beds;
+- the rear storage variants and Orico caddy show a complete receiver/caddy relationship;
+- current rear-case variants provide a newer example of one chassis accepting PSU-specific brackets;
+- additional cable-tie locations and the rear clamping brace are useful engineering references.
 
-- one rear structure with PSU-specific brackets;
-- replaceable faceplates with improved snap tabs;
-- split large covers with small joiners for 220 mm beds;
-- heat-set inserts in structural joints;
-- cable tie points around fans and the rear service area;
-- a removable storage caddy with a defined chassis receiver.
+These are refinements, not new project requirements. Nyacom remains the exterior reference and PRO V2 remains the primary source for service mechanisms.
 
-## Not adopted directly
+## Measured comparison data
 
-- Redux proportions and hex styling; Nyacom remains the exterior reference;
-- Redux PSU dimensions; the Cisco latch and connector remain unmeasured;
-- its dual 120 mm fan stack; our cooler remains JIUSHARK JF13K;
-- its latching-switch electrical scheme; this project uses the ESP32 remote-control architecture.
+- Redux optional USB cover raw envelope: approximately 12.65 × 70.35 × 32.58 mm.
+- Redux server PSU mount raw envelope: approximately 110 × 21.50 × 46.34 mm.
+- Redux V4.2.1 blank button is available as editable STEP.
+- Redux reference BOM uses 16 M3 inserts described as `M3 × 3.5 × 4.6 × 6` and 16 M3×10 flat-head socket screws. These quantities are not transferred to our BOM.
 
-Redux specifies 16 M3 inserts described as `M3 × 3.5 × 4.6 × 6` and 16 M3×10 flat-head socket screws. These quantities belong to Redux, not our BOM, but are candidates for later standardisation.
-
+No Redux mesh is currently used in a project release part.

@@ -12,7 +12,11 @@ The supplied NexGen files separate the module into:
 
 The project recreation uses a 16 mm switch, two M3 fasteners, separate light pipe, and removable cap. The complete plate can be removed, rotated 90 degrees, and snapped back into the Nyacom-style front insert when the case orientation changes.
 
-The logo remains a separate multi-material 3MF so its original three colour bodies are not destructively merged. Load `power-button-nexgen-v0.2.3mf` and `power-button-steam-logo-nexgen-v0.2.3mf` as parts of the same assembly in the slicer.
+The earlier standalone exports were withdrawn during the assembly audit. The rebuilt release will keep the light pipe and Bazzite cap as separate bodies generated from the master assembly.
+
+## Dual 180-degree USB return
+
+PRO V2 already specifies two black 180-degree USB adapters and includes `pro-v2-usb-cover-multi-material.3mf`. This is the baseline mechanism for routing rear BC-250 USB ports back into the enclosure. Redux is only a later implementation reference, not the source of this requirement.
 
 ## Snap-fit access panels
 
