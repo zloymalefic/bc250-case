@@ -17,6 +17,6 @@ module normalized_button_material(path) {
 }
 
 if (part == "black")
-    normalized_button_material("vendor/nexgen/button-cap-black.3mf");
+    normalized_button_material("../cad/vendor/nexgen/button-cap-black.3mf");
 else if (part == "white")
-    normalized_button_material("vendor/nexgen/button-logo-white.3mf");
+    normalized_button_material("../cad/vendor/nexgen/button-logo-white.3mf");

@@ -1,18 +1,25 @@
 // Nyacom-style front service panel with replaceable NexGen button and USB hub cassette.
 // All dimensions in millimetres. Baseline hub: Anker A7516 used by NexGen PRO V2.
 include <lib/snap-interface.scad>
-include <lib/magnet-interface.scad>
 
 $fn = 48;
 
 part = "assembly"; // panel | usb-cassette | assembly
 
-panel = [125, 165, 4];
+// Nyacom source panel is 125 x 175 x 12 mm overall. The visible plate and rear
+// locating lip reproduce that envelope without importing the source mesh.
+panel = [125, 175, 6];
 panel_chamfer = 12;
 button_opening = [45.2, 32.3];
-button_origin = [8, 116];
+button_origin = [8, 133];
 usb_opening = [28.6, 71.0];
-usb_origin = [88, 75];
+usb_origin = [88, 83];
+panel_screw_points = [[9, 9], [panel[0] - 9, 9],
+                       [9, panel[1] - 9],
+                       [panel[0] - 9, panel[1] - 9]];
+panel_screw_d = 3.4;
+panel_screw_head_d = 6.4;
+panel_screw_head_depth = 1.8;
 
 // NexGen supplied cover: 70.35 x 27.93 x 12.65 mm raw mesh envelope.
 // Anker publishes 103 x 30 x 10 mm for the short-cable A7516 body.
@@ -28,9 +35,6 @@ button_mount_pitch = 34;
 button_boss_d = 9;
 button_boss_depth = 6;
 button_insert_pilot_d = 4.2;
-panel_magnet_points = [[20, 7], [panel[0] - 20, 7],
-                       [panel[0] / 2, panel[1] - 7],
-                       [7, panel[1] / 2]];
 
 module chamfered_panel_2d(width, height, cut) {
     polygon([
@@ -62,7 +66,7 @@ module front_panel() {
                 cube([usb_opening[0], usb_opening[1], panel[2] + 0.2]);
 
             // Nyacom-like lower industrial ventilation slots.
-            for (y = [25 : 13 : 64])
+            for (y = [28 : 13 : 67])
                 translate([panel[0] / 2, y, -0.1]) rotate([0, 0, -12])
                     capsule(72, 5, panel[2] + 0.2);
 
@@ -74,10 +78,15 @@ module front_panel() {
                        usb_origin[1] + usb_opening[1] / 2, -0.1])
                 cylinder(h = panel[2] + 0.2, d = 7);
 
-            // Four blind pockets open from the inner face. The remaining
-            // 1.8 mm skin keeps magnets invisible from the exterior.
-            for (p = panel_magnet_points)
-                translate([p[0], p[1], 0]) magnet_pocket_positive();
+            // Four front-access M3 countersunk screws retain the complete
+            // service panel, matching the user's required bolted interface.
+            for (p = panel_screw_points) {
+                translate([p[0], p[1], -0.1])
+                    cylinder(h = panel[2] + 0.2, d = panel_screw_d);
+                translate([p[0], p[1], -0.1])
+                    cylinder(h = panel_screw_head_depth + 0.1,
+                             d1 = panel_screw_head_d, d2 = panel_screw_d);
+            }
         }
 
         // Two real M3 insert bosses retain the NexGen-derived button plate.
@@ -192,5 +201,5 @@ echo("usb_cassette_face_mm", usb_face);
 echo("baseline_hub", "Anker A7516 4-port USB 3.0 hub");
 echo("anker_hub_envelope_mm", anker_hub);
 echo("button_fasteners", "2x M3 into rear bosses");
-echo("front_panel_retention", "4 pairs of 8 x 2 mm magnets");
+echo("front_panel_retention", "4x front-access M3 countersunk screws");
 assert(panel[0] <= 250 && panel[1] <= 250, "Front panel exceeds 250 mm print-bed limit");

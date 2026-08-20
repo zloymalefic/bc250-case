@@ -10,7 +10,7 @@ The supplied NexGen files separate the module into:
 - transparent rear/light-pipe section, 6.00 × 19.80 × 22.06 mm in its print orientation;
 - removable Steam-emblem cap, 6.20 × 16.00 × 16.00 mm in its print orientation. The original `pro-v2-steam-logo.3mf` is imported directly and retains NexGen attribution.
 
-The project recreation uses a 16 mm switch, two M3 fasteners, separate light pipe, and removable cap. The complete plate can be removed, rotated 90 degrees, and snapped back into the Nyacom-style front insert when the case orientation changes.
+The project recreation uses a 16 mm switch, two M3 fasteners, separate light pipe, and removable cap. The button plate is removable from the bolted Nyacom-style front panel and can be rotated 90 degrees when the case orientation changes.
 
 The earlier standalone exports were withdrawn during the assembly audit. The rebuilt release will keep the light pipe and Bazzite cap as separate bodies generated from the master assembly.
 

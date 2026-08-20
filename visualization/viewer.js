@@ -29,7 +29,7 @@ const grid=new THREE.GridHelper(900,36,0x323942,0x1b2026);grid.position.y=-15.5;
 const root=new THREE.Group();root.rotation.x=-Math.PI/2;scene.add(root);
 const stl=new STLLoader();
 const material=(color,opts={})=>new THREE.MeshStandardMaterial({color,roughness:opts.roughness??.62,metalness:opts.metalness??.08,transparent:!!opts.opacity,opacity:opts.opacity??1,side:opts.side??THREE.FrontSide});
-const mats={shell:material(0x252a30),shell2:material(0x434b55),service:material(0xd84730),dark:material(0x171b20),logo:material(0xf1f3f4,{roughness:.3}),metal:material(0x89919a,{metalness:.72,roughness:.28}),board:material(0x20a568,{roughness:.74}),cooler:material(0xe8edf2,{metalness:.18,roughness:.3}),pipe:material(0xbcc6ce,{metalness:.52,roughness:.22}),light:material(0xd9f1ff,{roughness:.16,opacity:.62,side:THREE.DoubleSide}),psu:material(0xe88924,{metalness:.45,roughness:.35}),button:material(0xf0c642,{metalness:.35,roughness:.3}),anker:material(0x2f79d0,{metalness:.3,roughness:.35}),rearUsb:material(0xe35ca0,{metalness:.2,roughness:.4}),ssd:material(0x9b6de3,{metalness:.45,roughness:.3}),esp32:material(0x24bfd0,{metalness:.2,roughness:.42})};
+const mats={shell:material(0x252a30),shell2:material(0x434b55),intake:material(0xaeb9c5,{roughness:.48}),service:material(0xd84730),dark:material(0x171b20),logo:material(0xf1f3f4,{roughness:.3}),metal:material(0x89919a,{metalness:.72,roughness:.28}),board:material(0x20a568,{roughness:.74}),cooler:material(0xe8edf2,{metalness:.18,roughness:.3}),pipe:material(0xbcc6ce,{metalness:.52,roughness:.22}),light:material(0xd9f1ff,{roughness:.16,opacity:.62,side:THREE.DoubleSide}),psu:material(0xe88924,{metalness:.45,roughness:.35}),button:material(0xf0c642,{metalness:.35,roughness:.3}),anker:material(0x2f79d0,{metalness:.3,roughness:.35}),rearUsb:material(0xe35ca0,{metalness:.2,roughness:.4}),ssd:material(0x9b6de3,{metalness:.45,roughness:.3}),esp32:material(0x24bfd0,{metalness:.2,roughness:.42})};
 const componentDefs=[
   ['shell','Корпус и каркас','#434b55'],['board','Плата BC-250','#20a568'],
   ['cooler','Кулер JF13K','#e8edf2'],['psu','Блок питания Cisco','#e88924'],
@@ -42,20 +42,21 @@ const T=(position=[0,0,0],matrix=null,center=false)=>({position,matrix,center});
 const specs=[
  ['front-core','Передняя половина корпуса','front-core.stl','shell',T(),[-70,0,0]],
  ['rear-core','Задняя половина корпуса','rear-core.stl','shell2',T([165,0,0]),[70,0,0]],
+ ['front-panel','Передняя панель Nyacom · 4×M3','front-panel.stl','service',T([5,15,10],new THREE.Matrix4().set(0,0,-1,0, 1,0,0,0, 0,1,0,0, 0,0,0,1)),[-105,0,0]],
+ ['front-usb','Кассета фронтального USB-хаба','front-usb-cassette.stl','dark',T([-1,103.335,93.325],new THREE.Matrix4().set(0,0,-1,0, 1,0,0,0, 0,1,0,0, 0,0,0,1)),[-115,20,0]],
  ['spine-front','Передняя часть каркаса платы','board-spine-front.stl','shell2',T([7,42,17.35]),[-25,-12,0]],
  ['spine-rear','Задняя часть каркаса платы','board-spine-rear.stl','shell2',T([165,42,17.35]),[25,-12,0]],
- ['button','Оригинальная монтажная пластина NexGen','button-plate.stl','button',T([4.55,110,147.15],new THREE.Matrix4().set(0,0,-1,0, 1,0,0,0, 0,1,0,0, 0,0,0,1),true),[-125,-15,20]],
- ['button-light','Оригинальный световод кнопки NexGen','button-light-pipe.stl','light',T([0.5,110,147.15],new THREE.Matrix4().set(-1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1),true),[-135,-15,20]],
- ['button-bezel','Фасетированный наружный ободок кнопки','button-decorative-bezel.stl','button',T([0,110,147.15]),[-140,-15,20]],
- ['button-cap','Декоративная кнопка NexGen','button-cap-black.stl','button',T([0,110,147.15]),[-145,-15,20]],
- ['button-logo','Светлый логотип кнопки','button-logo-white.stl','logo',T([0,110,147.15]),[-146,-15,20]],
+ ['button','Оригинальная монтажная пластина NexGen','button-plate.stl','button',T([4.5,45.6,159.15],new THREE.Matrix4().set(0,0,-1,0, 1,0,0,0, 0,1,0,0, 0,0,0,1),true),[-125,-15,20]],
+ ['button-light','Оригинальный световод кнопки NexGen','button-light-pipe.stl','light',T([-0.7,45.6,159.15],new THREE.Matrix4().set(-1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1),true),[-135,-15,20]],
+ ['button-bezel','Фасетированный наружный ободок кнопки','button-decorative-bezel.stl','button',T([-1.1,45.6,159.15]),[-140,-15,20]],
+ ['button-cap','Декоративная кнопка NexGen','button-cap-black.stl','button',T([-1.2,45.6,159.15]),[-145,-15,20]],
+ ['button-logo','Светлый логотип кнопки','button-logo-white.stl','logo',T([-1.3,45.6,159.15]),[-146,-15,20]],
  ['rear-usb','NexGen USB return · задняя панель','usb-cover.stl','rearUsb',T([337,52,95],new THREE.Matrix4().set(1,0,0,0, 0,0,1,0, 0,1,0,0, 0,0,0,1),true),[125,-22,0]],
  ['ssd','Кассета SSD','ssd-cassette.stl','ssd',T([22,60,42.5],new THREE.Matrix4().set(0,0,1,0, 0,1,0,0, 1,0,0,0, 0,0,0,1)),[-55,-40,-30]],
  ['esp32-cassette','Боковая кассета ESP32-реле','esp32-cassette.stl','esp32',T([180,70,5]),[0,45,-35]],
- ['intake-left','Левая съёмная крышка JF13K · прототип','intake-cover-left.stl','shell2',T([30,151,28],new THREE.Matrix4().set(1,0,0,0, 0,0,1,0, 0,1,0,0, 0,0,0,1)),[0,65,0]],
- ['intake-right','Правая съёмная крышка JF13K · прототип','intake-cover-right.stl','shell',T([170,151,28],new THREE.Matrix4().set(1,0,0,0, 0,0,1,0, 0,1,0,0, 0,0,0,1)),[0,65,0]],
- ['rear-blank-board','Задняя панель I/O','rear-blank-board.stl','dark',T([333,15.35,25.35],new THREE.Matrix4().set(0,0,1,0, 1,0,0,0, 0,1,0,0, 0,0,0,1)),[110,-22,0]],
- ['rear-blank-psu','Задняя панель PSU','rear-blank-psu.stl','shell2',T([333,92.35,25.35],new THREE.Matrix4().set(0,0,1,0, 1,0,0,0, 0,1,0,0, 0,0,0,1)),[110,22,0]],
+ ['esp32-cover','Крышка отсека ESP32','esp32-cover.stl','shell2',T([175,151,0],new THREE.Matrix4().set(1,0,0,0, 0,0,1,0, 0,1,0,0, 0,0,0,1)),[0,70,-35]],
+ ['intake-left','Левая съёмная крышка JF13K · прототип','intake-cover-left.stl','intake',T([30,151,28],new THREE.Matrix4().set(1,0,0,0, 0,0,1,0, 0,1,0,0, 0,0,0,1)),[0,65,0]],
+ ['intake-right','Правая съёмная крышка JF13K · прототип','intake-cover-right.stl','intake',T([170,151,28],new THREE.Matrix4().set(1,0,0,0, 0,0,1,0, 0,1,0,0, 0,0,0,1)),[0,65,0]],
  ['rear-vertical','Вертикальная задняя крышка / основание','rear-cover-vertical.stl','service',T([330,-15,-15]),[135,0,0]],
  ['rear-horizontal','Горизонтальная задняя крышка','rear-cover-horizontal.stl','service',T([330,0,0]),[110,0,0]],
  ['board','AMD / ASRock BC-250 · локальная mesh-модель','../references/hafriedlander-bc250-case/_extern/bc250_alt.stl','board',T([164.5,52.2,104.35],new THREE.Matrix4().set(0,0,-1,0, -1,0,0,0, 0,1,0,0, 0,0,0,1)),[0,55,0]],
@@ -93,21 +94,21 @@ function cooler(){
 function ankerHub(){
   // A7516 body is 103 × 30 × 10 mm. It is rotated so the long port edge is
   // vertical and the 30 mm body width extends inward along +X.
-  addBoxPart('anker-body','Anker A7516 · корпус 103 × 30 × 10 мм',[30,10,103],[15,35,95],'anker','anker');
-  addBoxPart('anker-edge','Anker A7516 · лицевая грань с портами',[2.2,10.6,99],[-1.1,35,95],'anker','anker');
+  addBoxPart('anker-body','Anker A7516 · корпус 103 × 30 × 10 мм',[30,10,103],[15,117.3,128.5],'anker','anker');
+  addBoxPart('anker-edge','Anker A7516 · лицевая грань с портами',[2.2,10.6,70.35],[-1.1,117.3,128.5],'anker','anker');
   for(let i=0;i<4;i++){
-    const z=64.25+i*20.5;
-    addBoxPart('anker-port','Anker A7516 · USB-A 3.0',[1.6,8.2,15],[-2.2,35,z],'dark','anker');
-    addBoxPart('anker-port-blue','USB 3.0 insert',[1.8,6.6,12.6],[-3.05,35,z],'anker','anker');
+    const z=103.9+i*16.4;
+    addBoxPart('anker-port','Anker A7516 · USB-A 3.0',[1.6,8.2,15],[-2.2,117.3,z],'dark','anker');
+    addBoxPart('anker-port-blue','USB 3.0 insert',[1.8,6.6,12.6],[-3.05,117.3,z],'anker','anker');
   }
-  addBoxPart('anker-led','Anker A7516 · индикатор',[1.9,1.5,3],[-3.1,35,142],'light','anker');
+  addBoxPart('anker-led','Anker A7516 · индикатор',[1.9,1.5,3],[-3.1,117.3,103.3],'light','anker');
 }
 function equipment(){box('psu','Cisco UCSC-PSU-650W V02',[240,40,96],[70,6,30],'psu','psu');ankerHub();cooler()}
 
 await Promise.all(specs.map(loadPart));equipment();
-let rear='vertical',explode=0;
+let rear='horizontal',explode=0;
 function updateLegend(){document.querySelectorAll('#component-legend button').forEach(button=>{const matches=parts.filter(p=>p.userData.group===button.dataset.component);const present=matches.length>0,visible=matches.some(p=>p.visible);button.classList.toggle('missing',!present);button.classList.toggle('off',present&&!visible);button.querySelector('small').textContent=!present?'нет':visible?'виден':'скрыт'})}
-function updateVisibility(){const showShell=document.querySelector('#shell').checked,showEq=document.querySelector('#equipment').checked;for(const p of parts){let visible=(p.userData.equipment?showEq:showShell)&&p.userData.enabled;if(p.userData.id==='rear-vertical')visible=showShell&&rear==='vertical'&&p.userData.enabled;if(p.userData.id==='rear-horizontal')visible=showShell&&rear==='horizontal'&&p.userData.enabled;if((p.userData.id==='rear-blank-board'||p.userData.id==='rear-blank-psu'||p.userData.id==='rear-usb'))visible=showShell&&rear!=='none'&&p.userData.enabled;p.visible=visible}updateLegend()}
+function updateVisibility(){const showShell=document.querySelector('#shell').checked,showEq=document.querySelector('#equipment').checked;for(const p of parts){let visible=(p.userData.equipment?showEq:showShell)&&p.userData.enabled;if(p.userData.id==='rear-vertical')visible=showShell&&rear==='vertical'&&p.userData.enabled;if(p.userData.id==='rear-horizontal')visible=showShell&&rear==='horizontal'&&p.userData.enabled;if(p.userData.id==='rear-usb')visible=showShell&&rear!=='none'&&p.userData.enabled;p.visible=visible}updateLegend()}
 function buildLegend(){const host=document.querySelector('#component-legend');for(const [id,name,color] of componentDefs){const button=document.createElement('button');button.type='button';button.dataset.component=id;button.innerHTML=`<b style="--swatch:${color}"></b><span>${name}</span><small></small>`;button.onclick=()=>{const matches=parts.filter(p=>p.userData.group===id);if(!matches.length)return;const enable=!matches.some(p=>p.visible);matches.forEach(p=>p.userData.enabled=enable);updateVisibility()};host.append(button)}}
 buildLegend();
 function updateExplode(){for(const p of parts){const b=p.userData.base,e=p.userData.explode;p.position.set(b[0]+e[0]*explode,b[1]+e[1]*explode,b[2]+e[2]*explode)}}

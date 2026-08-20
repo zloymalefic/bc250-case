@@ -10,12 +10,9 @@ part = "left"; // left | right | assembly
 panel_half = [130, 131, 4];
 panel_chamfer = 10;
 panel_gap = 10;
-grille_outer_d = 108;
-grille_inner_d = 101;
-grille_relief = 1.2;
 magnet_x = [24, panel_half[0] - 24];
 magnet_y = [4, panel_half[1] - 4];
-pry_notch_d = 10;
+pry_notch = [5, 2];
 
 module chamfered_panel_2d(width, height, cut) {
     polygon([
@@ -36,35 +33,18 @@ module fan_field(cx) {
         dy = row * 8;
         if (dx * dx + dy * dy < 46 * 46)
             translate([cx + dx, panel_half[1] / 2 + dy, -1])
-                cylinder(h = panel_half[2] + grille_relief + 2,
+                cylinder(h = panel_half[2] + 2,
                          d = 6.8, $fn = 6);
     }
-}
-
-module grille_ring(cx) {
-    translate([cx, panel_half[1] / 2, panel_half[2] - 0.01])
-        difference() {
-            cylinder(h = grille_relief, d = grille_outer_d);
-            translate([0, 0, -0.1])
-                cylinder(h = grille_relief + 0.2, d = grille_inner_d);
-        }
-}
-
-module recessed_esp32_skirt() {
-    // Closes the lower service opening on the right half while remaining 8 mm
-    // behind the exterior face, inside the lower chassis chamfer.
-    translate([7, -24, -10])
-        linear_extrude(height = 2)
-            chamfered_panel_2d(74, 28, 5);
-    for (x = [20, 68])
-        translate([x, 0, -10]) cube([4, 5, 10.2]);
 }
 
 module magnet_pockets_and_pry_notch() {
     for (x = magnet_x, y = magnet_y)
         translate([x, y, 0]) magnet_pocket_positive();
-    translate([panel_half[0] / 2, 0, -0.1])
-        cylinder(h = panel_half[2] + grille_relief + 0.3, d = pry_notch_d);
+    // Only a tiny rectangular relief remains visible at the bottom edge.
+    translate([panel_half[0] / 2 - pry_notch[0] / 2, -0.1,
+               panel_half[2] - pry_notch[1]])
+        cube([pry_notch[0], 2.1, pry_notch[1] + 0.2]);
 
     // Shallow channels capture the chassis tongues. They prevent the magnets
     // carrying shear and make the two long rails work as side-wall stiffeners.
@@ -73,25 +53,18 @@ module magnet_pockets_and_pry_notch() {
 }
 
 module left_panel() {
-    union() {
-        difference() {
-            panel_skin();
-            fan_field(75);
-            magnet_pockets_and_pry_notch();
-        }
-        grille_ring(75);
+    difference() {
+        panel_skin();
+        fan_field(75);
+        magnet_pockets_and_pry_notch();
     }
 }
 
 module right_panel() {
-    union() {
-        difference() {
-            panel_skin();
-            fan_field(55);
-            magnet_pockets_and_pry_notch();
-        }
-        grille_ring(55);
-        recessed_esp32_skirt();
+    difference() {
+        panel_skin();
+        fan_field(55);
+        magnet_pockets_and_pry_notch();
     }
 }
 
@@ -104,8 +77,8 @@ else {
 }
 
 echo("part", part);
-echo("panel_half_print_bounds_nominal_mm", [panel_half[0], panel_half[1], panel_half[2] + grille_relief]);
+echo("panel_half_print_bounds_nominal_mm", panel_half);
 echo("structural_gap_mm", panel_gap);
 echo("magnets_per_cover", 4);
-echo("pry_notch_mm", pry_notch_d);
+echo("pry_notch_mm", pry_notch);
 assert(panel_half[0] <= 250 && panel_half[1] <= 250, "Panel half exceeds 250 mm print-bed limit");

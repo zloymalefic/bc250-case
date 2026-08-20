@@ -14,23 +14,25 @@ import threading
 import time
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 
+from up_model import update_assets
+
 REPO = Path(__file__).resolve().parent.parent
 ASSETS = REPO / "visualization" / "assets"
 MASTER = REPO / "cad" / "core-assembly-v0.1.scad"
-REFERENCE_MASTER = REPO / "cad" / "visualization-reference-parts.scad"
+REFERENCE_MASTER = REPO / "cad-visualization" / "visualization-reference-parts.scad"
 CORE_PARTS = (
     "front-core", "rear-core", "board-spine-front", "board-spine-rear",
     "front-panel", "front-button-mount", "front-usb-cassette",
-    "ssd-cassette", "esp32-cassette", "rear-blank-board", "rear-blank-psu",
+    "ssd-cassette", "esp32-cassette", "esp32-cover",
     "rear-cover-horizontal", "rear-cover-vertical",
 )
 INTAKE_MASTER = REPO / "cad" / "intake-panel-snap-v0.1.scad"
 INTAKE_PARTS = (("intake-cover-left", "left"), ("intake-cover-right", "right"))
 REFERENCE_PARTS = ("button-plate", "button-light-pipe", "usb-cover")
 MATERIAL_PARTS = ("button-cap-black", "button-logo-white")
-MATERIAL_MASTER = REPO / "cad" / "visualization-nexgen-button-material.scad"
+MATERIAL_MASTER = REPO / "cad-visualization" / "visualization-nexgen-button-material.scad"
 DIRECT_PARTS = (
-    ("button-decorative-bezel", REPO / "cad" / "visualization-decorative-button.scad"),
+    ("button-decorative-bezel", REPO / "cad-visualization" / "visualization-decorative-button.scad"),
 )
 VIEWER_FILES = tuple(REPO / "visualization" / name for name in ("index.html", "styles.css", "legend.css", "viewer.js"))
 
@@ -50,29 +52,9 @@ def find_openscad() -> str | None:
 
 
 def export_parts(openscad: str) -> None:
-    ASSETS.mkdir(parents=True, exist_ok=True)
-    subprocess.run(
-        [sys.executable, str(REPO / "tools" / "extract_nexgen_button_materials.py"),
-         str(REPO / "references" / "printables-1793043-nexgen-pro-v2" / "Power Button" / "pro-v2-steam-logo.3mf"),
-         str(REPO / "cad" / "vendor" / "nexgen")],
-        cwd=REPO,
-        check=True,
-    )
-    jobs = [(part, MASTER) for part in CORE_PARTS]
-    jobs += [(output, INTAKE_MASTER, source_part) for output, source_part in INTAKE_PARTS]
-    jobs += [(part, REFERENCE_MASTER) for part in REFERENCE_PARTS]
-    jobs += [(part, MATERIAL_MASTER) for part in MATERIAL_PARTS]
-    jobs += list(DIRECT_PARTS)
-    for index, job in enumerate(jobs, 1):
-        part, source, *source_parts = job
-        print(f"[{index:02}/{len(jobs)}] Exporting {part}", flush=True)
-        define_part = source_parts[0] if source_parts else {"button-cap-black": "black", "button-logo-white": "white"}.get(part, part)
-        define_args = [] if (part, source) in DIRECT_PARTS else ["-D", f'part="{define_part}"']
-        subprocess.run(
-            [openscad, "-o", str(ASSETS / f"{part}.stl"), *define_args, str(source)],
-            cwd=REPO,
-            check=True,
-        )
+    result = update_assets()
+    if result:
+        raise subprocess.CalledProcessError(result, [sys.executable, "tools/up_model.py"])
 
 
 def signature(paths: list[Path] | tuple[Path, ...]) -> tuple[tuple[str, int], ...]:
@@ -80,7 +62,7 @@ def signature(paths: list[Path] | tuple[Path, ...]) -> tuple[tuple[str, int], ..
 
 
 def cad_files() -> list[Path]:
-    return list((REPO / "cad").rglob("*.scad"))
+    return list((REPO / "cad").rglob("*.scad")) + list((REPO / "cad-visualization").rglob("*.scad"))
 
 
 def watch(openscad: str) -> None:

@@ -88,14 +88,9 @@
     <text class="view-title" x="155" y="-24" text-anchor="middle">ЗАДНЯЯ КРЫШКА — ОБЫЧНАЯ</text>
     <use href="#end-shell" class="rear"/>
     <path class="panel" d="M14 39L40 14H270L296 39V351L270 376H40L14 351Z"/>
-    <!-- Common 125 × 165 mm service cassette, shown at the same 2 px/mm scale. -->
-    <rect x="30" y="30" width="250" height="330" rx="4" fill="#0c0f13" stroke="#77818c" stroke-width="2"/>
-    <rect class="outline" x="42" y="50" width="116" height="290" rx="4"/>
-    <rect class="outline" x="168" y="50" width="96" height="290" rx="4"/>
-    <text class="inside" x="100" y="187" text-anchor="middle">BC-250 I/O</text>
-    <text class="inside" x="100" y="207" text-anchor="middle">после замеров</text>
-    <text class="inside" x="216" y="187" text-anchor="middle">Cisco</text>
-    <text class="inside" x="216" y="207" text-anchor="middle">PSU</text>
+    <!-- Monolithic wall; final connector cuts are applied directly after fit freeze. -->
+    <text class="inside" x="155" y="187" text-anchor="middle">МОНОЛИТНАЯ ПАНЕЛЬ</text>
+    <text class="inside" x="155" y="209" text-anchor="middle">вырезы I/O и PSU после фиксации размеров</text>
     <circle cx="60" cy="16" r="5" fill="#afb6bf"/><circle cx="250" cy="16" r="5" fill="#afb6bf"/>
     <circle cx="60" cy="374" r="5" fill="#afb6bf"/><circle cx="250" cy="374" r="5" fill="#afb6bf"/>
     <path class="dim" marker-start="url(#arr)" marker-end="url(#arr)" d="M0 420H310"/>

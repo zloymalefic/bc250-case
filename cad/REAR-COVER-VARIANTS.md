@@ -8,7 +8,7 @@ an Xbox Series X-like tower.
 
 - four M3 axes at Y = 30/125 mm and Z = 5/190 mm;
 - four blind heat-set insert bosses integrated into the rear structural core;
-- common 125 × 165 mm service-cassette envelope for later PSU and I/O inserts;
+- monolithic rear wall; final PSU and I/O cuts are made directly in each variant;
 - two portrait inserts sit side-by-side inside that envelope: provisional
   openings 72 × 145 mm for board I/O and 48 × 145 mm for PSU;
 - no PSU bracket or electrical connector projects outside the case envelope.

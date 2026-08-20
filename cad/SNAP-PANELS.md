@@ -2,13 +2,13 @@
 
 The JF13K intake is divided into two independently removable 130 × 131 mm covers:
 
-- nominal half-panel print envelope: 130 × 131 × 8 mm including grille relief;
+- nominal half-panel print envelope: 130 × 131 × 4 mm;
 - one 120 mm fan field per half;
 - four 8 × 2 mm magnet pairs per half;
-- a small bottom-edge pry notch for non-destructive removal;
+- a 5 × 2 mm bottom-edge pry notch for non-destructive removal;
 - two shallow longitudinal guide channels engaging chassis tongues;
 - a 10 mm visible gap exposes the structural rib retained in the shell;
-- matching eight-sided cover/window outlines and a raised 108 mm fan rim;
+- matching eight-sided cover/window outlines without a circular raised rim;
 - no external panel bolts;
 - a damaged half can be replaced without reprinting the other side.
 

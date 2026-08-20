@@ -2,13 +2,13 @@
 
 The yellow Nyacom-style front insert is now independent from both service components:
 
-- front panel: 125 × 165 × 4 mm;
+- front panel: 125 × 175 × 6 mm visible plate, based on the Nyacom source panel proportions;
 - NexGen-derived button opening: 45.2 × 32.3 mm;
 - replaceable vertical USB cassette opening: 28.6 × 71.0 mm;
 - cassette face: 27.93 × 70.35 × 3 mm;
 - baseline hub: Anker A7516 four-port USB 3.0, 103 × 30 × 10 mm;
 - front apertures: four vertical USB-A data ports;
-- four pairs of 8 × 2 mm magnets retain the main panel on its support shoulder;
+- four front-access countersunk M3 screws retain the main panel on its support shoulder;
 - the small USB cassette keeps its accessible internal clips and can be serviced after the magnetic main panel is removed;
 - concealed release notches permit servicing without visible screws.
 - two M3 insert bosses and edge ribs retain the NexGen-derived button plate.

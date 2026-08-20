@@ -70,10 +70,27 @@ python3 tools/dev_visualization.py --port 8080
 tools/export_visualization_assets.sh
 ```
 
+Единая команда аудита и обновления (`/up-model` в терминологии проекта):
+
+```sh
+tools/up-model
+```
+
+Поддерживаемое явное имя skill в Codex — `$up-model`. Режим только проверки:
+
+```sh
+tools/up-model --check
+```
+
+Команда экспортирует модели во временный каталог, сравнивает их с браузерными
+STL и атомарно обновляет только `visualization/assets/`. Каталоги `cad/` и
+`cad-visualization/` остаются только для чтения.
+
 ## Структура
 
 - `cad/core-assembly-v0.1.scad` — основная сборка;
-- `cad/visualization-reference-parts.scad` — экспорт внешних компонентов;
+- `cad/` — авторитетный инженерный CAD, только для чтения со стороны визуализации;
+- `cad-visualization/` — непечатные исходники визуализации, также только для чтения;
 - `visualization/MODEL-SOURCES.md` — точная карта происхождения всех моделей;
 - `visualization/viewer.js` — сцена, материалы, transforms и модель JF13K;
 - `visualization/styles.css` — интерфейс;

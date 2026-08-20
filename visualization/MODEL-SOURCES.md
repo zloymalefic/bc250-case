@@ -1,8 +1,8 @@
 # Источники моделей 3D-визуализации
 
 `visualization/assets/*.stl` — готовые файлы для браузера. Они не являются
-главными CAD-исходниками: при изменении конструкции их нужно пересобирать
-командой `tools/export_visualization_assets.sh`.
+главными CAD-исходниками: при изменении конструкции их нужно сверять и
+пересобирать командой `tools/up-model`.
 
 ## Собственная CAD-геометрия проекта
 
@@ -12,10 +12,10 @@
 | `board-spine-front.stl`, `board-spine-rear.stl` | `cad/board-spine-v0.1.scad`, вызывается из master CAD |
 | `front-panel.stl`, `front-button-mount.stl`, `front-usb-cassette.stl` | `cad/front-service-module-v0.1.scad`, вызывается из master CAD |
 | `ssd-cassette.stl`, `esp32-cassette.stl` | `cad/peripheral-bay-v0.1.scad`, вызывается из master CAD |
-| `rear-blank-board.stl`, `rear-blank-psu.stl` | `cad/rear-service-blanks-v0.1.scad`, вызывается из master CAD |
+| `esp32-cover.stl` | `cad/esp32-service-cover-v0.1.scad`, вызывается из master CAD |
 | `rear-cover-horizontal.stl`, `rear-cover-vertical.stl` | `cad/core-assembly-v0.1.scad` |
 | `intake-cover-left.stl`, `intake-cover-right.stl` | `cad/intake-panel-snap-v0.1.scad` |
-| `button-decorative-bezel.stl` | `cad/visualization-decorative-button.scad`; только визуализация |
+| `button-decorative-bezel.stl` | `cad-visualization/visualization-decorative-button.scad`; только визуализация |
 
 Главная точка входа корпуса — `cad/core-assembly-v0.1.scad`. Параметр `part`
 выбирает экспортируемую деталь.
@@ -29,9 +29,9 @@
 | `button-cap-black.stl`, `button-logo-white.stl` | `references/printables-1793043-nexgen-pro-v2/Power Button/pro-v2-steam-logo.3mf` |
 | `usb-cover.stl` | `references/printables-1793043-nexgen-pro-v2/Case/pro-v2-usb-cover-multi-material.3mf` |
 
-Промежуточные `cad/vendor/nexgen/button-*.3mf` создаются автоматически скриптом
-`tools/extract_nexgen_button_materials.py`, не являются исходниками и Git их
-игнорирует. Лицензия и авторство описаны в `ATTRIBUTION.md`.
+Промежуточные `cad/vendor/nexgen/button-*.3mf` используются только для чтения.
+Updater не создаёт и не изменяет их; если они отсутствуют, он сообщает точные
+пути и останавливается. Лицензия и авторство описаны в `ATTRIBUTION.md`.
 
 ## Модели, создаваемые непосредственно в viewer
 

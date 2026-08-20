@@ -5,14 +5,14 @@
 use <board-spine-v0.1.scad>
 use <psu-universal-internal-v0.2.scad>
 use <front-service-module-v0.1.scad>
-use <rear-service-blanks-v0.1.scad>
 use <power-button-nexgen-v0.1.scad>
 use <peripheral-bay-v0.1.scad>
+use <esp32-service-cover-v0.1.scad>
 include <lib/magnet-interface.scad>
 
 $fn = 40;
 
-part = "assembly"; // front-core | rear-core | board-spine-front | board-spine-rear | front-panel | front-button-mount | front-usb-cassette | ssd-cassette | esp32-cassette | rear-blank-board | rear-blank-psu | rear-cover-horizontal | rear-cover-vertical | assembly
+part = "assembly"; // front-core | rear-core | board-spine-front | board-spine-rear | front-panel | front-button-mount | front-usb-cassette | ssd-cassette | esp32-cassette | esp32-cover | rear-cover-horizontal | rear-cover-vertical | assembly
 exploded_gap = 0;
 show_fasteners = true;
 show_equipment = true;
@@ -37,30 +37,14 @@ m3_floor_clearance_d = 3.4;
 m3_csk_head_d = 6.4;
 m3_csk_depth = 1.8;
 
-// Common rear-cover interface. Both rear-cover variants use the same four axes
-// and accept the same future PSU/I/O service cassette.
+// Common monolithic rear-cover interface. Both variants use the same four axes.
 rear_mount_y = [30, body[1] - 30];
 rear_mount_z = [5, body[2] - 5];
 rear_boss_d = 14;
 rear_boss_depth = 10;
 rear_cover_clearance_d = 3.4;
-rear_service_opening = [125, 165];
-rear_module_gap = 5;
-rear_module_widths = [72, 48];
-rear_module_height = 145;
 horizontal_cover_depth = 6;
 vertical_cover_depth = 44;
-rear_module_y0 = (body[1] - rear_service_opening[0]) / 2;
-rear_module_z0 = (body[2] - rear_module_height) / 2;
-rear_blank_clearance = 0.35;
-rear_blank_thickness = 3;
-rear_blank_inner_x = body[0] + horizontal_cover_depth - rear_blank_thickness;
-rear_seat_depth = 3;
-rear_seat_overlap = 2;
-rear_blank_widths = [for (w = rear_module_widths) w - 2 * rear_blank_clearance];
-rear_blank_height = rear_module_height - 2 * rear_blank_clearance;
-rear_magnet_z = [rear_module_z0 + rear_blank_clearance + 7,
-                 rear_module_z0 + rear_blank_clearance + rear_blank_height - 7];
 
 vertical_base_overhang = 15;
 vertical_base_footprint = [
@@ -137,24 +121,25 @@ psu_bridge_overlap = 0.4;
 psu_bridge_depth = 3;
 psu_bridge_height = 4;
 
-// Recessed 125 x 165 mm front service panel. Its outer face sits 2 mm behind
-// the front frame and four magnet pairs retain it on the support shoulder.
-front_panel_size = [125, 165, 4];
+// Nyacom-proportioned front panel, retained by four front-access M3 screws.
+front_panel_size = [125, 175, 6];
 front_panel_inset = [(body[1] - front_panel_size[0]) / 2,
                      (body[2] - front_panel_size[1]) / 2];
-front_panel_front_x = 2;
+front_panel_front_x = -1;
 front_panel_rear_x = front_panel_front_x + front_panel_size[2];
 front_seat_depth = 2;
 front_seat_overlap = 2.35;
-front_magnet_points = [
-    [front_panel_inset[0] + 20, front_panel_inset[1] + 7],
-    [front_panel_inset[0] + front_panel_size[0] - 20,
-     front_panel_inset[1] + 7],
-    [front_panel_inset[0] + front_panel_size[0] / 2,
-     front_panel_inset[1] + front_panel_size[1] - 7],
-    [front_panel_inset[0] + 7,
-     front_panel_inset[1] + front_panel_size[1] / 2]
+front_screw_points = [
+    [front_panel_inset[0] + 9, front_panel_inset[1] + 9],
+    [front_panel_inset[0] + front_panel_size[0] - 9,
+     front_panel_inset[1] + 9],
+    [front_panel_inset[0] + 9,
+     front_panel_inset[1] + front_panel_size[1] - 9],
+    [front_panel_inset[0] + front_panel_size[0] - 9,
+     front_panel_inset[1] + front_panel_size[1] - 9]
 ];
+front_insert_boss_d = 16;
+front_insert_boss_depth = 8;
 
 // Front-load 2.5-inch bay: the cassette plane is Y-Z and its thickness is X.
 // It occupies the free pocket between the front service panel and JF13K.
@@ -180,6 +165,11 @@ esp_rail_wall = 3;
 esp_rail_height = 4.4;
 esp_service_opening = [74, 28]; // X width, Z height
 esp_service_origin = [esp_origin[0] - 3, 4];
+esp_cover_size = [78, 36, 3];
+esp_cover_origin = [esp_service_origin[0] - 2, 0];
+esp_cover_magnet_local = [[8, 5], [esp_cover_size[0] - 8, 5],
+                          [8, esp_cover_size[1] - 3],
+                          [esp_cover_size[0] - 8, esp_cover_size[1] - 3]];
 esp_top_gap = jf13k_origin[2] -
     (esp_origin[2] + esp_tray_size[2] + esp_device[2]);
 
@@ -249,6 +239,28 @@ module intake_magnets_and_guides_global(panel_x) {
 
 module intake_magnets_and_guides() {
     for (x = intake_panel_x) intake_magnets_and_guides_global(x);
+}
+
+module esp32_cover_magnets() {
+    // Bosses sit on solid shell immediately below and above the service cut.
+    // Their local X/Z coordinates match the separate cover.
+    multmatrix([
+        [1, 0, 0, esp_cover_origin[0]],
+        [0, 0, 1, body[1] - wall],
+        [0, 1, 0, esp_cover_origin[1]],
+        [0, 0, 0, 1]
+    ])
+        for (p = esp_cover_magnet_local)
+            translate([p[0], p[1], 0]) magnet_boss_negative();
+}
+
+module esp32_service_cover_global() {
+    multmatrix([
+        [1, 0, 0, esp_cover_origin[0]],
+        [0, 0, 1, body[1] - wall],
+        [0, 1, 0, esp_cover_origin[1]],
+        [0, 0, 0, 1]
+    ]) esp32_service_cover();
 }
 
 module collar_ring(length, inset, thickness) {
@@ -359,40 +371,47 @@ module psu_receiver_bridges() {
 }
 
 module front_panel_seat_and_receivers() {
-    difference() {
-        union() {
-            // Visible front ring, with the panel face recessed by 2 mm.
-            difference() {
-                oct_prism_x(front_panel_rear_x, body[1], body[2], chamfer);
-                translate([-0.1, front_panel_inset[0] - 0.35,
-                           front_panel_inset[1] - 0.35])
-                    cube([front_panel_rear_x + 0.2,
-                          front_panel_size[0] + 0.7,
-                          front_panel_size[1] + 0.7]);
-            }
-
-            // Rear shoulder carries the panel without glue or visible screws.
-            difference() {
-                translate([front_panel_rear_x, 0, 0])
-                    oct_prism_x(front_seat_depth, body[1], body[2], chamfer);
-                translate([front_panel_rear_x - 0.1,
-                           front_panel_inset[0] + front_seat_overlap,
-                           front_panel_inset[1] + front_seat_overlap])
-                    cube([front_seat_depth + 0.2,
-                          front_panel_size[0] - 2 * front_seat_overlap,
-                          front_panel_size[1] - 2 * front_seat_overlap]);
-            }
-
-            for (p = front_magnet_points)
-                translate([front_panel_rear_x, p[0], p[1]])
-                    rotate([0, 90, 0]) magnet_boss_positive();
+    union() {
+        // Visible front ring; the Nyacom-like panel projects 1 mm beyond it.
+        difference() {
+            oct_prism_x(front_panel_rear_x, body[1], body[2], chamfer);
+            translate([-0.1, front_panel_inset[0] - 0.35,
+                       front_panel_inset[1] - 0.35])
+                cube([front_panel_rear_x + 0.2,
+                      front_panel_size[0] + 0.7,
+                      front_panel_size[1] + 0.7]);
         }
+
+        // Rear shoulder locates the panel and carries insertion loads.
+        difference() {
+            translate([front_panel_rear_x, 0, 0])
+                oct_prism_x(front_seat_depth, body[1], body[2], chamfer);
+            translate([front_panel_rear_x - 0.1,
+                       front_panel_inset[0] + front_seat_overlap,
+                       front_panel_inset[1] + front_seat_overlap])
+                cube([front_seat_depth + 0.2,
+                      front_panel_size[0] - 2 * front_seat_overlap,
+                      front_panel_size[1] - 2 * front_seat_overlap]);
+        }
+
+        // Four fused bosses receive M3 heat-set inserts from the front. Their
+        // axes match the countersunk holes in the removable panel.
+        for (p = front_screw_points)
+            difference() {
+                translate([front_panel_rear_x, p[0], p[1]])
+                    rotate([0, 90, 0])
+                        cylinder(h = front_insert_boss_depth,
+                                 d = front_insert_boss_d);
+                translate([front_panel_rear_x - 0.1, p[0], p[1]])
+                    rotate([0, 90, 0])
+                        cylinder(h = front_insert_boss_depth + 0.2,
+                                 d = m3_insert_pilot_d);
+            }
     }
 }
 
 module front_service_panel_global() {
-    // Local panel X/Y become global Y/Z; the four inner-face magnets meet the
-    // core bosses at X=front_panel_rear_x.
+    // Local panel X/Y become global Y/Z; thickness points toward the exterior.
     multmatrix([
         [0, 0, -1, front_panel_rear_x],
         [1, 0,  0, front_panel_inset[0]],
@@ -407,7 +426,22 @@ module front_button_mount_global() {
         [1, 0,  0, front_panel_inset[0]],
         [0, 1,  0, front_panel_inset[1]],
         [0, 0,  0, 1]
-    ]) translate([8.35, 116.35, 4 - 5.1]) mounting_plate();
+    ]) translate([8.35, 133.35, 6 - 5.1]) mounting_plate();
+}
+
+module front_button_visible_global() {
+    // Complete visible button stack, not merely the hidden mounting plate.
+    multmatrix([
+        [0, 0, -1, front_panel_rear_x],
+        [1, 0,  0, front_panel_inset[0]],
+        [0, 1,  0, front_panel_inset[1]],
+        [0, 0,  0, 1]
+    ]) {
+        button_center = [8 + 45.2 / 2, 133 + 32.3 / 2];
+        translate([button_center[0], button_center[1], 3.2]) light_pipe();
+        translate([button_center[0], button_center[1], 7.8])
+            nexgen_steam_logo_cap();
+    }
 }
 
 module front_usb_cassette_global() {
@@ -417,7 +451,7 @@ module front_usb_cassette_global() {
         [0, 1,  0, front_panel_inset[1]],
         [0, 0,  0, 1]
     ]) translate([88 + (28.6 - 27.93) / 2,
-                   75 + (71.0 - 70.35) / 2, 4]) usb_cassette();
+                   83 + (71.0 - 70.35) / 2, 6]) usb_cassette();
 }
 
 module ssd_cassette_global() {
@@ -452,7 +486,7 @@ module ssd_receiver_rails() {
                ssd_origin[2]])
         cube([2.4, ssd_tray_size[1] + 2 * ssd_rail_wall, 5]);
 
-    // One M3 insert boss is reached after removing the magnetic front panel.
+    // One M3 insert boss is reached after removing the bolted front panel.
     translate([ssd_receiver_x1, ssd_retention_global[1],
                ssd_retention_global[2]])
         rotate([0, 90, 0])
@@ -508,67 +542,10 @@ module rear_cover_screw_holes(x0, length) {
         }
 }
 
-module rear_module_windows(length) {
-    translate([body[0] - 0.1, rear_module_y0, rear_module_z0])
-        cube([length + 0.2, rear_module_widths[0], rear_module_height]);
-    translate([body[0] - 0.1,
-               rear_module_y0 + rear_module_widths[0] + rear_module_gap,
-               rear_module_z0])
-        cube([length + 0.2, rear_module_widths[1], rear_module_height]);
-}
-
-function rear_window_y(index) =
-    index == 0 ? rear_module_y0 :
-    rear_module_y0 + rear_module_widths[0] + rear_module_gap;
-
-module rear_service_seats_and_receivers() {
-    union() {
-        for (i = [0 : 1]) {
-            y0 = rear_window_y(i);
-            width = rear_module_widths[i];
-
-            // A 2 mm shoulder locates the blank; magnets provide pull-off
-            // retention but do not carry connector insertion loads alone.
-            difference() {
-                translate([body[0], y0, rear_module_z0])
-                    cube([rear_seat_depth, width, rear_module_height]);
-                translate([body[0] - 0.1, y0 + rear_seat_overlap,
-                           rear_module_z0 + rear_seat_overlap])
-                    cube([rear_seat_depth + 0.2,
-                          width - 2 * rear_seat_overlap,
-                          rear_module_height - 2 * rear_seat_overlap]);
-            }
-
-            blank_y0 = y0 + rear_blank_clearance;
-            magnet_y = [blank_y0 + 7,
-                        blank_y0 + rear_blank_widths[i] - 7];
-            for (y = magnet_y, z = rear_magnet_z)
-                translate([rear_blank_inner_x, y, z])
-                    rotate([0, -90, 0]) magnet_boss_positive();
-        }
-    }
-}
-
-module rear_service_blank_global(index) {
-    y0 = rear_window_y(index) + rear_blank_clearance;
-    multmatrix([
-        [0, 0, 1, rear_blank_inner_x],
-        [1, 0, 0, y0],
-        [0, 1, 0, rear_module_z0 + rear_blank_clearance],
-        [0, 0, 0, 1]
-    ]) service_blank(rear_blank_widths[index]);
-}
-
 module rear_cover_horizontal_global() {
     difference() {
-        union() {
-            difference() {
-                translate([body[0], 0, 0])
-                    oct_prism_x(horizontal_cover_depth, body[1], body[2], chamfer);
-                rear_module_windows(horizontal_cover_depth);
-            }
-            rear_service_seats_and_receivers();
-        }
+        translate([body[0], 0, 0])
+            oct_prism_x(horizontal_cover_depth, body[1], body[2], chamfer);
         rear_cover_screw_holes(body[0], horizontal_cover_depth);
     }
 }
@@ -627,10 +604,8 @@ module rear_cover_vertical_global() {
             difference() {
                 vertical_base_outer_solid();
                 vertical_base_inner_cavity();
-                rear_module_windows(horizontal_cover_depth + 0.2);
                 vertical_base_cable_exits();
             }
-            rear_service_seats_and_receivers();
         }
         rear_cover_screw_holes(body[0], vertical_cover_depth);
         vertical_pad_recesses();
@@ -645,6 +620,7 @@ module complete_core() {
         psu_receiver_bridges();
         front_panel_seat_and_receivers();
         intake_magnets_and_guides();
+        esp32_cover_magnets();
         ssd_receiver_rails();
         esp32_receiver_rails();
     }
@@ -707,10 +683,8 @@ else if (part == "ssd-cassette")
     ssd_cassette();
 else if (part == "esp32-cassette")
     esp32_cassette();
-else if (part == "rear-blank-board")
-    service_blank(rear_blank_widths[0]);
-else if (part == "rear-blank-psu")
-    service_blank(rear_blank_widths[1]);
+else if (part == "esp32-cover")
+    esp32_service_cover();
 else if (part == "rear-cover-horizontal")
     translate([-body[0], 0, 0]) rear_cover_horizontal_global();
 else if (part == "rear-cover-vertical")
@@ -722,19 +696,17 @@ else {
     color([0.24, 0.25, 0.29]) board_spine_global();
     color([0.76, 0.12, 0.09]) front_service_panel_global();
     color([0.10, 0.11, 0.13]) front_button_mount_global();
+    front_button_visible_global();
     color([0.14, 0.15, 0.17]) front_usb_cassette_global();
     color([0.38, 0.40, 0.44]) ssd_cassette_global();
     color([0.18, 0.36, 0.62]) esp32_cassette_global();
+    color([0.22, 0.23, 0.26]) esp32_service_cover_global();
     if (show_fasteners && exploded_gap == 0) fastener_proxies();
     if (show_equipment && exploded_gap == 0) vertical_equipment_proxies();
     if (rear_cover == "horizontal")
         color([0.64, 0.12, 0.10]) rear_cover_horizontal_global();
     else if (rear_cover == "vertical")
         color([0.64, 0.12, 0.10]) rear_cover_vertical_global();
-    if (rear_cover != "none") {
-        color([0.22, 0.23, 0.26]) rear_service_blank_global(0);
-        color([0.28, 0.29, 0.32]) rear_service_blank_global(1);
-    }
 }
 
 echo("part", part);
@@ -744,9 +716,7 @@ echo("seam fastener coordinates mm", [seam_fastener_x, seam_fastener_y]);
 echo("front print bounds nominal mm", [split_x + collar_length, body[1], body[2]]);
 echo("rear print bounds nominal mm", [body[0] - split_x, body[1], body[2]]);
 echo("rear cover variants", ["horizontal", "vertical"]);
-echo("common rear service cassette mm", rear_service_opening);
-echo("rear module windows YxZ mm", [[rear_module_widths[0], rear_module_height],
-                                    [rear_module_widths[1], rear_module_height]]);
+echo("rear panel construction", "monolithic; final I/O and PSU cuts pending");
 echo("vertical base depth/footprint mm", [vertical_cover_depth, vertical_base_footprint]);
 echo("vertical base cable cavity depth mm", vertical_cover_depth - horizontal_cover_depth);
 echo("rear-cover fasteners", "4x M3; horizontal length provisional 10 mm; vertical length provisional 45 mm");
@@ -772,11 +742,7 @@ echo("integrated PSU receiver bounds mm",
 echo("PSU receiver rear setback mm", body[0] - psu_receiver_rear_x);
 echo("PSU interface", "NexGen 110 x 46.34 mm server/FlexATX/LOP family; receiver fused to rear core");
 echo("front service panel/seat mm", [front_panel_size, front_panel_inset, front_panel_front_x]);
-echo("front service panel retention", "4 pairs of 8x2 mm magnets on a 2 mm support shoulder");
-echo("rear vertical service blanks YxZxX mm",
-     [[rear_blank_widths[0], rear_blank_height, rear_blank_thickness],
-      [rear_blank_widths[1], rear_blank_height, rear_blank_thickness]]);
-echo("rear blank retention", "4 pairs of 8x2 mm magnets each; common to horizontal and vertical rear covers");
+echo("front service panel retention", "4x front-access M3 countersunk screws into heat-set inserts");
 echo("2.5-inch bay origin/receiver X bounds mm",
      [ssd_origin, [ssd_receiver_x0, ssd_receiver_x1 + ssd_insert_boss_length]]);
 echo("2.5-inch supported device mm", ssd_device);
@@ -808,9 +774,6 @@ assert(psu_receiver_rear_x < body[0] - wall,
 assert(front_panel_size[0] + 2 * front_panel_inset[0] == body[1] &&
        front_panel_size[1] + 2 * front_panel_inset[1] == body[2],
        "Front service panel is not centred on the case end");
-assert(rear_module_widths[0] + rear_module_widths[1] + rear_module_gap ==
-       rear_service_opening[0],
-       "Rear vertical module widths do not fill the common service opening");
 assert(ssd_origin[0] + ssd_tray_size[2] + ssd_device[2] < jf13k_origin[0],
        "2.5-inch drive reaches the JF13K envelope");
 assert(ssd_origin[1] + ssd_tray_size[1] <= body[1] - wall,

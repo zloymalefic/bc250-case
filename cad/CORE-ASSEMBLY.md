@@ -43,8 +43,8 @@ inside the lower chassis chamfer instead of extending the exterior silhouette.
 - its rear extent stops at X=318, leaving 12 mm to the outside rear plane;
 - server, FlexATX, and LOP adapter plates remain interchangeable service parts,
   while no PSU bracket protrudes outside the enclosure.
-- the 125 × 165 mm front service panel now has a 2 mm recessed seat, a rear
-  support shoulder, and four matching 8 × 2 mm magnet seats in the front core;
+- the 125 × 175 mm Nyacom-proportioned front service panel has a rear support
+  shoulder and four front-access countersunk M3 screws into fused insert bosses;
 - the panel remains separately printable and removable without opening the
   structural chassis seam.
 - two ribbed M3 insert bosses now retain the NexGen-derived button plate;
@@ -52,10 +52,9 @@ inside the lower chassis chamfer instead of extending the exterior silhouette.
   separately printable four-port cassette with two hidden hooks;
 - the cassette carries the 103 × 30 × 10 mm hub envelope, so a future cheaper
   hub changes the cassette rather than the main front panel wherever possible.
-- both rear-cover variants now share two vertical magnetic seats: a 71.30 × 144.30
-  mm board/I/O blank and a 47.30 × 144.30 mm PSU blank;
-- each rear blank has four magnet pairs and a 2 mm support shoulder; final
-  connector apertures are confined to these inexpensive replaceable parts.
+- both rear-cover variants are monolithic, matching the source-case strategy;
+  temporary board/I/O and PSU blanks have been removed. Final connector cuts
+  will be made directly in each rear variant after their positions are frozen.
 - the front-load 2.5-inch cassette supports 7–15 mm devices on a 76.6 × 61.72
   mm M3 pattern and slides in the free pocket ahead of JF13K;
 - two guide walls, retaining lips, a rear stop and one front-access M3 screw
@@ -63,7 +62,8 @@ inside the lower chassis chamfer instead of extending the exterior silhouette.
 - the 68 × 68 mm ESP32 relay cassette sits horizontally under JF13K, leaving
   3.6 mm nominal clearance to the cooler envelope;
 - bottom guide rails, an inner stop and a printed detent allow side removal;
-  the future fan cover must hide the 74 × 28 mm lower service extension.
+  a separate 78 × 36 mm vented cover closes the 74 × 28 mm service opening
+  with four 8 × 2 mm magnet pairs and a 5 × 2 mm bottom pry notch.
 
 ## Assembly sequence for the core
 
@@ -77,9 +77,9 @@ The exact screw length and insert pilot remain provisional until the fit coupon 
 
 ## Next required interfaces
 
-1. Validate the 8.25 × 2.20 mm magnet pockets with a small print coupon.
-2. Add final connector apertures to the replaceable rear blanks after cable and
-   port alignment is frozen.
+1. Validate the 8.25 × 2.20 mm side/ESP32 magnet pockets with a small print coupon.
+2. Add final connector apertures directly to both monolithic rear variants after
+   cable and port alignment is frozen.
 3. Physically check the Anker cassette, M3 button inserts, and switch travel.
 4. Verify the selected 2.5-inch drive's SATA/power cable direction.
 5. Measure the actual ESP32 relay-board hole pattern and connector exits, then
