@@ -8,20 +8,53 @@ part = "left"; // left | right | assembly
 // Interface prototype only: final fan-facing cover relief is deliberately
 // deferred and may be raised locally. Do not release this flat skin for print.
 panel_half = [130, 131, 4];
-panel_radius = 6;
+panel_chamfer = 10;
 panel_gap = 10;
+grille_outer_d = 108;
+grille_inner_d = 101;
+grille_relief = 1.2;
 
-module rounded_panel(size, radius) {
-    hull()
-        for (x = [radius, size[0] - radius], y = [radius, size[1] - radius])
-            translate([x, y, 0]) cylinder(h = size[2], r = radius);
+module chamfered_panel_2d(width, height, cut) {
+    polygon([
+        [cut, 0], [width - cut, 0], [width, cut],
+        [width, height - cut], [width - cut, height],
+        [cut, height], [0, height - cut], [0, cut]
+    ]);
+}
+
+module panel_skin() {
+    linear_extrude(height = panel_half[2])
+        chamfered_panel_2d(panel_half[0], panel_half[1], panel_chamfer);
 }
 
 module fan_field(cx) {
-    for (dx = [-48 : 10 : 48], dy = [-48 : 9 : 48])
-        if (dx * dx + dy * dy < 50 * 50)
-            translate([cx + dx + ((round(dy / 9) % 2) * 5), panel_half[1] / 2 + dy, -1])
-                cylinder(h = panel_half[2] + 2, d = 6.4, $fn = 6);
+    for (row = [-5 : 5], column = [-5 : 5]) {
+        dx = column * 9 + ((abs(row) % 2) * 4.5);
+        dy = row * 8;
+        if (dx * dx + dy * dy < 46 * 46)
+            translate([cx + dx, panel_half[1] / 2 + dy, -1])
+                cylinder(h = panel_half[2] + grille_relief + 2,
+                         d = 6.8, $fn = 6);
+    }
+}
+
+module grille_ring(cx) {
+    translate([cx, panel_half[1] / 2, panel_half[2] - 0.01])
+        difference() {
+            cylinder(h = grille_relief, d = grille_outer_d);
+            translate([0, 0, -0.1])
+                cylinder(h = grille_relief + 0.2, d = grille_inner_d);
+        }
+}
+
+module recessed_esp32_skirt() {
+    // Closes the lower service opening on the right half while remaining 8 mm
+    // behind the exterior face, inside the lower chassis chamfer.
+    translate([7, -24, -10])
+        linear_extrude(height = 2)
+            chamfered_panel_2d(74, 28, 5);
+    for (x = [20, 68])
+        translate([x, 0, -10]) cube([4, 5, 10.2]);
 }
 
 module hook_set(lower_x = [18, panel_half[0] - 18]) {
@@ -35,9 +68,10 @@ module hook_set(lower_x = [18, panel_half[0] - 18]) {
 module left_panel() {
     union() {
         difference() {
-            rounded_panel(panel_half, panel_radius);
+            panel_skin();
             fan_field(75);
         }
+        grille_ring(75);
         hook_set();
     }
 }
@@ -45,9 +79,11 @@ module left_panel() {
 module right_panel() {
     union() {
         difference() {
-            rounded_panel(panel_half, panel_radius);
+            panel_skin();
             fan_field(55);
         }
+        grille_ring(55);
+        recessed_esp32_skirt();
         hook_set([88, panel_half[0] - 18]);
     }
 }

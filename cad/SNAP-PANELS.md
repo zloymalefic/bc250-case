@@ -6,6 +6,7 @@ The JF13K intake is divided into two independently removable 130 × 131 mm cover
 - one 120 mm fan field per half;
 - four hidden cantilever hooks per half;
 - a 10 mm visible gap exposes the structural rib retained in the shell;
+- matching eight-sided cover/window outlines and a raised 108 mm fan rim;
 - no external panel bolts;
 - a damaged half can be replaced without reprinting the other side.
 

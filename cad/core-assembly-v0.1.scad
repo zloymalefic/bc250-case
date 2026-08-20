@@ -207,9 +207,19 @@ module open_shell() {
         for (x = [side_intake_origin[0],
                   side_intake_origin[0] + side_intake_segment_width +
                   side_intake_bridge])
-            translate([x, body[1] - wall - 1, side_intake_origin[1]])
-                cube([side_intake_segment_width, wall + 2,
-                      side_intake_opening[1]]);
+            translate([x, body[1] + 1, side_intake_origin[1]])
+                rotate([90, 0, 0])
+                    linear_extrude(height = wall + 2)
+                        polygon([
+                            [8, 0], [side_intake_segment_width - 8, 0],
+                            [side_intake_segment_width, 8],
+                            [side_intake_segment_width,
+                             side_intake_opening[1] - 8],
+                            [side_intake_segment_width - 8,
+                             side_intake_opening[1]],
+                            [8, side_intake_opening[1]],
+                            [0, side_intake_opening[1] - 8], [0, 8]
+                        ]);
 
         // Hidden extension below the fan opening lets the ESP32 cassette slide
         // out after the removable intake cover is released.
