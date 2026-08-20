@@ -1,51 +1,76 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820">
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
   <defs>
-    <linearGradient id="nbody" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#30343a"/><stop offset="1" stop-color="#111318"/></linearGradient>
-    <pattern id="nhoney" width="16" height="14" patternUnits="userSpaceOnUse"><path d="M4 1h8l4 6-4 6H4L0 7z" fill="#090b0e"/></pattern>
-    <filter id="nshadow" x="-20%" y="-30%" width="150%" height="180%"><feGaussianBlur stdDeviation="14"/></filter>
-    <clipPath id="fan1"><circle cx="567" cy="354" r="105"/></clipPath>
-    <clipPath id="fan2"><circle cx="817" cy="354" r="105"/></clipPath>
+    <style>
+      .title{font:700 30px system-ui,sans-serif;fill:#17191d}.sub{font:16px system-ui,sans-serif;fill:#626872}
+      .label{font:700 21px system-ui,sans-serif;fill:#252930}.dim{font:14px system-ui,sans-serif;fill:#69717c}
+      .body{fill:#20242a;stroke:#0b0d10;stroke-width:4}.panel{fill:#15181d;stroke:#414750;stroke-width:3}
+      .edge{fill:none;stroke:#2580ff;stroke-width:4}.detail{fill:#080a0d;stroke:#737b86;stroke-width:2}
+      .guide{fill:none;stroke:#a7adb6;stroke-width:1.5;stroke-dasharray:5 5}
+    </style>
+    <pattern id="hex" width="12" height="10" patternUnits="userSpaceOnUse">
+      <path d="M3 1h6l3 4-3 4H3L0 5z" fill="none" stroke="#555d67" stroke-width="1"/>
+    </pattern>
   </defs>
-  <rect width="1400" height="820" fill="#f3f4f6"/>
-  <text x="70" y="72" font-family="system-ui,sans-serif" font-size="34" font-weight="700" fill="#191c21">BC-250 + JF13K — Nyacom adaptation v0.2</text>
-  <text x="70" y="108" font-family="system-ui,sans-serif" font-size="18" fill="#60656d">Octagonal tunnel · coloured end rings · snap-fit broad-side cover · dual 120 mm intake</text>
-  <ellipse cx="690" cy="645" rx="570" ry="46" fill="#101114" opacity=".16" filter="url(#nshadow)"/>
 
-  <!-- long Nyacom-like tunnel -->
-  <path d="M176 270L222 214H1120L1192 270V580L1120 638H222L176 580Z" fill="url(#nbody)" stroke="#080a0d" stroke-width="8"/>
-  <!-- front yellow octagonal ring -->
-  <path d="M176 270L222 214H292L330 250V600L292 638H222L176 580Z" fill="#edb80e" stroke="#17191e" stroke-width="6"/>
-  <path d="M197 285L232 242H278L304 267V582L278 610H232L197 566Z" fill="#24282e" stroke="#0b0d10" stroke-width="5"/>
-  <!-- rear red ring -->
-  <path d="M1120 214L1192 270V580L1120 638H1080V214Z" fill="#d92c22" stroke="#16191e" stroke-width="6"/>
-  <path d="M1102 246L1166 286V563L1102 605Z" fill="#20242a"/>
+  <rect width="1400" height="900" fill="#f5f6f7"/>
+  <text class="title" x="55" y="55">BC-250 + JF13K — exterior concept v0.2</text>
+  <text class="sub" x="55" y="84">Simple orthographic views · nominal enclosure 330 × 155 × 195 mm · horizontal configuration</text>
 
-  <!-- magnetic broad-side panel with blue stripe -->
-  <path d="M345 250H1048L1070 270V578L1048 600H345L324 578V270Z" fill="#20242a" stroke="#2580ff" stroke-width="6"/>
-  <path d="M358 268H1036L1052 283V565L1036 582H358L342 565V283Z" fill="#171a1f" stroke="#080a0d" stroke-width="3"/>
-
-  <!-- twin fan intake fields -->
-  <g clip-path="url(#fan1)"><rect x="455" y="242" width="225" height="225" fill="url(#nhoney)"/></g>
-  <g clip-path="url(#fan2)"><rect x="705" y="242" width="225" height="225" fill="url(#nhoney)"/></g>
-  <circle cx="567" cy="354" r="108" fill="none" stroke="#505760" stroke-width="6"/>
-  <circle cx="817" cy="354" r="108" fill="none" stroke="#505760" stroke-width="6"/>
-
-  <!-- Nyacom-like diagonal gills -->
-  <g stroke="#07090b" stroke-width="10" stroke-linecap="round">
-    <path d="M927 500l46-14"/><path d="M927 522l46-14"/><path d="M927 544l46-14"/>
-    <path d="M986 500l46-14"/><path d="M986 522l46-14"/><path d="M986 544l46-14"/>
+  <!-- Left side: visible service side; front is at the left. -->
+  <g transform="translate(55 145)">
+    <text class="label" x="275" y="-18" text-anchor="middle">LEFT</text>
+    <path class="body" d="M0 22L22 0H528L550 22V303L528 325H22L0 303Z"/>
+    <path d="M0 22L22 0H40V325H22L0 303Z" fill="#edb80e" stroke="#0b0d10" stroke-width="3"/>
+    <path d="M510 0H528L550 22V303L528 325H510Z" fill="#d92c22" stroke="#0b0d10" stroke-width="3"/>
+    <rect class="panel" x="47" y="45" width="456" height="235" rx="5"/>
+    <path class="edge" d="M47 280H503"/>
+    <g stroke="#060708" stroke-width="8" stroke-linecap="round">
+      <path d="M405 192l30-9"/><path d="M405 214l30-9"/><path d="M405 236l30-9"/>
+      <path d="M447 192l30-9"/><path d="M447 214l30-9"/><path d="M447 236l30-9"/>
+    </g>
+    <rect x="66" y="322" width="110" height="9" rx="3" fill="#090b0d"/>
+    <rect x="374" y="322" width="110" height="9" rx="3" fill="#090b0d"/>
+    <text class="dim" x="275" y="352" text-anchor="middle">330 × 195 mm</text>
   </g>
 
-  <!-- recessed front controls -->
-  <circle cx="250" cy="328" r="18" fill="#080a0d" stroke="#8c939c" stroke-width="4"/><circle cx="250" cy="328" r="8" fill="#2580ff"/>
-  <rect x="224" y="380" width="51" height="20" rx="3" fill="#090b0d" stroke="#8c939c" stroke-width="3"/>
-  <rect x="235" y="421" width="31" height="13" rx="6" fill="#090b0d" stroke="#8c939c" stroke-width="3"/>
-  <g stroke="#090b0d" stroke-width="7" stroke-linecap="round"><path d="M225 488h49"/><path d="M225 510h49"/><path d="M225 532h49"/><path d="M225 554h49"/></g>
+  <!-- Right side: clean opposite side; front is at the right. -->
+  <g transform="translate(795 145)">
+    <text class="label" x="275" y="-18" text-anchor="middle">RIGHT</text>
+    <path class="body" d="M0 22L22 0H528L550 22V303L528 325H22L0 303Z"/>
+    <path d="M0 22L22 0H40V325H22L0 303Z" fill="#d92c22" stroke="#0b0d10" stroke-width="3"/>
+    <path d="M510 0H528L550 22V303L528 325H510Z" fill="#edb80e" stroke="#0b0d10" stroke-width="3"/>
+    <rect class="panel" x="47" y="45" width="456" height="235" rx="5"/>
+    <path class="edge" d="M47 45H503"/>
+    <rect x="66" y="322" width="110" height="9" rx="3" fill="#090b0d"/>
+    <rect x="374" y="322" width="110" height="9" rx="3" fill="#090b0d"/>
+    <text class="dim" x="275" y="352" text-anchor="middle">330 × 195 mm</text>
+  </g>
 
-  <text x="176" y="704" font-family="system-ui,sans-serif" font-size="22" font-weight="650" fill="#252a31">Horizontal concept — common 330 × 155 × 195 mm chassis</text>
-  <g font-family="system-ui,sans-serif" font-size="16" fill="#565d67">
-    <circle cx="180" cy="758" r="6" fill="#edb80e"/><text x="196" y="764">Nyacom-style removable end ring</text>
-    <circle cx="505" cy="758" r="6" fill="#2580ff"/><text x="521" y="764">Snap-fit cover and accent stripe</text>
-    <circle cx="830" cy="758" r="6" fill="#20242a"/><text x="846" y="764">Two JF13K fan fields</text>
+  <!-- Front end. -->
+  <g transform="translate(270 535)">
+    <text class="label" x="129" y="-20" text-anchor="middle">FRONT</text>
+    <path d="M0 26L26 0H232L258 26V299L232 325H26L0 299Z" fill="#edb80e" stroke="#0b0d10" stroke-width="4"/>
+    <path class="panel" d="M14 34L40 14H218L244 34V291L218 311H40L14 291Z"/>
+    <circle class="detail" cx="78" cy="82" r="17"/><circle cx="78" cy="82" r="7" fill="#2580ff"/>
+    <rect class="detail" x="54" y="126" width="49" height="18" rx="3"/>
+    <rect class="detail" x="63" y="162" width="31" height="13" rx="6"/>
+    <g stroke="#07090b" stroke-width="7" stroke-linecap="round">
+      <path d="M55 220h48"/><path d="M55 241h48"/><path d="M55 262h48"/>
+    </g>
+    <rect x="126" y="43" width="92" height="242" rx="5" fill="#111419" stroke="#343a42" stroke-width="2"/>
+    <text class="dim" x="129" y="348" text-anchor="middle">155 × 195 mm</text>
+  </g>
+
+  <!-- Rear end with flush replaceable service zones. -->
+  <g transform="translate(870 535)">
+    <text class="label" x="129" y="-20" text-anchor="middle">REAR</text>
+    <path d="M0 26L26 0H232L258 26V299L232 325H26L0 299Z" fill="#d92c22" stroke="#0b0d10" stroke-width="4"/>
+    <path class="panel" d="M14 34L40 14H218L244 34V291L218 311H40L14 291Z"/>
+    <rect class="detail" x="31" y="48" width="196" height="76" rx="3"/>
+    <rect class="detail" x="35" y="159" width="188" height="77" rx="3"/>
+    <rect x="43" y="171" width="130" height="53" fill="url(#hex)" stroke="#555d67" stroke-width="2"/>
+    <rect x="183" y="177" width="28" height="40" rx="2" fill="#080a0d" stroke="#737b86" stroke-width="2"/>
+    <path class="edge" d="M34 268H224"/>
+    <text class="dim" x="129" y="348" text-anchor="middle">155 × 195 mm</text>
   </g>
 </svg>
