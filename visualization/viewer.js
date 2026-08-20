@@ -47,7 +47,7 @@ const specs=[
  ['front-usb','Кассета фронтального USB-хаба','front-usb-cassette.stl','dark',T([-12,111.335,87.325],new THREE.Matrix4().set(0,0,-1,0, 1,0,0,0, 0,1,0,0, 0,0,0,1)),[-115,20,0]],
  ['spine-front','Передняя часть каркаса платы','board-spine-front.stl','shell2',T([7,42,17.35]),[-25,-12,0]],
  ['spine-rear','Задняя часть каркаса платы','board-spine-rear.stl','shell2',T([165,42,17.35]),[25,-12,0]],
- ['button','Интегрированная монтажная пластина NexGen','button-plate.stl','button',T([-7,37.6,164.15],new THREE.Matrix4().set(0,0,-1,0, 1,0,0,0, 0,1,0,0, 0,0,0,1),true),[-125,-15,20]],
+ ['button','Внутренняя монтажная пластина NexGen','button-plate.stl','button',T([5.1,37.6,164.15],new THREE.Matrix4().set(0,0,-1,0, 1,0,0,0, 0,1,0,0, 0,0,0,1),true),[-125,-15,20]],
  ['button-light','Световод кнопки NexGen','button-light-pipe.stl','light',T([-12.5,37.6,164.15],new THREE.Matrix4().set(-1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1),true),[-135,-15,20]],
  ['button-bezel','Фасетированный наружный ободок кнопки','button-decorative-bezel.stl','button',T([-12.7,37.6,164.15]),[-140,-15,20]],
  ['button-cap','Декоративная кнопка NexGen','button-cap-black.stl','button',T([-12.8,37.6,164.15]),[-145,-15,20]],

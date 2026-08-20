@@ -11,9 +11,9 @@ The yellow Nyacom-style front insert is now independent from both service compon
 - four front-access countersunk M3 screws retain the main panel on its support shoulder;
 - the small USB cassette can be serviced after the four front-panel screws are removed;
 - authoritative shape source: `references/printables-1737913-nyacom-flex/body-front-panel.stl`;
-- the NexGen 44.5 × 31.6 mm mounting plate is recessed flush into the cap; its
-  light pipe, cap and logo remain separately serviceable rather than being a
-  decorative object floating in front of the case.
+- the NexGen 44.5 × 31.6 mm mounting plate is fastened exclusively against the
+  inside face; only the light pipe/pusher and logo cap pass through to the
+  exterior. A separate extension accounts for the 12 mm cap thickness.
 - concealed release notches permit servicing without visible screws.
 - two M3 insert bosses and edge ribs retain the NexGen-derived button plate.
 

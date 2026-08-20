@@ -52,7 +52,9 @@ module nyacom_sculpted_panel() {
         multmatrix([
             [1, 0, 0, 62.5],
             [0, 0, 1, 87.5],
-            [0, 1, 0, 174],
+            // Source Y=-174 is the sculpted exterior and Y=-162 is the
+            // internal mounting face. Map exterior to local Z=12.
+            [0, -1, 0, -162],
             [0, 0, 0, 1]
         ])
             import("../references/printables-1737913-nyacom-flex/body-front-panel.stl");
@@ -79,26 +81,23 @@ module front_panel() {
                 nyacom_sculpted_panel();
                 // Continuous inner datum ties the source panel's ornamental
                 // ribs into one printable structural end cap after new cuts.
-                linear_extrude(height = 1.2)
+                // The 5.2 mm inner structural layer also absorbs the source
+                // model's legacy snap posts/holes; none remain exposed or
+                // printable as disconnected remnants in this bolted version.
+                linear_extrude(height = 5.2)
                     chamfered_panel_2d(panel[0], panel[1], 16);
             }
 
-            // The NexGen mounting plate is recessed flush into the thick cap,
-            // rather than floating in a rectangular through-opening.
-            translate([button_origin[0] + 0.35,
-                       button_origin[1] + 0.35,
-                       panel[2] - button_plate[2]])
-                rounded_rect_pocket(button_plate, 4.2,
-                                    button_plate[2] + 0.2);
-
             button_center = [button_origin[0] + button_opening[0] / 2,
                              button_origin[1] + button_opening[1] / 2];
+            // Only the light-pipe/pusher passage reaches the exterior. The
+            // complete NexGen mounting plate is fastened against the inside.
             translate([button_center[0], button_center[1], -0.1])
                 cylinder(h = panel[2] + 0.2, d = light_pipe_d + 0.6);
             for (x = [button_center[0] - button_mount_pitch / 2,
                       button_center[0] + button_mount_pitch / 2])
                 translate([x, button_center[1], -0.1])
-                    cylinder(h = panel[2] - button_plate[2] + 0.2,
+                    cylinder(h = 6.2,
                              d = button_insert_pilot_d);
 
             // Replaceable vertical Anker cassette opening.

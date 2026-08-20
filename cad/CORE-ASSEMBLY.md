@@ -46,6 +46,8 @@ inside the lower chassis chamfer instead of extending the exterior silhouette.
 - the full-section 155 × 195 × 12 mm front cap preserves the Nyacom source
   bevels and stepped surface, closes the entire case end, and uses four
   front-access countersunk M3 screws into fused insert bosses;
+- its source mesh is depth-corrected so the sculpted face points outward; the
+  NexGen button mounting plate remains completely inside the enclosure;
 - the panel remains separately printable and removable without opening the
   structural chassis seam.
 - two ribbed M3 insert bosses now retain the NexGen-derived button plate;

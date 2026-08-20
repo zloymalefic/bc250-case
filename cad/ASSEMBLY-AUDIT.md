@@ -14,7 +14,7 @@ All production-looking exports have therefore been withdrawn. `cad/exports/` now
 | Intake halves ↔ chassis | aligned, unvalidated | Eight 8×2 magnet pairs align; bottom pry notches provide release. Four long guide tongues resist shear and stiffen the broad opening. Pocket fit still requires a coupon. |
 | Front panel ↔ chassis | integrated, unvalidated | Full 155 × 195 × 12 mm sculpted Nyacom-derived end cap matches the case section and has four front-access M3 insert bosses. Screw length and insert fit remain open. |
 | Monolithic rear covers ↔ chassis | integrated, unvalidated | Both rear variants are single structural bodies on the common four-point M3 interface. Final PSU/I/O apertures remain open. |
-| Button ↔ front panel | integrated, unvalidated | Two M3 plate axes now match two ribbed insert bosses. Insert fit and switch travel remain open. |
+| Button ↔ front panel | integrated, unvalidated | NexGen plate mounts entirely against the inside face; two blind M3 insert axes, central passage and a thickness extension align the external cap. Insert fit and switch travel remain open. |
 | Anker A7516 cassette ↔ front panel | integrated, unvalidated | Vertical 28.6 × 71.0 mm opening, two hidden receivers, four USB-A cuts, and a 103 × 30 × 10 mm cradle are modeled. Physical fit remains open. |
 | Board spine ↔ chassis | integrated, unvalidated | Eight transverse M4 axes now match eight webbed core bosses. M4 insert fit and load testing remain open. |
 | BC-250 ↔ board spine | partially defined | Bare PCB envelope is now 308.0 × 144.3 × 1.6 mm and the split pocket is modeled; final edge clamps still require a real-board keepout check. |

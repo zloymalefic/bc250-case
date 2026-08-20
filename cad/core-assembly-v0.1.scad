@@ -424,7 +424,8 @@ module front_button_mount_global() {
         [1, 0,  0, front_panel_inset[0]],
         [0, 1,  0, front_panel_inset[1]],
         [0, 0,  0, 1]
-    ]) translate([15.35, 148.35, 12 - 5.1]) mounting_plate();
+    // Plate is entirely behind the cap's internal Z=0 face.
+    ]) translate([15.35, 148.35, -5.1]) mounting_plate();
 }
 
 module front_button_visible_global() {
@@ -436,7 +437,12 @@ module front_button_visible_global() {
         [0, 0,  0, 1]
     ]) {
         button_center = [15 + 45.2 / 2, 148 + 32.3 / 2];
-        translate([button_center[0], button_center[1], 9.2]) light_pipe();
+        // Existing NexGen light pipe starts at the internal face. A separate
+        // extension crosses the additional cap thickness without moving the
+        // mounting plate outside.
+        translate([button_center[0], button_center[1], 0]) light_pipe();
+        translate([button_center[0], button_center[1], 7.8])
+            cylinder(h = 5.2, d = 16);
         translate([button_center[0], button_center[1], 13.8])
             nexgen_steam_logo_cap();
     }
