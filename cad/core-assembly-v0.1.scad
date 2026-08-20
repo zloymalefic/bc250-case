@@ -10,6 +10,7 @@ use <peripheral-bay-v0.1.scad>
 use <esp32-service-cover-v0.1.scad>
 include <lib/magnet-interface.scad>
 include <lib/fit-audit.scad>
+include <lib/interface-contracts.scad>
 
 $fn = 40;
 
@@ -19,10 +20,10 @@ show_fasteners = true;
 show_equipment = true;
 rear_cover = "vertical"; // none | horizontal | vertical
 
-body = [330, 155, 195];
+body = case_body;
 split_x = 165;
-wall = 4;
-chamfer = 16;
+wall = case_wall;
+chamfer = case_chamfer;
 
 collar_length = 9;
 collar_clearance = 0.35;
@@ -39,13 +40,13 @@ m3_csk_head_d = 6.4;
 m3_csk_depth = 1.8;
 
 // Common monolithic rear-cover interface. Both variants use the same four axes.
-rear_mount_y = [30, body[1] - 30];
-rear_mount_z = [5, body[2] - 5];
+rear_mount_y = rear_contract_screw_y;
+rear_mount_z = rear_contract_screw_z;
 rear_boss_d = 14;
 rear_boss_depth = 10;
 rear_cover_clearance_d = 3.4;
-horizontal_cover_depth = 6;
-vertical_cover_depth = 44;
+horizontal_cover_depth = rear_contract_horizontal_depth;
+vertical_cover_depth = rear_contract_vertical_depth;
 
 vertical_base_overhang = 15;
 vertical_base_footprint = [
@@ -62,11 +63,11 @@ side_intake_origin = [32, 34];
 side_intake_bridge = 10;
 side_intake_segment_width =
     (side_intake_opening[0] - side_intake_bridge) / 2;
-intake_panel_width = 130;
-intake_panel_gap = 10;
-intake_panel_x = [30, 30 + intake_panel_width + intake_panel_gap];
-intake_panel_z = 28;
-intake_panel_height = 131;
+intake_panel_width = intake_contract_half[0];
+intake_panel_gap = intake_contract_gap;
+intake_panel_x = intake_contract_origin_x;
+intake_panel_z = intake_contract_z;
+intake_panel_height = intake_contract_half[1];
 intake_grille_center_x = [intake_panel_x[0] + 75,
                            intake_panel_x[1] + 55];
 intake_magnet_x_local = [24, intake_panel_width - 24];
@@ -123,22 +124,14 @@ psu_bridge_depth = 3;
 psu_bridge_height = 4;
 
 // Full-section Nyacom-derived sculpted end cap, retained by four M3 screws.
-front_panel_size = [155, 195, 12];
+front_panel_size = front_contract_size;
 front_panel_inset = [(body[1] - front_panel_size[0]) / 2,
                      (body[2] - front_panel_size[1]) / 2];
 front_panel_front_x = -12;
 front_panel_rear_x = front_panel_front_x + front_panel_size[2];
 front_seat_depth = 2;
 front_seat_overlap = 2.35;
-front_screw_points = [
-    [front_panel_inset[0] + 18, front_panel_inset[1] + 18],
-    [front_panel_inset[0] + front_panel_size[0] - 18,
-     front_panel_inset[1] + 18],
-    [front_panel_inset[0] + 18,
-     front_panel_inset[1] + front_panel_size[1] - 18],
-    [front_panel_inset[0] + front_panel_size[0] - 18,
-     front_panel_inset[1] + front_panel_size[1] - 18]
-];
+front_screw_points = front_contract_screws;
 front_insert_boss_d = 16;
 front_insert_boss_depth = 8;
 
@@ -164,12 +157,11 @@ esp_receiver_y0 = 68;
 esp_receiver_y1 = body[1] - wall;
 esp_rail_wall = 3;
 esp_rail_height = 4.4;
-esp_service_opening = [74, 28]; // X width, Z height
+esp_service_opening = esp_contract_opening; // X width, Z height
 esp_service_origin = [esp_origin[0] - 3, 4];
-esp_cover_size = [98, 40, 3];
+esp_cover_size = esp_contract_cover;
 esp_cover_origin = [esp_service_origin[0] - 12, 0];
-esp_cover_magnet_local = [[5, 20], [esp_cover_size[0] - 5, 20],
-                          [5, 32], [esp_cover_size[0] - 5, 32]];
+esp_cover_magnet_local = esp_contract_magnets;
 esp_top_gap = jf13k_origin[2] -
     (esp_origin[2] + esp_tray_size[2] + esp_device[2]);
 

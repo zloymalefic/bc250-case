@@ -1,5 +1,6 @@
 // Fully internal NexGen-compatible PSU receiver v0.2
 // Shared adapter family stays in front of the X=318 rear inner plane.
+include <lib/interface-contracts.scad>
 
 $fn = 40;
 
@@ -7,9 +8,9 @@ part = "assembly"; // receiver | clamp | adapter-proxy | assembly
 adapter = "server"; // server | flexatx | lop
 show_adapter = true;
 
-rear_inner_plane = 318;
-rear_shell_plane = 330;
-adapter_face = [110.0, 46.34]; // Y width, Z height
+rear_inner_plane = psu_contract_rear_inner_x;
+rear_shell_plane = case_body[0];
+adapter_face = psu_contract_face; // Y width, Z height
 adapter_depths = [21.5, 7.2, 11.3];
 adapter_clearance = 0.35;
 max_adapter_depth = max(adapter_depths);
@@ -20,7 +21,7 @@ receiver_outer = [receiver_depth,
                   adapter_face[0] + 2 * receiver_wall,
                   adapter_face[1] + 2 * receiver_wall];
 receiver_origin = [rear_inner_plane - receiver_outer[0],
-                   (155 - receiver_outer[1]) / 2, 30];
+                   (case_body[1] - receiver_outer[1]) / 2, 30];
 
 seat_depth = 3;
 clamp_size = [4, 28, 12];
@@ -127,5 +128,5 @@ echo("receiver print envelope mm", receiver_outer);
 assert(receiver_origin[0] >= 0, "PSU receiver exceeds the front of the chassis");
 assert(rear_inner_plane < rear_shell_plane,
        "PSU receiver protrudes beyond the exterior shell plane");
-assert(receiver_outer[1] <= 155 && receiver_outer[2] <= 195,
+assert(receiver_outer[1] <= case_body[1] && receiver_outer[2] <= case_body[2],
        "PSU receiver exceeds the case cross-section");

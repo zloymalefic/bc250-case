@@ -1,15 +1,15 @@
 // Separate magnetic cover for the side-load ESP32 relay cassette.
 include <lib/magnet-interface.scad>
+include <lib/interface-contracts.scad>
 
 $fn = 40;
 
 // Local axes: X along the case, Y upward, Z toward the case exterior.
 // The lower 16 mm follows the enclosure chamfer; above it the outer face is
 // flush with the straight Y=155 side wall.
-cover = [98, 40, 3];
+cover = esp_contract_cover;
 cover_chamfer = 5;
-magnet_points = [[5, 20], [cover[0] - 5, 20],
-                 [5, 32], [cover[0] - 5, 32]];
+magnet_points = esp_contract_magnets;
 flat_inner_z = 1;
 
 module cover_outline_2d(cover_size = cover) {

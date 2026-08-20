@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Zero-dependency development server and CAD watcher for the 3D viewer."""
+"""Zero-dependency development server and live-reload watcher for the 3D viewer."""
 
 from __future__ import annotations
 
@@ -61,40 +61,20 @@ def signature(paths: list[Path] | tuple[Path, ...]) -> tuple[tuple[str, int], ..
     return tuple(sorted((str(path), path.stat().st_mtime_ns) for path in paths if path.is_file()))
 
 
-def cad_files() -> list[Path]:
-    return list((REPO / "cad").rglob("*.scad")) + list((REPO / "cad-visualization").rglob("*.scad"))
+def watched_files() -> list[Path]:
+    return list(VIEWER_FILES) + list(ASSETS.glob("*.stl"))
 
 
-def watch(openscad: str) -> None:
-    cad_state = signature(cad_files())
-    viewer_state = signature(VIEWER_FILES)
+def watch() -> None:
+    viewer_state = signature(watched_files())
     while True:
         time.sleep(0.75)
-        next_cad_state = signature(cad_files())
-        next_viewer_state = signature(VIEWER_FILES)
-        if next_cad_state != cad_state:
-            cad_state = next_cad_state
-            with state_lock:
-                state["building"] = True
-                state["error"] = None
-            try:
-                export_parts(openscad)
-            except subprocess.CalledProcessError as exc:
-                with state_lock:
-                    state["error"] = f"OpenSCAD exited with code {exc.returncode}"
-                print(f"Build failed: {state['error']}", flush=True)
-            else:
-                with state_lock:
-                    state["version"] += 1
-                print("CAD updated; browser reload requested.", flush=True)
-            finally:
-                with state_lock:
-                    state["building"] = False
-        elif next_viewer_state != viewer_state:
+        next_viewer_state = signature(watched_files())
+        if next_viewer_state != viewer_state:
             viewer_state = next_viewer_state
             with state_lock:
                 state["version"] += 1
-            print("Viewer updated; browser reload requested.", flush=True)
+            print("Viewer or STL asset updated; browser reload requested.", flush=True)
 
 
 class Handler(SimpleHTTPRequestHandler):
@@ -122,21 +102,21 @@ def main() -> None:
     parser.add_argument("--rebuild", action="store_true", help="Rebuild every STL before serving")
     args = parser.parse_args()
 
-    openscad = find_openscad()
-    if not openscad:
-        raise SystemExit("OpenSCAD CLI was not found. See visualization/SETUP.md.")
     if args.rebuild or not (ASSETS / "front-core.stl").exists():
+        openscad = find_openscad()
+        if not openscad:
+            raise SystemExit("OpenSCAD CLI was not found. See visualization/SETUP.md.")
         export_parts(openscad)
 
     board_model = REPO / "references" / "hafriedlander-bc250-case" / "_extern" / "bc250_alt.stl"
     if not board_model.exists():
         print("WARNING: local BC-250 model is missing; see visualization/SETUP.md", flush=True)
 
-    threading.Thread(target=watch, args=(openscad,), daemon=True).start()
+    threading.Thread(target=watch, daemon=True).start()
     os.chdir(REPO)
     server = ThreadingHTTPServer(("127.0.0.1", args.port), Handler)
     print(f"BC-250 viewer: http://localhost:{args.port}/visualization/", flush=True)
-    print("Watching CAD and viewer files. Press Ctrl+C to stop.", flush=True)
+    print("Watching viewer and derived STL files. Press Ctrl+C to stop.", flush=True)
     try:
         server.serve_forever()
     except KeyboardInterrupt:

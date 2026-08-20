@@ -1,6 +1,7 @@
 // Nyacom-style front service panel with replaceable NexGen button and USB hub cassette.
 // All dimensions in millimetres. Baseline hub: Anker A7516 used by NexGen PRO V2.
 include <lib/snap-interface.scad>
+include <lib/interface-contracts.scad>
 
 $fn = 48;
 
@@ -9,22 +10,20 @@ part = "assembly"; // panel | usb-cassette | assembly
 // The source Nyacom panel is a complete 125 x 175 x 12 mm sculpted end cap.
 // It is scaled only in its face plane to the project's 155 x 195 mm section;
 // the original 12 mm depth, bevels and stepped surface remain intact.
-panel = [155, 195, 12];
+panel = front_contract_size;
 source_panel = [125, 175, 12];
-button_opening = [45.2, 32.3];
-button_origin = [15, 148];
-usb_opening = [28.6, 71.0];
-usb_origin = [111, 87];
-panel_screw_points = [[18, 18], [panel[0] - 18, 18],
-                       [18, panel[1] - 18],
-                       [panel[0] - 18, panel[1] - 18]];
+button_opening = front_button_opening;
+button_origin = front_button_origin;
+usb_opening = front_usb_opening;
+usb_origin = front_usb_origin;
+panel_screw_points = front_contract_screws;
 panel_screw_d = 3.4;
 panel_screw_head_d = 6.4;
 panel_screw_head_depth = 1.8;
 
 // NexGen supplied cover: 70.35 x 27.93 x 12.65 mm raw mesh envelope.
 // Anker publishes 103 x 30 x 10 mm for the short-cable A7516 body.
-usb_face = [27.93, 70.35, 3];
+usb_face = front_usb_face;
 anker_hub = [30, 103, 10]; // panel X, panel Y, inward Z
 hub_clearance = 0.40;
 usb_a_cut = [15.0, 7.8];
@@ -195,3 +194,13 @@ echo("anker_hub_envelope_mm", anker_hub);
 echo("button_fasteners", "2x M3 into rear bosses");
 echo("front_panel_retention", "4x front-access M3 countersunk screws");
 assert(panel[0] <= 250 && panel[1] <= 250, "Front panel exceeds 250 mm print-bed limit");
+assert(usb_face[0] <= usb_opening[0] && usb_face[1] <= usb_opening[1],
+       "USB cassette face no longer fits its front-panel opening");
+assert(button_origin[0] >= 0 && button_origin[1] >= 0 &&
+       button_origin[0] + button_opening[0] <= panel[0] &&
+       button_origin[1] + button_opening[1] <= panel[1],
+       "Button interface leaves the front panel");
+assert(usb_origin[0] >= 0 && usb_origin[1] >= 0 &&
+       usb_origin[0] + usb_opening[0] <= panel[0] &&
+       usb_origin[1] + usb_opening[1] <= panel[1],
+       "USB interface leaves the front panel");

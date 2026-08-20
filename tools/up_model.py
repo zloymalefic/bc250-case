@@ -12,6 +12,8 @@ import shutil
 import subprocess
 import tempfile
 
+from verify_model import verify_assets
+
 REPO = Path(__file__).resolve().parent.parent
 ASSETS = REPO / "visualization" / "assets"
 SOURCE_ROOTS = (REPO / "cad", REPO / "cad-visualization")
@@ -121,13 +123,24 @@ def update_assets(*, check: bool = False) -> int:
             current = ASSETS / target.name
             if not current.is_file() or geometry_digest(current) != geometry_digest(target):
                 changed.append(target.name)
-                if not check:
-                    ASSETS.mkdir(parents=True, exist_ok=True)
-                    staged = ASSETS / f".{target.name}.new"
-                    shutil.copy2(target, staged)
-                    os.replace(staged, current)
             else:
                 unchanged.append(target.name)
+
+        verification_failures = verify_assets(temp, compile_cad=True)
+        if verification_failures:
+            print("ОШИБКА ВЕРИФИКАЦИИ; существующие STL не изменены:")
+            for failure in verification_failures:
+                print(f"  - {failure}")
+            return 6
+
+        if not check:
+            ASSETS.mkdir(parents=True, exist_ok=True)
+            for name in changed:
+                target = temp / name
+                current = ASSETS / name
+                staged = ASSETS / f".{name}.new"
+                shutil.copy2(target, staged)
+                os.replace(staged, current)
 
     after = source_snapshot()
     if before != after:

@@ -2,6 +2,22 @@
 
 Current status: **design recovery; no printable enclosure release**.
 
+## Verification before printing
+
+Run `python3 tools/verify_model.py` from the repository root. It compiles the
+assembly constraints and checks nine critical generated STL files for contract
+envelopes, degenerate triangles, open/non-manifold edges and the 250 mm print
+ceiling. Only `MODEL VERIFICATION PASSED` is an acceptable result.
+
+`tools/export_visualization_assets.sh` runs the same verification automatically.
+All twenty parts are generated in a temporary directory first. Viewer assets
+are replaced only after the complete set passes, so an invalid rebuild cannot
+overwrite the last verified STL files.
+
+Mechanical mating dimensions live in `lib/interface-contracts.scad`. The front
+panel/button/USB interfaces, intake covers/gap/magnets, ESP32 cover/opening,
+rear covers and universal PSU receiver consume these shared values.
+
 Read `ASSEMBLY-AUDIT.md` before using any model. It records why the previous collection could not be assembled and defines the recovery order.
 
 ## Safe outputs

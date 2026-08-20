@@ -1,5 +1,6 @@
 // Split JF13K intake panel with Nyacom-style magnetic retention.
 include <lib/magnet-interface.scad>
+include <lib/interface-contracts.scad>
 
 $fn = 32;
 
@@ -7,11 +8,13 @@ part = "left"; // left | right | assembly
 
 // Interface prototype only: final fan-facing cover relief is deliberately
 // deferred and may be raised locally. Do not release this flat skin for print.
-panel_half = [130, 131, 4];
+panel_half = intake_contract_half;
 panel_chamfer = 10;
-panel_gap = 10;
-magnet_x = [24, panel_half[0] - 24];
-magnet_y = [4, panel_half[1] - 4];
+panel_gap = intake_contract_gap;
+magnet_x = [intake_contract_magnet_local[0][0],
+            intake_contract_magnet_local[1][0]];
+magnet_y = [intake_contract_magnet_local[0][1],
+            intake_contract_magnet_local[2][1]];
 pry_notch = [5, 2];
 
 module chamfered_panel_2d(width, height, cut) {
@@ -82,3 +85,5 @@ echo("structural_gap_mm", panel_gap);
 echo("magnets_per_cover", 4);
 echo("pry_notch_mm", pry_notch);
 assert(panel_half[0] <= 250 && panel_half[1] <= 250, "Panel half exceeds 250 mm print-bed limit");
+assert(2 * panel_half[0] + panel_gap == 270,
+       "Intake covers and structural gap drifted from the shell interface");
