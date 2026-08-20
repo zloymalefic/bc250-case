@@ -10,6 +10,13 @@ photographs validate the orientation and installed height. This leaves 9.4 mm
 from the fan-side envelope to the inner intake-panel face; CAD rejects anything
 below 6 mm. See `JF13K-PHOTO-FIT.md` for the evidence and residual checks.
 
+The broad-side intake now consists of two 128 × 119 mm windows separated by a
+real 10 mm shell rib at the chassis split. Two independent 130 × 131 mm covers
+leave that rib visible. Their grille centres are fixed at global X=105 and
+X=225 mm, matching the two JF13K fan centres. Eight snap receiver pockets are
+fused to the inner wall; the lower right pattern is shifted away from the ESP32
+service path.
+
 ## What is now mechanically closed
 
 - front and rear use the same 330 × 155 × 195 mm coordinate system;

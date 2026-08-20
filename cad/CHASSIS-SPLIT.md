@@ -1,5 +1,9 @@
 # Split chassis interface v0.1
 
+> Historical prototype. The released working source is now
+> `core-assembly-v0.1.scad`; its split intake, central rib and receiver pockets
+> supersede the single 266 × 119 mm opening described below.
+
 The 330 mm Nyacom-style structural tunnel is divided at X=165 mm:
 
 - front section nominal print envelope: 174 × 155 × 195 mm, including its alignment collar;

@@ -8,6 +8,7 @@ use <front-service-module-v0.1.scad>
 use <rear-service-blanks-v0.1.scad>
 use <power-button-nexgen-v0.1.scad>
 use <peripheral-bay-v0.1.scad>
+include <lib/snap-interface.scad>
 
 $fn = 40;
 
@@ -73,7 +74,28 @@ vertical_pad_d = 12;
 vertical_pad_recess = 1.0;
 
 side_intake_opening = [266, 119];
-side_intake_origin = [32, 18];
+side_intake_origin = [32, 34];
+side_intake_bridge = 10;
+side_intake_segment_width =
+    (side_intake_opening[0] - side_intake_bridge) / 2;
+intake_panel_width = 130;
+intake_panel_gap = 10;
+intake_panel_x = [30, 30 + intake_panel_width + intake_panel_gap];
+intake_panel_z = 28;
+intake_panel_height = 131;
+intake_grille_center_x = [intake_panel_x[0] + 75,
+                           intake_panel_x[1] + 55];
+intake_hook_x_local = [18, intake_panel_width - 18];
+// The right cover's lower-left corner overlaps the ESP32 service path. Move
+// both lower hooks behind the solid shell area to keep the cassette removable.
+intake_hook_x_right_lower = [88, intake_panel_width - 18];
+intake_hook_z_local = [4, intake_panel_height - 4];
+intake_receiver_width = 12;
+intake_receiver_depth = 12;
+intake_receiver_lower_y = -11;
+intake_receiver_lower_height = 23;
+intake_receiver_upper_y = intake_panel_height - 12;
+intake_receiver_upper_height = 12;
 
 // Confirmed Nyacom architecture: all major components are vertical.
 board = [308.0, 1.6, 144.3];
@@ -181,8 +203,13 @@ module open_shell() {
         translate([-1, wall, wall])
             oct_prism_x(body[0] + 2, body[1] - 2 * wall, body[2] - 2 * wall, chamfer - wall);
 
-        translate([side_intake_origin[0], body[1] - wall - 1, side_intake_origin[1]])
-            cube([side_intake_opening[0], wall + 2, side_intake_opening[1]]);
+        // Two fan windows leave a load-bearing rib at the chassis split.
+        for (x = [side_intake_origin[0],
+                  side_intake_origin[0] + side_intake_segment_width +
+                  side_intake_bridge])
+            translate([x, body[1] - wall - 1, side_intake_origin[1]])
+                cube([side_intake_segment_width, wall + 2,
+                      side_intake_opening[1]]);
 
         // Hidden extension below the fan opening lets the ESP32 cassette slide
         // out after the removable intake cover is released.
@@ -191,6 +218,46 @@ module open_shell() {
             cube([esp_service_opening[0], wall + 2,
                   esp_service_opening[1]]);
     }
+}
+
+module intake_panel_receivers_global(panel_x) {
+    // Same local axes as a cover: X/Z become global X/Z and negative local Y
+    // points inward from the broad-side panel datum.
+    multmatrix([
+        [1, 0, 0, panel_x],
+        [0, 0, 1, body[1] - wall],
+        [0, 1, 0, intake_panel_z],
+        [0, 0, 0, 1]
+    ])
+    difference() {
+        lower_hook_x = panel_x == intake_panel_x[1] ?
+            intake_hook_x_right_lower : intake_hook_x_local;
+        union() {
+            for (x = lower_hook_x)
+                // Lower webs extend well into the solid wall below the fan
+                // opening, so every receiver is fused to the shell.
+                translate([x - intake_receiver_width / 2,
+                           intake_receiver_lower_y, -intake_receiver_depth + 2])
+                    cube([intake_receiver_width, intake_receiver_lower_height,
+                          intake_receiver_depth]);
+            for (x = intake_hook_x_local)
+                translate([x - intake_receiver_width / 2,
+                           intake_receiver_upper_y, -intake_receiver_depth + 2])
+                    cube([intake_receiver_width, intake_receiver_upper_height,
+                          intake_receiver_depth]);
+        }
+
+        for (x = lower_hook_x)
+            translate([x, intake_hook_z_local[0], 0])
+                snap_receiver_slot(depth = 8);
+        for (x = intake_hook_x_local)
+            translate([x, intake_hook_z_local[1], 0])
+                rotate([0, 0, 180]) snap_receiver_slot(depth = 8);
+    }
+}
+
+module intake_panel_receivers() {
+    for (x = intake_panel_x) intake_panel_receivers_global(x);
 }
 
 module collar_ring(length, inset, thickness) {
@@ -621,6 +688,7 @@ module complete_core() {
         receiver();
         psu_receiver_bridges();
         front_panel_seat_and_receivers();
+        intake_panel_receivers();
         ssd_receiver_rails();
         esp32_receiver_rails();
     }
@@ -732,6 +800,10 @@ echo("Cisco envelope/origin mm", [cisco_psu, cisco_origin]);
 echo("JF13K envelope/origin mm", [jf13k, jf13k_origin]);
 echo("PSU-to-board gap mm", board_origin[1] - (cisco_origin[1] + cisco_psu[1]));
 echo("JF13K-to-inner-side-wall gap mm", jf13k_panel_gap);
+echo("split intake windows / structural rib mm",
+     [[side_intake_segment_width, side_intake_opening[1]],
+      side_intake_bridge]);
+echo("intake grille centre X mm", intake_grille_center_x);
 echo("board-spine origin/frame mm", [spine_origin, spine_frame]);
 echo("board-spine M4 global axes X/Z mm",
      [[for (x = spine_mount_x_local) spine_origin[0] + x],
@@ -766,6 +838,8 @@ assert(vertical_base_footprint[0] <= 250 && vertical_base_footprint[1] <= 250,
 assert(board_origin[1] - (cisco_origin[1] + cisco_psu[1]) >= 2, "Cisco PSU collides with vertical board plane");
 assert(jf13k_origin[1] + jf13k[1] <= body[1] - wall, "JF13K envelope collides with side wall");
 assert(jf13k_panel_gap >= jf13k_required_gap, "JF13K has less than 6 mm hard clearance to intake panel");
+assert(intake_grille_center_x == [105, 225],
+       "Intake grille centres drifted from the JF13K fan centres");
 assert(board_origin[2] + board[2] <= body[2] - wall, "Vertical board exceeds inner height");
 assert(spine_boss_length > m4_insert_depth, "Board-spine boss is too short for insert");
 assert(spine_origin[0] >= wall && spine_origin[0] + spine_frame[0] <= body[0] - wall,

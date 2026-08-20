@@ -7,10 +7,9 @@ part = "left"; // left | right | assembly
 
 // Interface prototype only: final fan-facing cover relief is deliberately
 // deferred and may be raised locally. Do not release this flat skin for print.
-panel_half = [135, 131, 4];
+panel_half = [130, 131, 4];
 panel_radius = 6;
-seam_tongue = 5;
-seam_clearance = 0.30;
+panel_gap = 10;
 
 module rounded_panel(size, radius) {
     hull()
@@ -25,38 +24,31 @@ module fan_field(cx) {
                 cylinder(h = panel_half[2] + 2, d = 6.4, $fn = 6);
 }
 
-module hook_set() {
+module hook_set(lower_x = [18, panel_half[0] - 18]) {
     // Hooks face the long receiver rails. A concealed edge notch releases them.
-    for (x = [18, panel_half[0] - 18]) {
+    for (x = lower_x)
         translate([x, 4, 0]) snap_hook();
+    for (x = [18, panel_half[0] - 18])
         translate([x, panel_half[1] - 4, 0]) rotate([0, 0, 180]) snap_hook();
-    }
 }
 
 module left_panel() {
     union() {
         difference() {
             rounded_panel(panel_half, panel_radius);
-            fan_field(74);
+            fan_field(75);
         }
-        // Low-profile tongue hides and aligns the centre seam.
-        translate([panel_half[0] - 0.1, 18, 0.8])
-            cube([seam_tongue, panel_half[1] - 36, 2.4]);
         hook_set();
     }
 }
 
 module right_panel() {
-    difference() {
-        union() {
-            difference() {
-                rounded_panel(panel_half, panel_radius);
-                fan_field(60);
-            }
-            hook_set();
+    union() {
+        difference() {
+            rounded_panel(panel_half, panel_radius);
+            fan_field(55);
         }
-        translate([-0.1, 18 - seam_clearance, 0.5])
-            cube([seam_tongue + seam_clearance + 0.2, panel_half[1] - 36 + 2 * seam_clearance, 3.0]);
+        hook_set([88, panel_half[0] - 18]);
     }
 }
 
@@ -64,10 +56,12 @@ if (part == "left") left_panel();
 else if (part == "right") right_panel();
 else {
     color([0.16, 0.17, 0.19]) left_panel();
-    color([0.19, 0.20, 0.22]) translate([panel_half[0], 0, 0]) right_panel();
+    color([0.19, 0.20, 0.22])
+        translate([panel_half[0] + panel_gap, 0, 0]) right_panel();
 }
 
 echo("part", part);
-echo("panel_half_print_bounds_nominal_mm", [panel_half[0] + seam_tongue, panel_half[1], panel_half[2] + snap_arm_drop]);
+echo("panel_half_print_bounds_nominal_mm", [panel_half[0], panel_half[1], panel_half[2] + snap_arm_drop]);
+echo("structural_gap_mm", panel_gap);
 echo("snap_count_per_half", 4);
-assert(panel_half[0] + seam_tongue <= 250 && panel_half[1] <= 250, "Panel half exceeds 250 mm print-bed limit");
+assert(panel_half[0] <= 250 && panel_half[1] <= 250, "Panel half exceeds 250 mm print-bed limit");

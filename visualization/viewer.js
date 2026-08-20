@@ -53,7 +53,7 @@ const specs=[
  ['ssd','Кассета SSD','ssd-cassette.stl','ssd',T([22,60,42.5],new THREE.Matrix4().set(0,0,1,0, 0,1,0,0, 1,0,0,0, 0,0,0,1)),[-55,-40,-30]],
  ['esp32-cassette','Боковая кассета ESP32-реле','esp32-cassette.stl','esp32',T([180,70,5]),[0,45,-35]],
  ['intake-left','Левая съёмная крышка JF13K · прототип','intake-cover-left.stl','shell2',T([30,151,28],new THREE.Matrix4().set(1,0,0,0, 0,0,1,0, 0,1,0,0, 0,0,0,1)),[0,65,0]],
- ['intake-right','Правая съёмная крышка JF13K · прототип','intake-cover-right.stl','shell',T([165,151,28],new THREE.Matrix4().set(1,0,0,0, 0,0,1,0, 0,1,0,0, 0,0,0,1)),[0,65,0]],
+ ['intake-right','Правая съёмная крышка JF13K · прототип','intake-cover-right.stl','shell',T([170,151,28],new THREE.Matrix4().set(1,0,0,0, 0,0,1,0, 0,1,0,0, 0,0,0,1)),[0,65,0]],
  ['rear-blank-board','Задняя панель I/O','rear-blank-board.stl','dark',T([333,15.35,25.35],new THREE.Matrix4().set(0,0,1,0, 1,0,0,0, 0,1,0,0, 0,0,0,1)),[110,-22,0]],
  ['rear-blank-psu','Задняя панель PSU','rear-blank-psu.stl','shell2',T([333,92.35,25.35],new THREE.Matrix4().set(0,0,1,0, 1,0,0,0, 0,1,0,0, 0,0,0,1)),[110,22,0]],
  ['rear-vertical','Вертикальная задняя крышка / основание','rear-cover-vertical.stl','service',T([330,-15,-15]),[135,0,0]],

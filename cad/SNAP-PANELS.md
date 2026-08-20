@@ -1,11 +1,11 @@
 # Hidden snap-fit panels v0.1
 
-The 270 × 131 mm JF13K intake is divided into two independently removable halves:
+The JF13K intake is divided into two independently removable 130 × 131 mm covers:
 
-- nominal half-panel print envelope: 140 × 131 × 12 mm including hooks and centre tongue;
+- nominal half-panel print envelope: 130 × 131 × 12 mm including hooks;
 - one 120 mm fan field per half;
 - four hidden cantilever hooks per half;
-- 5 mm overlapping tongue hides and aligns the centre seam;
+- a 10 mm visible gap exposes the structural rib retained in the shell;
 - no external panel bolts;
 - a damaged half can be replaced without reprinting the other side.
 
@@ -17,7 +17,9 @@ Initial PETG/ASA snap parameters:
 
 These numbers are test values, not production values. Print `fit-calibration-coupon-v0.1.scad` first. Test at least five insertion/removal cycles and reject any setting that creates whitening, root cracking, excessive looseness, or a release force likely to damage the panel.
 
-The matching eight receiver pockets are integrated into `chassis-split-v0.1.scad`. No hook is located on the structural front/rear chassis joint.
+The matching eight receiver pockets and the 10 mm central rib are integrated
+into `core-assembly-v0.1.scad`. The rib straddles the front/rear chassis joint;
+no hook is located directly on that joint.
 
 ## Deferred fan-cover depth
 
