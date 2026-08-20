@@ -16,7 +16,7 @@ Two identical 142 × 28 × 8 mm transverse skids. Each skid has two chassis scre
 
 ## Vertical set
 
-Two identical 230 × 34 × 23 mm transverse feet. A 171 mm cradle accepts the 170 mm short end with 0.5 mm nominal clearance per side. Each foot extends 29.5 mm beyond each side of the chassis, giving a 230 mm anti-tip footprint without creating one oversized printed base.
+Two identical 230 × 34 × 23 mm transverse feet. A 156 mm cradle accepts the 155 mm narrow side with 0.5 mm nominal clearance per side. Each foot extends 37 mm beyond each side of the chassis, giving a 230 mm anti-tip footprint without creating one oversized printed base.
 
 ## Status
 

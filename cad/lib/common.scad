@@ -3,7 +3,7 @@
 
 $fn = 48;
 
-chassis = [330, 170, 170];
+chassis = [330, 155, 195];
 wall = 3;
 corner_radius = 8;
 

@@ -17,18 +17,18 @@ export_projection = false;
 // provisional: replace after physical measurement
 
 // Common chassis, provisional target envelope.
-chassis = [330, 170, 170];
+chassis = [330, 155, 195];
 wall = 3;
 corner_radius = 8;
 
 // BC-250 proxy envelope: confirmed from bc250_alt.stl.
 bc250 = [311.7, 144, 31.8];
 pcb_thickness = 1.6;
-pcb_origin = [9.15, 13, 55];
+pcb_origin = [9.15, 5.5, 55];
 
 // JF13K manufacturer envelope. Installed Z origin is provisional.
 jf13k = [241, 121, 92];
-jf13k_origin = [44.5, 24.5, pcb_origin[2] + pcb_thickness];
+jf13k_origin = [44.5, 17, pcb_origin[2] + pcb_thickness];
 jf13k_install_extra = 8; // conservative adapter/mount allowance; not additive fact
 
 // Cisco UCSC-PSU-650W V02: provisional external envelope.
@@ -37,7 +37,7 @@ cisco_psu_origin = [10, 8, 3];
 
 // Standard peripheral envelopes.
 ssd25 = [70, 100, 15];
-ssd25_origin = [253, 67, 7];
+ssd25_origin = [253, 52, 7];
 esp_relay = [60, 60, 22];
 esp_relay_origin = [263, 5, 7];
 

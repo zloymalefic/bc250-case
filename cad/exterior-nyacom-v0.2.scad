@@ -5,7 +5,7 @@
 
 $fn = 32;
 
-body = [330, 170, 170];
+body = [330, 155, 195];
 end_ring = 12;
 chamfer = 16;
 panel_gap = 2;
@@ -66,10 +66,10 @@ module broad_snap_cover() {
 
     // Nyacom-like bright perimeter stripe.
     color([0.05, 0.38, 0.95]) {
-        translate([ox, oy, body[2] + 5.0]) cube([cover_x, 2.2, 1.8]);
-        translate([ox, oy + cover_y - 2.2, body[2] + 5.0]) cube([cover_x, 2.2, 1.8]);
-        translate([ox, oy, body[2] + 5.0]) cube([2.2, cover_y, 1.8]);
-        translate([ox + cover_x - 2.2, oy, body[2] + 5.0]) cube([2.2, cover_y, 1.8]);
+        translate([ox, oy, body[2] - 1.8]) cube([cover_x, 2.2, 1.8]);
+        translate([ox, oy + cover_y - 2.2, body[2] - 1.8]) cube([cover_x, 2.2, 1.8]);
+        translate([ox, oy, body[2] - 1.8]) cube([2.2, cover_y, 1.8]);
+        translate([ox + cover_x - 2.2, oy, body[2] - 1.8]) cube([2.2, cover_y, 1.8]);
     }
 }
 
@@ -77,14 +77,14 @@ module side_cover() {
     // Flush, magnetically removable service cover on the visible long side.
     color([0.10, 0.11, 0.13])
     difference() {
-        translate([28, -1.8, 28]) cube([274, 4, 114]);
+        translate([28, 0, 28]) cube([274, 4, 114]);
         // Signature diagonal Nyacom-style exhaust gills at the rear quarter.
         for (x = [235 : 12 : 283], z = [50 : 12 : 122])
             translate([x, -3, z]) rotate([90, 0, 0]) rotate([0, 0, -18])
                 capsule_slot(17, 3.2, 8);
     }
     color([0.05, 0.38, 0.95])
-        translate([28, -2.5, 28]) cube([274, 1.2, 2.5]);
+        translate([28, 0, 28]) cube([274, 1.2, 2.5]);
 }
 
 module front_panel() {

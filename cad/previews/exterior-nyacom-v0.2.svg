@@ -42,7 +42,7 @@
   <rect x="235" y="421" width="31" height="13" rx="6" fill="#090b0d" stroke="#8c939c" stroke-width="3"/>
   <g stroke="#090b0d" stroke-width="7" stroke-linecap="round"><path d="M225 488h49"/><path d="M225 510h49"/><path d="M225 532h49"/><path d="M225 554h49"/></g>
 
-  <text x="176" y="704" font-family="system-ui,sans-serif" font-size="22" font-weight="650" fill="#252a31">Horizontal concept — common 330 × 170 × 170 mm chassis</text>
+  <text x="176" y="704" font-family="system-ui,sans-serif" font-size="22" font-weight="650" fill="#252a31">Horizontal concept — common 330 × 155 × 195 mm chassis</text>
   <g font-family="system-ui,sans-serif" font-size="16" fill="#565d67">
     <circle cx="180" cy="758" r="6" fill="#edb80e"/><text x="196" y="764">Nyacom-style removable end ring</text>
     <circle cx="505" cy="758" r="6" fill="#2580ff"/><text x="521" y="764">Snap-fit cover and accent stripe</text>

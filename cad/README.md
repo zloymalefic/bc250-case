@@ -22,12 +22,12 @@ Key provisional inputs are grouped at the top of the file. In particular, confir
 
 Expected console values with the current assumptions:
 
-- chassis: 330 × 170 × 170 mm;
-- bounding volume: 9.537 litres;
+- chassis: 330 × 155 × 195 mm;
+- bounding volume: 9.974 litres;
 - nominal PSU-to-PCB backplate channel: 12 mm;
 - conservative JF13K top Z: 156.6 mm.
 
-The first 160 mm-high study left only an 8 mm backplate channel and insufficient clearance above the JF13K. The corrected 170 mm envelope lowers the PSU to the 3 mm floor datum, provides the minimum 12 mm cable channel, and leaves 13.4 mm above the conservative cooler envelope.
+The first square-section study looked and behaved unlike the Nyacom reference. The corrected 155 × 195 mm cross-section is narrower and taller, retains the minimum 12 mm cable channel, and leaves 38.4 mm above the conservative JF13K envelope for the intake panel and structural support.
 
 Open `layout-a-envelope.scad` in OpenSCAD and use Preview (`F5`). Display toggles at the top isolate the shell, component envelopes, supports, and airflow guides.
 

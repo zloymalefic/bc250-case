@@ -15,7 +15,7 @@ module vertical_foot() {
         union() {
             rounded_box([foot_length, foot_depth, foot_height], 6);
 
-            // Side lips locate the 170 mm chassis end without blocking airflow.
+            // Side lips locate the 155 mm narrow chassis end without blocking airflow.
             translate([0, 0, foot_height])
                 cube([lip_width, foot_depth, cradle_depth]);
             translate([lip_width + cradle_width, 0, foot_height])

@@ -13,6 +13,8 @@ The visual architecture deliberately follows the supplied Nyacom reference:
 - a broad removable cover rather than a conventional PC side wall;
 - vertical industrial vent slots and minimal exposed hardware.
 
+The active envelope is 330 × 155 × 195 mm. Its 155:195 cross-section deliberately restores Nyacom's tall, narrow stance; the superseded 170 × 170 mm study was too square and appeared to lie on its side.
+
 The necessary functional change is the broad JF13K intake cover. Two separated 120 mm honeycomb fields replace Nyacom's stock-cooler side-flow arrangement without abandoning the original enclosure language.
 
 ## NexGen mechanical features
