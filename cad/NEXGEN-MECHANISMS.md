@@ -18,6 +18,12 @@ The earlier standalone exports were withdrawn during the assembly audit. The reb
 
 PRO V2 already specifies two black 180-degree USB adapters and includes `pro-v2-usb-cover-multi-material.3mf`. This is the baseline mechanism for routing rear BC-250 USB ports back into the enclosure. Redux is only a later implementation reference, not the source of this requirement.
 
+The selected seller lists A-D variants with maximum stated dimensions of about
+32 × 30 × 29 mm, 10 Gbit/s theoretical transfer, and 3 A current. Because the
+dimension list does not map axes to variants reliably, the project uses that
+maximum envelope with clearance and keeps the contact insert replaceable. See
+`USB-RETURN-INTERFACE.md`.
+
 ## Snap-fit access panels
 
 Routine panels must use hidden hooks engaging the chassis perimeter, following the NexGen service concept. No decorative panel is retained by visible bolts. A concealed release notch is allowed; structural chassis joints may still use internal screws.

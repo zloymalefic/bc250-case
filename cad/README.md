@@ -41,3 +41,8 @@ as a verified JF13K production mount.
 `board-spine-v0.1.scad` is the first dimensional vertical carrier based on the
 308.0 × 144.3 × 1.6 mm bare-PCB envelope. `BC250-DATUM.md` records the source,
 license boundary, open-reference cross-check, and remaining retention risk.
+
+`psu-universal-internal-v0.2.scad` replaces the provisional long rail with a
+fully internal receiver for the NexGen 110 × 46.34 mm interchangeable PSU mount
+family. It accepts server, FlexATX, and Mean Well plate depths without requiring
+the Cisco PSU body to be measured.

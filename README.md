@@ -40,7 +40,8 @@ Additional source projects, direct links, adopted features, pinned revisions, an
 - `cad/exterior-nyacom-v0.2.scad` - replacement exterior direction closely based on the Nyacom industrial case language.
 - `cad/NYACOM-ADAPTATION.md` - retained design features, necessary JF13K changes, and derivative-license note.
 - `cad/power-button-nexgen-v0.1.scad` - recreated three-part, backlit, rotatable NexGen-style button module.
-- `cad/psu-universal-internal-v0.1.scad` - common internal rail with separate Cisco and FlexATX adapters.
+- `cad/psu-universal-internal-v0.2.scad` - internal receiver for the common
+  NexGen 110 × 46.34 mm server/FlexATX/LOP adapter family.
 - `cad/NEXGEN-MECHANISMS.md` - exact NexGen mechanisms selected for reuse and their project-specific constraints.
 - `cad/PSU-INTERFACE.md` - fully internal PSU interface and flush-rear requirement.
 - `cad/chassis-split-v0.1.scad` - front/rear printable structural sections with an internal alignment collar.
@@ -53,8 +54,13 @@ Additional source projects, direct links, adopted features, pinned revisions, an
   308.0 × 144.3 mm bare-PCB envelope and an open backplate area.
 - `cad/BC250-DATUM.md` - dimensional source audit and restricted-reference
   handling rules.
+- `docs/JF13K-MEASUREMENT-GUIDE.md` - step-by-step Russian measurement and photo
+  checklist for an already assembled BC-250 + JF13K module.
+- `cad/USB-RETURN-INTERFACE.md` - dual 180-degree adapter envelope and the
+  replaceable-insert rule derived from NexGen and seller data.
 - `cad/peripheral-bay-v0.1.scad` - removable 7 mm SSD and ESP32 relay-board cassettes.
-- `cad/rear-service-system-v0.1.scad` - flush rear panel with replaceable I/O and PSU inserts.
+- `cad/REAR-COVER-VARIANTS.md` - shared portrait I/O/PSU openings and the
+  horizontal versus tapered vertical rear-cover construction.
 - `cad/ASSEMBLY-AUDIT.md` - authoritative compatibility audit and recovery order.
 - `cad/core-assembly-v0.1.scad` - active single-source rebuild of the two-part structural core and accessible seam retention.
 - `cad/CORE-ASSEMBLY.md` - core assembly sequence, closed interfaces, and remaining work.

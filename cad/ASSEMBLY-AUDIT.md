@@ -19,8 +19,9 @@ All production-looking exports have therefore been withdrawn. `cad/exports/` now
 | Board spine ↔ chassis | incomplete | The new vertical spine defines eight transverse M4 axes, but matching core bosses are the next integration step. |
 | BC-250 ↔ board spine | partially defined | Bare PCB envelope is now 308.0 × 144.3 × 1.6 mm and the split pocket is modeled; final edge clamps still require a real-board keepout check. |
 | JF13K ↔ tray/chassis | unknown | Only envelope and generic load-path anchors exist. |
-| PSU carrier ↔ chassis | impossible | Rail has slots but chassis has no matching points. Its withdrawn STL also contained the solid PSU envelope. |
-| Cisco PSU ↔ carrier | unknown | Envelope, latch, connector, and airflow are provisional. |
+| Universal PSU receiver ↔ chassis | partially defined | The internal 110 × 46.34 mm receiver is printable and stays behind X=318; matching core bosses are the next integration step. |
+| NexGen PSU adapter ↔ receiver | defined, unvalidated | Server/FlexATX/LOP plate depths fit the common guides and interior clamps; print clearance remains untested. |
+| Cisco PSU ↔ server adapter | reference-derived | Use the supplied NexGen universal server-PSU mount with an inward offset; no separate Cisco body measurement is required. |
 | SSD cassette ↔ chassis | impossible | No mating bay, rails, or latch exists. |
 | ESP32 cassette ↔ chassis | impossible | No mating bay exists; board hole pattern is unmeasured. |
 | Horizontal supports ↔ chassis | partially defined | Four bosses exist, but inserts and assembled fit are unvalidated. |

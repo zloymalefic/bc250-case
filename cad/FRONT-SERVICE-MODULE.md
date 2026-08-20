@@ -13,4 +13,6 @@ The yellow Nyacom-style front insert is now independent from both service compon
 
 The USB cassette is intentionally provisional. The front panel and its standard opening should not change when a specific inexpensive hub is selected; only the small cassette rails and port cut-outs are regenerated from measured hardware.
 
-The angled rear USB adapter requires a separate strain-relief part after its actual dimensions and cable exit direction are confirmed.
+The rear USB return is now specified independently in `USB-RETURN-INTERFACE.md`.
+Its provisional per-adapter envelope is 32 × 30 × 29 mm plus clearance; only a
+small contact insert depends on the delivered A/D variant.
