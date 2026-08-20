@@ -14,6 +14,8 @@
 
 `intake-panel-snap-v0.1.scad` divides the JF13K intake into two sub-250 mm snap-fit panels. `snap-fit-coupon-v0.1.scad` is the required material/printer calibration object; see `SNAP-PANELS.md`.
 
+`front-service-module-v0.1.scad` combines a Nyacom-style snap-fit front panel with independent openings for the NexGen-derived button and a replaceable USB-A/USB-C cassette. See `FRONT-SERVICE-MODULE.md`.
+
 It is intentionally not a printable enclosure. The model is used to:
 
 - expose dimensional assumptions;
@@ -58,4 +60,6 @@ openscad -D 'part="rear"' -o exports/chassis-rear-v0.1.stl chassis-split-v0.1.sc
 openscad -o exports/snap-fit-coupon-v0.1.stl snap-fit-coupon-v0.1.scad
 openscad -D 'part="left"' -o exports/intake-panel-left-v0.1.stl intake-panel-snap-v0.1.scad
 openscad -D 'part="right"' -o exports/intake-panel-right-v0.1.stl intake-panel-snap-v0.1.scad
+openscad -D 'part="panel"' -o exports/front-panel-nyacom-v0.1.stl front-service-module-v0.1.scad
+openscad -D 'part="usb-cassette"' -o exports/usb-hub-cassette-v0.1.stl front-service-module-v0.1.scad
 ```
