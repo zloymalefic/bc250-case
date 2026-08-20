@@ -1,0 +1,28 @@
+.legend button {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 10px 1fr auto;
+  align-items: center;
+  gap: 10px;
+}
+
+.legend button.off {
+  opacity: 0.42;
+}
+
+.legend button.missing {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.legend small {
+  color: #55bd86;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.legend button.off small,
+.legend button.missing small {
+  color: #727b85;
+}

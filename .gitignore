@@ -10,3 +10,9 @@ tmp/
 /references/nexgen-steammachine/
 /references/bc250-pc-remote-control/
 
+# Rebuilt from the original NexGen multi-material button during viewer export.
+/cad/vendor/nexgen/button-cap-black.3mf
+/cad/vendor/nexgen/button-logo-white.3mf
+
+# Local fit-check photographs supplied for datum validation; keep off releases.
+/Photo cooler/

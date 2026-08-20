@@ -75,4 +75,7 @@ openscad \
   -o "$output_dir/button-decorative-bezel.stl" \
   "$repo_dir/cad/visualization-decorative-button.scad"
 
-echo "Exported $((${#parts[@]} + ${#reference_parts[@]} + 5)) visualization assets to $output_dir"
+intake_count=2
+material_count=2
+direct_count=1
+echo "Exported $((${#parts[@]} + intake_count + ${#reference_parts[@]} + material_count + direct_count)) visualization assets to $output_dir"

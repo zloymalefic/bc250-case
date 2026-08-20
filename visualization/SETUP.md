@@ -74,6 +74,7 @@ tools/export_visualization_assets.sh
 
 - `cad/core-assembly-v0.1.scad` — основная сборка;
 - `cad/visualization-reference-parts.scad` — экспорт внешних компонентов;
+- `visualization/MODEL-SOURCES.md` — точная карта происхождения всех моделей;
 - `visualization/viewer.js` — сцена, материалы, transforms и модель JF13K;
 - `visualization/styles.css` — интерфейс;
 - `tools/dev_visualization.py` — watcher и локальный сервер.

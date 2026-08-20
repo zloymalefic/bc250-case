@@ -21,17 +21,18 @@ REFERENCE_MASTER = REPO / "cad" / "visualization-reference-parts.scad"
 CORE_PARTS = (
     "front-core", "rear-core", "board-spine-front", "board-spine-rear",
     "front-panel", "front-button-mount", "front-usb-cassette",
-    "ssd-cassette", "rear-blank-board", "rear-blank-psu",
+    "ssd-cassette", "esp32-cassette", "rear-blank-board", "rear-blank-psu",
     "rear-cover-horizontal", "rear-cover-vertical",
 )
+INTAKE_MASTER = REPO / "cad" / "intake-panel-snap-v0.1.scad"
+INTAKE_PARTS = (("intake-cover-left", "left"), ("intake-cover-right", "right"))
 REFERENCE_PARTS = ("button-plate", "button-light-pipe", "usb-cover")
 MATERIAL_PARTS = ("button-cap-black", "button-logo-white")
 MATERIAL_MASTER = REPO / "cad" / "visualization-nexgen-button-material.scad"
 DIRECT_PARTS = (
-    ("front-cover-overlay", REPO / "cad" / "visualization-front-cover.scad"),
     ("button-decorative-bezel", REPO / "cad" / "visualization-decorative-button.scad"),
 )
-VIEWER_FILES = tuple(REPO / "visualization" / name for name in ("index.html", "styles.css", "viewer.js"))
+VIEWER_FILES = tuple(REPO / "visualization" / name for name in ("index.html", "styles.css", "legend.css", "viewer.js"))
 
 state_lock = threading.Lock()
 state = {"version": 1, "building": False, "error": None}
@@ -58,12 +59,14 @@ def export_parts(openscad: str) -> None:
         check=True,
     )
     jobs = [(part, MASTER) for part in CORE_PARTS]
+    jobs += [(output, INTAKE_MASTER, source_part) for output, source_part in INTAKE_PARTS]
     jobs += [(part, REFERENCE_MASTER) for part in REFERENCE_PARTS]
     jobs += [(part, MATERIAL_MASTER) for part in MATERIAL_PARTS]
     jobs += list(DIRECT_PARTS)
-    for index, (part, source) in enumerate(jobs, 1):
+    for index, job in enumerate(jobs, 1):
+        part, source, *source_parts = job
         print(f"[{index:02}/{len(jobs)}] Exporting {part}", flush=True)
-        define_part = {"button-cap-black": "black", "button-logo-white": "white"}.get(part, part)
+        define_part = source_parts[0] if source_parts else {"button-cap-black": "black", "button-logo-white": "white"}.get(part, part)
         define_args = [] if (part, source) in DIRECT_PARTS else ["-D", f'part="{define_part}"']
         subprocess.run(
             [openscad, "-o", str(ASSETS / f"{part}.stl"), *define_args, str(source)],
