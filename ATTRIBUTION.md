@@ -13,6 +13,14 @@ This project is not designed in isolation. It is based on, adapted from, and ins
 
 ## Primary mechanical reference
 
+### NexGen-3D-Printing - DIY Steam Machine REDUX Edition
+
+- Source: https://www.printables.com/model/1649679-nexgen3d-diy-steam-machine-redux-edition
+- License: CC BY-NC 4.0, as identified in the supplied package.
+- Studied features: dual 180-degree USB cover, two-piece rotatable illuminated button, blank button/faceplate workflow, unified rear PSU brackets, improved snap tabs, split-cover joiners, and storage caddy.
+- Adaptation notes: `cad/REDUX-ADAPTATION.md`.
+- No Redux mesh is currently included in a release part.
+
 ### NexGen-3D-Printing - DIY Steam Machine PRO V2
 
 - Printables files: https://www.printables.com/model/1793043-nexgen3d-diy-steam-machine-pro-v2-liquid-cooled-bc/files

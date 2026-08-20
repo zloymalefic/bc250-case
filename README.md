@@ -8,10 +8,11 @@ The design is in a controlled recovery and geometry-validation phase. There is c
 
 ## Based on and inspired by
 
-This enclosure is explicitly based on and inspired by two primary community projects:
+This enclosure is explicitly based on and inspired by three primary community projects:
 
 - [nyacom's AMD BC-250 Industrial Style Case for FlexATX](https://www.printables.com/model/1737913-nyacoms-amd-bc-250-industrial-style-case-for-flexa) - primary exterior design, proportions, end-ring language, and removable-cover concept;
 - [NexGen3D DIY Steam Machine PRO V2](https://www.printables.com/model/1793043-nexgen3d-diy-steam-machine-pro-v2-liquid-cooled-bc/files) - power-button assembly, serviceable snap/slot panels, universal PSU mounting strategy, and modular internal architecture.
+- [NexGen3D DIY Steam Machine REDUX Edition](https://www.printables.com/model/1649679-nexgen3d-diy-steam-machine-redux-edition) - dual 180-degree USB routing cover, updated two-piece rotatable button, unified rear PSU brackets, split covers, and removable storage caddy.
 
 Additional source projects, direct links, adopted features, pinned revisions, and licensing notes are documented in [ATTRIBUTION.md](ATTRIBUTION.md) and [SOURCES.md](SOURCES.md). This is an independent community derivative and is not an official product of the referenced creators or hardware vendors.
 
@@ -20,7 +21,7 @@ Additional source projects, direct links, adopted features, pinned revisions, an
 - Common chassis for the BC-250 and JF13K assembly.
 - Replaceable horizontal and vertical support/base modules.
 - Independent replaceable PSU carriers, initially for Cisco UCSC-PSU-650W V02 and later FlexATX.
-- Controlled top-down intake through the two JF13K fans.
+- Vertical BC-250/JF13K assembly with controlled intake through the broad side panel.
 - Serviceable front USB hub, 2.5-inch drive mount, and ESP32 relay-controller tray.
 
 ![Nyacom-inspired exterior adaptation v0.2](cad/previews/exterior-nyacom-v0.2.svg)
@@ -33,7 +34,7 @@ Additional source projects, direct links, adopted features, pinned revisions, an
 - `SOURCES.md` - reference registry, pinned revisions, formats, licenses, and preliminary measurements.
 - `ATTRIBUTION.md` - complete credits, direct links, adopted features, and derivative-license notices.
 - `docs/FINAL-VISUALIZATION.md` - final Blender/GLB rendering, viewing, and exploded-view delivery plan.
-- `TECHNICAL-REPORT-01.md` - layout comparison and the selected two-level architecture.
+- `TECHNICAL-REPORT-01.md` - superseded horizontal layout study retained as design history.
 - `cad/layout-a-envelope.scad` - parameterized collision/envelope model for layout A.
 - `cad/exterior-nyacom-v0.2.scad` - replacement exterior direction closely based on the Nyacom industrial case language.
 - `cad/NYACOM-ADAPTATION.md` - retained design features, necessary JF13K changes, and derivative-license note.
@@ -53,6 +54,7 @@ Additional source projects, direct links, adopted features, pinned revisions, an
 - `cad/ASSEMBLY-AUDIT.md` - authoritative compatibility audit and recovery order.
 - `cad/core-assembly-v0.1.scad` - active single-source rebuild of the two-part structural core and accessible seam retention.
 - `cad/CORE-ASSEMBLY.md` - core assembly sequence, closed interfaces, and remaining work.
+- `cad/REDUX-ADAPTATION.md` - selected Redux mechanisms, measured envelopes, and adaptation constraints.
 - `cad/exports/README.md` - authoritative list of STL files currently approved for slicing.
 - `cad/support-horizontal.scad` and `cad/support-vertical.scad` - interchangeable support prototypes using a common M4 interface.
 - `cad/SUPPORT-INTERFACE.md` - dimensions, fasteners, and unresolved validation points for both orientations.

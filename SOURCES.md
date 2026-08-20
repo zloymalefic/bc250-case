@@ -20,6 +20,15 @@
 
 ## Получено из Printables
 
+### NexGen3D DIY Steam Machine REDUX Edition
+
+- Source: https://www.printables.com/model/1649679-nexgen3d-diy-steam-machine-redux-edition
+- Printables model 1649679; архив распакован в `references/printables-1649679-nexgen-redux`.
+- 85 файлов: V4.2/V4.2.1 3MF, STEP-заготовки faceplate/button/PSU brackets, старые ревизии и PDF.
+- Полезные механизмы: кожух для 180° USB, двухкомпонентная поворотная кнопка, сменные faceplates, единый rear под разные PSU brackets, split covers и storage caddy.
+- `redux-optional-usb-cover.3mf`: raw envelope около 12,65 × 70,35 × 32,58 мм.
+- Лицензия: CC BY-NC 4.0.
+
 ### Nyacom Industrial Style Case for FlexATX
 
 - Source: https://www.printables.com/model/1737913-nyacoms-amd-bc-250-industrial-style-case-for-flexa
