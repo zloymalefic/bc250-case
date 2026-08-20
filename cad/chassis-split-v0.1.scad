@@ -12,6 +12,7 @@ chamfer = 16;
 wall = 4;
 split_x = 165;
 collar_length = 9;
+collar_embed = 1.2;
 collar_clearance = 0.35; // per side; tune with material coupon
 collar_wall = 2.4;
 assembly_gap = 12;
@@ -125,21 +126,24 @@ module shell_slice(x0, length) {
 
 module male_alignment_collar() {
     outer_inset = wall + collar_clearance;
-    translate([split_x, outer_inset, outer_inset])
-    difference() {
-        oct_prism_x(
-            collar_length,
-            body[1] - 2 * outer_inset,
-            body[2] - 2 * outer_inset,
-            chamfer - outer_inset
-        );
-        translate([-0.5, collar_wall, collar_wall])
-            oct_prism_x(
-                collar_length + 1,
-                body[1] - 2 * outer_inset - 2 * collar_wall,
-                body[2] - 2 * outer_inset - 2 * collar_wall,
-                chamfer - outer_inset - collar_wall
-            );
+    union() {
+        // Working collar starts 0.2 mm inside the front section for a robust union.
+        translate([split_x - 0.2, outer_inset, outer_inset])
+        difference() {
+            oct_prism_x(collar_length + 0.2, body[1] - 2 * outer_inset, body[2] - 2 * outer_inset, chamfer - outer_inset);
+            translate([-0.5, collar_wall, collar_wall])
+                oct_prism_x(collar_length + 1.2, body[1] - 2 * outer_inset - 2 * collar_wall, body[2] - 2 * outer_inset - 2 * collar_wall, chamfer - outer_inset - collar_wall);
+        }
+
+        // Taperless buried anchor bridges the shell wall and clearance gap.
+        anchor_inset = wall - 0.2;
+        anchor_thickness = collar_wall + collar_clearance + 0.4;
+        translate([split_x - collar_embed, anchor_inset, anchor_inset])
+        difference() {
+            oct_prism_x(collar_embed + 0.4, body[1] - 2 * anchor_inset, body[2] - 2 * anchor_inset, chamfer - anchor_inset);
+            translate([-0.5, anchor_thickness, anchor_thickness])
+                oct_prism_x(collar_embed + 1.4, body[1] - 2 * anchor_inset - 2 * anchor_thickness, body[2] - 2 * anchor_inset - 2 * anchor_thickness, chamfer - anchor_inset - anchor_thickness);
+        }
     }
 }
 

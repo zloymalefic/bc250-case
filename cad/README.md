@@ -12,6 +12,8 @@
 
 `chassis-split-v0.1.scad` divides the 330 mm structural tunnel into two sub-250 mm print sections with an internal octagonal alignment collar and hidden M3 retention. See `CHASSIS-SPLIT.md`.
 
+`chassis-joint-coupon-v0.1.scad` extracts the real chamfered shell/collar corner at three clearances, avoiding two full chassis prints just to calibrate the split fit. See `CHASSIS-JOINT-COUPON.md`.
+
 `intake-panel-snap-v0.1.scad` divides the JF13K intake into two sub-250 mm snap-fit panels. `snap-fit-coupon-v0.1.scad` is the required material/printer calibration object; see `SNAP-PANELS.md`.
 
 `fit-calibration-coupon-v0.1.scad` adds M3/M4 insert pilots and screw-clearance gauges to three production-size snap receiver clearances. Use it as the single pre-production print and record the result in `FIT-CALIBRATION.md`.
@@ -65,8 +67,11 @@ python3 ../tools/prepare_nexgen_button_logo.py \
 openscad -o exports/psu-internal-cisco-v0.1.stl psu-universal-internal-v0.1.scad
 openscad -D 'variant="flexatx"' \
   -o exports/psu-internal-flexatx-v0.1.stl psu-universal-internal-v0.1.scad
-openscad -D 'part="front"' -o exports/chassis-front-v0.3.stl chassis-split-v0.1.scad
-openscad -D 'part="rear"' -o exports/chassis-rear-v0.3.stl chassis-split-v0.1.scad
+openscad -D 'part="front"' -o exports/chassis-front-v0.4.stl chassis-split-v0.1.scad
+openscad -D 'part="rear"' -o exports/chassis-rear-v0.4.stl chassis-split-v0.1.scad
+openscad -D 'clearances=[0.25]' -o exports/chassis-joint-coupon-0.25mm-v0.1.stl chassis-joint-coupon-v0.1.scad
+openscad -D 'clearances=[0.35]' -o exports/chassis-joint-coupon-0.35mm-v0.1.stl chassis-joint-coupon-v0.1.scad
+openscad -D 'clearances=[0.45]' -o exports/chassis-joint-coupon-0.45mm-v0.1.stl chassis-joint-coupon-v0.1.scad
 openscad -o exports/snap-fit-coupon-v0.1.stl snap-fit-coupon-v0.1.scad
 openscad -o exports/fit-calibration-coupon-v0.1.stl fit-calibration-coupon-v0.1.scad
 openscad -D 'part="left"' -o exports/intake-panel-left-v0.1.stl intake-panel-snap-v0.1.scad

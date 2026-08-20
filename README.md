@@ -45,6 +45,7 @@ Additional source projects, direct links, adopted features, pinned revisions, an
 - `cad/PSU-INTERFACE.md` - fully internal PSU interface and flush-rear requirement.
 - `cad/chassis-split-v0.1.scad` - front/rear printable structural sections with an internal alignment collar.
 - `cad/CHASSIS-SPLIT.md` - split location, print envelopes, clearance, and retention details.
+- `cad/chassis-joint-coupon-v0.1.scad` - reduced-cost three-clearance test of the real chamfered chassis joint.
 - `cad/intake-panel-snap-v0.1.scad` - two independently replaceable JF13K intake halves with hidden hooks.
 - `cad/snap-fit-coupon-v0.1.scad` - required snap-clearance test before full-panel printing.
 - `cad/fit-calibration-coupon-v0.1.scad` - combined M3/M4 insert, screw-hole, and snap-clearance pre-production test.
