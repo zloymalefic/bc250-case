@@ -9,10 +9,11 @@ use <power-button-nexgen-v0.1.scad>
 use <peripheral-bay-v0.1.scad>
 use <esp32-service-cover-v0.1.scad>
 include <lib/magnet-interface.scad>
+include <lib/fit-audit.scad>
 
 $fn = 40;
 
-part = "assembly"; // front-core | rear-core | board-spine-front | board-spine-rear | front-panel | front-button-mount | front-usb-cassette | ssd-cassette | esp32-cassette | esp32-cover | rear-cover-horizontal | rear-cover-vertical | assembly
+part = "assembly"; // front-core | rear-core | board-spine-front | board-spine-rear | front-panel | front-button-mount | front-usb-cassette | ssd-cassette | esp32-cassette | esp32-cover | rear-cover-horizontal | rear-cover-vertical | fit-audit | assembly
 exploded_gap = 0;
 show_fasteners = true;
 show_equipment = true;
@@ -172,6 +173,17 @@ esp_cover_magnet_local = [[5, 20], [esp_cover_size[0] - 5, 20],
 esp_top_gap = jf13k_origin[2] -
     (esp_origin[2] + esp_tray_size[2] + esp_device[2]);
 
+// Canonical assembly envelopes. Every fit assertion and diagnostic view uses
+// these same bounds instead of reconstructing component dimensions ad hoc.
+inner_bounds = [[wall, wall, wall], body - [2 * wall, 2 * wall, 2 * wall]];
+board_bounds = [board_origin, board];
+psu_bounds = [cisco_origin, cisco_psu];
+jf13k_bounds = [jf13k_origin, jf13k];
+ssd_bounds = [ssd_origin, [ssd_tray_size[2] + ssd_device[2],
+                           ssd_tray_size[1], ssd_tray_size[0]]];
+esp_bounds = [esp_origin, [esp_tray_size[0], esp_tray_size[1],
+                           esp_tray_size[2] + esp_device[2]]];
+
 module oct_prism_x(length, width, height, cut) {
     translate([0, 0, height])
         rotate([0, 90, 0])
@@ -259,7 +271,7 @@ module esp32_cover_envelope_global() {
         [0, 0, 1, body[1] - wall],
         [0, 1, 0, esp_cover_origin[1]],
         [0, 0, 0, 1]
-    ]) flush_chamfered_solid();
+    ]) flush_chamfered_solid(esp_cover_size, chamfer, esp_cover_size[2]);
 }
 
 module esp32_service_cover_global() {
@@ -268,7 +280,24 @@ module esp32_service_cover_global() {
         [0, 0, 1, body[1] - wall],
         [0, 1, 0, esp_cover_origin[1]],
         [0, 0, 0, 1]
-    ]) esp32_service_cover();
+    ]) esp32_service_cover(esp_cover_size, chamfer,
+                           esp_cover_magnet_local);
+}
+
+module assembly_fit_audit() {
+    // Transparent keepouts make the usable interior and all major envelopes
+    // visible together. Red geometry means a forbidden physical overlap.
+    bounds_proxy(inner_bounds, [0.75, 0.75, 0.75, 0.08]);
+    bounds_proxy(board_bounds, [0.05, 0.65, 0.25, 0.45]);
+    bounds_proxy(psu_bounds, [0.95, 0.45, 0.05, 0.45]);
+    bounds_proxy(jf13k_bounds, [0.10, 0.40, 0.95, 0.35],
+                 jf13k_required_gap);
+    bounds_proxy(ssd_bounds, [0.65, 0.65, 0.70, 0.55]);
+    bounds_proxy(esp_bounds, [0.20, 0.70, 0.95, 0.55]);
+    overlap_proxy(psu_bounds, board_bounds);
+    overlap_proxy(psu_bounds, esp_bounds);
+    overlap_proxy(ssd_bounds, jf13k_bounds);
+    overlap_proxy(esp_bounds, jf13k_bounds);
 }
 
 module collar_ring(length, inset, thickness) {
@@ -701,6 +730,8 @@ else if (part == "rear-cover-horizontal")
 else if (part == "rear-cover-vertical")
     translate([-body[0], vertical_base_overhang, vertical_base_overhang])
         rear_cover_vertical_global();
+else if (part == "fit-audit")
+    assembly_fit_audit();
 else {
     color([0.10, 0.11, 0.13]) front_core_global();
     color([0.16, 0.17, 0.19]) translate([exploded_gap, 0, 0]) rear_core_global();
@@ -793,3 +824,36 @@ assert(esp_top_gap >= 3, "ESP32 envelope reaches the JF13K keepout");
 assert(esp_origin[0] >= jf13k_origin[0] &&
        esp_origin[0] + esp_tray_size[0] <= jf13k_origin[0] + jf13k[0],
        "ESP32 bay is not contained below the JF13K footprint");
+assert(bounds_inside(board_bounds, inner_bounds),
+       "Board envelope leaves the canonical inner chassis volume");
+assert(bounds_inside(psu_bounds, inner_bounds),
+       "PSU envelope leaves the canonical inner chassis volume");
+assert(bounds_inside(jf13k_bounds, inner_bounds),
+       "JF13K envelope leaves the canonical inner chassis volume");
+assert(bounds_inside(ssd_bounds, inner_bounds),
+       "SSD envelope leaves the canonical inner chassis volume");
+assert(bounds_inside(esp_bounds, inner_bounds),
+       "ESP32 envelope leaves the canonical inner chassis volume");
+assert(!bounds_overlap(psu_bounds, board_bounds),
+       "PSU intersects the board envelope");
+assert(!bounds_overlap(psu_bounds, esp_bounds),
+       "PSU intersects the ESP32 bay");
+assert(!bounds_overlap(ssd_bounds, jf13k_bounds),
+       "SSD intersects the JF13K envelope");
+assert(!bounds_overlap(esp_bounds, jf13k_bounds),
+       "ESP32 bay intersects the JF13K envelope");
+assert(esp_cover_origin[0] <= esp_service_origin[0] &&
+       esp_cover_origin[0] + esp_cover_size[0] >=
+           esp_service_origin[0] + esp_service_opening[0] &&
+       esp_cover_origin[1] <= esp_service_origin[1] &&
+       esp_cover_origin[1] + esp_cover_size[1] >=
+           esp_service_origin[1] + esp_service_opening[1],
+       "ESP32 cover no longer contains its service opening");
+for (p = esp_cover_magnet_local)
+    assert(p[0] < esp_service_origin[0] - esp_cover_origin[0] ||
+           p[0] > esp_service_origin[0] - esp_cover_origin[0] +
+                  esp_service_opening[0] ||
+           p[1] < esp_service_origin[1] - esp_cover_origin[1] ||
+           p[1] > esp_service_origin[1] - esp_cover_origin[1] +
+                  esp_service_opening[1],
+           "ESP32 cover magnet axis enters the service opening");

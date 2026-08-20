@@ -2,6 +2,22 @@
 
 `core-assembly-v0.1.scad` is the first replacement built after the assembly audit. It is a single source for both shell halves and their shared interface.
 
+## Fit is a build constraint
+
+The assembly now defines canonical global envelopes for the usable interior,
+BC-250 board, Cisco PSU, JF13K, 2.5-inch device and ESP32 bay. The same bounds
+drive the diagnostic view and build-time assertions. Export stops if a major
+component leaves the inner volume or if a forbidden component pair intersects.
+
+Set `part = "fit-audit"` to see all envelopes together. The cooler proxy grows
+by its mandatory 6 mm no-contact allowance; forbidden overlaps are red.
+Intended contact between the cooler and its board is deliberately excluded.
+
+The ESP32 cover is parameterised by the assembly. Its size, chassis chamfer and
+magnet axes come from the same values as the opening and recessed seat.
+Assertions require the cover to contain the complete opening and keep all four
+magnet axes on solid material.
+
 The component architecture follows the Nyacom reference: BC-250 is vertical in the longitudinal X-Z plane, JF13K projects toward the broad side intake, and the Cisco PSU is rotated to a 40 mm Y thickness on the opposite side of the board. The former horizontal two-level layout is superseded.
 
 The JF13K proxy is now fixed to the official 241 × 121 × 92 mm product envelope
