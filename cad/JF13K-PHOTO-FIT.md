@@ -20,7 +20,7 @@ With the 308.0 × 144.3 × 1.6 mm bare-PCB datum, centring this envelope gives:
 | Temporarily enforced core-layout allowance | 6.0 mm |
 
 Therefore the present 330 × 155 × 195 mm body does not need to become wider.
-The covers directly above the two fans are separate snap-in components. Their
+The covers directly above the two fans are separate magnetic components. Their
 final height and inner relief are deliberately deferred, so the 9.4 mm value is
 a body-layout datum rather than a frozen cover clearance. Those covers may be
 locally raised if airflow or fan-screw clearance requires it.

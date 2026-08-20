@@ -8,7 +8,7 @@ use <front-service-module-v0.1.scad>
 use <rear-service-blanks-v0.1.scad>
 use <power-button-nexgen-v0.1.scad>
 use <peripheral-bay-v0.1.scad>
-include <lib/snap-interface.scad>
+include <lib/magnet-interface.scad>
 
 $fn = 40;
 
@@ -59,9 +59,8 @@ rear_seat_depth = 3;
 rear_seat_overlap = 2;
 rear_blank_widths = [for (w = rear_module_widths) w - 2 * rear_blank_clearance];
 rear_blank_height = rear_module_height - 2 * rear_blank_clearance;
-rear_snap_block = [9, 12, 12];
-rear_snap_z = [rear_module_z0 + rear_blank_clearance + 8,
-               rear_module_z0 + rear_blank_clearance + rear_blank_height - 8];
+rear_magnet_z = [rear_module_z0 + rear_blank_clearance + 7,
+                 rear_module_z0 + rear_blank_clearance + rear_blank_height - 7];
 
 vertical_base_overhang = 15;
 vertical_base_footprint = [
@@ -85,17 +84,12 @@ intake_panel_z = 28;
 intake_panel_height = 131;
 intake_grille_center_x = [intake_panel_x[0] + 75,
                            intake_panel_x[1] + 55];
-intake_hook_x_local = [18, intake_panel_width - 18];
-// The right cover's lower-left corner overlaps the ESP32 service path. Move
-// both lower hooks behind the solid shell area to keep the cassette removable.
-intake_hook_x_right_lower = [88, intake_panel_width - 18];
-intake_hook_z_local = [4, intake_panel_height - 4];
-intake_receiver_width = 12;
-intake_receiver_depth = 12;
-intake_receiver_lower_y = -11;
-intake_receiver_lower_height = 23;
-intake_receiver_upper_y = intake_panel_height - 12;
-intake_receiver_upper_height = 12;
+intake_magnet_x_local = [24, intake_panel_width - 24];
+intake_magnet_z_local = [4, intake_panel_height - 4];
+intake_guide_x_local = 22;
+intake_guide_length = intake_panel_width - 2 * intake_guide_x_local;
+intake_guide_height = 4;
+intake_guide_projection = 1.2;
 
 // Confirmed Nyacom architecture: all major components are vertical.
 board = [308.0, 1.6, 144.3];
@@ -144,7 +138,7 @@ psu_bridge_depth = 3;
 psu_bridge_height = 4;
 
 // Recessed 125 x 165 mm front service panel. Its outer face sits 2 mm behind
-// the front frame and four hidden hooks enter accessible receiver pockets.
+// the front frame and four magnet pairs retain it on the support shoulder.
 front_panel_size = [125, 165, 4];
 front_panel_inset = [(body[1] - front_panel_size[0]) / 2,
                      (body[2] - front_panel_size[1]) / 2];
@@ -152,12 +146,15 @@ front_panel_front_x = 2;
 front_panel_rear_x = front_panel_front_x + front_panel_size[2];
 front_seat_depth = 2;
 front_seat_overlap = 2.35;
-front_snap_y = [front_panel_inset[0] + 18,
-                front_panel_inset[0] + front_panel_size[0] - 18];
-front_snap_z = [front_panel_inset[1] + 8,
-                front_panel_inset[1] + front_panel_size[1] - 8];
-front_snap_block = [10, 12, 12];
-front_snap_slot = [8.6, 9, 4.4]; // 0.30 mm per-side hook clearance
+front_magnet_points = [
+    [front_panel_inset[0] + 20, front_panel_inset[1] + 7],
+    [front_panel_inset[0] + front_panel_size[0] - 20,
+     front_panel_inset[1] + 7],
+    [front_panel_inset[0] + front_panel_size[0] / 2,
+     front_panel_inset[1] + front_panel_size[1] - 7],
+    [front_panel_inset[0] + 7,
+     front_panel_inset[1] + front_panel_size[1] / 2]
+];
 
 // Front-load 2.5-inch bay: the cassette plane is Y-Z and its thickness is X.
 // It occupies the free pocket between the front service panel and JF13K.
@@ -230,44 +227,28 @@ module open_shell() {
     }
 }
 
-module intake_panel_receivers_global(panel_x) {
-    // Same local axes as a cover: X/Z become global X/Z and negative local Y
-    // points inward from the broad-side panel datum.
+module intake_magnets_and_guides_global(panel_x) {
+    // Same local axes as a cover. Four magnet bosses resist pull-off; two long
+    // tongue rails take shear and brace the broad opening along X.
     multmatrix([
         [1, 0, 0, panel_x],
         [0, 0, 1, body[1] - wall],
         [0, 1, 0, intake_panel_z],
         [0, 0, 0, 1]
     ])
-    difference() {
-        lower_hook_x = panel_x == intake_panel_x[1] ?
-            intake_hook_x_right_lower : intake_hook_x_local;
-        union() {
-            for (x = lower_hook_x)
-                // Lower webs extend well into the solid wall below the fan
-                // opening, so every receiver is fused to the shell.
-                translate([x - intake_receiver_width / 2,
-                           intake_receiver_lower_y, -intake_receiver_depth + 2])
-                    cube([intake_receiver_width, intake_receiver_lower_height,
-                          intake_receiver_depth]);
-            for (x = intake_hook_x_local)
-                translate([x - intake_receiver_width / 2,
-                           intake_receiver_upper_y, -intake_receiver_depth + 2])
-                    cube([intake_receiver_width, intake_receiver_upper_height,
-                          intake_receiver_depth]);
-        }
+    union() {
+        for (x = intake_magnet_x_local, z = intake_magnet_z_local)
+            translate([x, z, 0]) magnet_boss_negative();
 
-        for (x = lower_hook_x)
-            translate([x, intake_hook_z_local[0], 0])
-                snap_receiver_slot(depth = 8);
-        for (x = intake_hook_x_local)
-            translate([x, intake_hook_z_local[1], 0])
-                rotate([0, 0, 180]) snap_receiver_slot(depth = 8);
+        for (z = [2, intake_panel_height - 2 - intake_guide_height])
+            translate([intake_guide_x_local, z, -intake_guide_projection])
+                cube([intake_guide_length, intake_guide_height,
+                      intake_guide_projection + 0.4]);
     }
 }
 
-module intake_panel_receivers() {
-    for (x = intake_panel_x) intake_panel_receivers_global(x);
+module intake_magnets_and_guides() {
+    for (x = intake_panel_x) intake_magnets_and_guides_global(x);
 }
 
 module collar_ring(length, inset, thickness) {
@@ -402,26 +383,16 @@ module front_panel_seat_and_receivers() {
                           front_panel_size[1] - 2 * front_seat_overlap]);
             }
 
-            for (y = front_snap_y, z = front_snap_z)
-                translate([front_panel_rear_x, y - front_snap_block[1] / 2,
-                           z - front_snap_block[2] / 2])
-                    cube(front_snap_block);
+            for (p = front_magnet_points)
+                translate([front_panel_rear_x, p[0], p[1]])
+                    rotate([0, 90, 0]) magnet_boss_positive();
         }
-
-        // Slots open toward the service-panel aperture. A thin tool can depress
-        // each hook after the opposite edge of the panel is lifted.
-        for (y = front_snap_y, z = front_snap_z)
-            translate([front_panel_rear_x - 0.1,
-                       y - front_snap_slot[0] / 2,
-                       z - front_snap_slot[2] / 2])
-                cube([front_snap_slot[1] + 0.2,
-                      front_snap_slot[0], front_snap_slot[2]]);
     }
 }
 
 module front_service_panel_global() {
-    // local panel X/Y become global Y/Z; local thickness points toward -X so
-    // its hooks extend into the chassis along +X.
+    // Local panel X/Y become global Y/Z; the four inner-face magnets meet the
+    // core bosses at X=front_panel_rear_x.
     multmatrix([
         [0, 0, -1, front_panel_rear_x],
         [1, 0,  0, front_panel_inset[0]],
@@ -481,7 +452,7 @@ module ssd_receiver_rails() {
                ssd_origin[2]])
         cube([2.4, ssd_tray_size[1] + 2 * ssd_rail_wall, 5]);
 
-    // One M3 insert boss is reached after removing the snap-fit front panel.
+    // One M3 insert boss is reached after removing the magnetic front panel.
     translate([ssd_receiver_x1, ssd_retention_global[1],
                ssd_retention_global[2]])
         rotate([0, 90, 0])
@@ -551,54 +522,29 @@ function rear_window_y(index) =
     rear_module_y0 + rear_module_widths[0] + rear_module_gap;
 
 module rear_service_seats_and_receivers() {
-    difference() {
-        union() {
-            for (i = [0 : 1]) {
-                y0 = rear_window_y(i);
-                width = rear_module_widths[i];
-
-                // A 2 mm shoulder behind each window supports the blank.
-                difference() {
-                    translate([body[0], y0, rear_module_z0])
-                        cube([rear_seat_depth, width, rear_module_height]);
-                    translate([body[0] - 0.1, y0 + rear_seat_overlap,
-                               rear_module_z0 + rear_seat_overlap])
-                        cube([rear_seat_depth + 0.2,
-                              width - 2 * rear_seat_overlap,
-                              rear_module_height - 2 * rear_seat_overlap]);
-                }
-
-                blank_y0 = y0 + rear_blank_clearance;
-                snap_y = [blank_y0 + 12,
-                          blank_y0 + rear_blank_widths[i] - 12];
-                for (y = snap_y, z = rear_snap_z)
-                    translate([rear_blank_inner_x - rear_snap_block[0],
-                               y - rear_snap_block[1] / 2,
-                               z - rear_snap_block[2] / 2])
-                        cube(rear_snap_block);
-
-                // Each receiver reaches the nearest horizontal seat rail;
-                // none of the snap blocks is a disconnected island.
-                for (y = snap_y) {
-                    translate([rear_blank_inner_x - rear_snap_block[0],
-                               y - rear_snap_block[1] / 2, rear_module_z0])
-                        cube([rear_snap_block[0], rear_snap_block[1],
-                              rear_snap_z[0] - rear_module_z0]);
-                    translate([rear_blank_inner_x - rear_snap_block[0],
-                               y - rear_snap_block[1] / 2, rear_snap_z[1]])
-                        cube([rear_snap_block[0], rear_snap_block[1],
-                              rear_module_z0 + rear_module_height - rear_snap_z[1]]);
-                }
-            }
-        }
-
+    union() {
         for (i = [0 : 1]) {
-            blank_y0 = rear_window_y(i) + rear_blank_clearance;
-            snap_y = [blank_y0 + 12,
-                      blank_y0 + rear_blank_widths[i] - 12];
-            for (y = snap_y, z = rear_snap_z)
-                translate([rear_blank_inner_x - 8.4, y - 4.3, z - 2.2])
-                    cube([8.6, 8.6, 4.4]);
+            y0 = rear_window_y(i);
+            width = rear_module_widths[i];
+
+            // A 2 mm shoulder locates the blank; magnets provide pull-off
+            // retention but do not carry connector insertion loads alone.
+            difference() {
+                translate([body[0], y0, rear_module_z0])
+                    cube([rear_seat_depth, width, rear_module_height]);
+                translate([body[0] - 0.1, y0 + rear_seat_overlap,
+                           rear_module_z0 + rear_seat_overlap])
+                    cube([rear_seat_depth + 0.2,
+                          width - 2 * rear_seat_overlap,
+                          rear_module_height - 2 * rear_seat_overlap]);
+            }
+
+            blank_y0 = y0 + rear_blank_clearance;
+            magnet_y = [blank_y0 + 7,
+                        blank_y0 + rear_blank_widths[i] - 7];
+            for (y = magnet_y, z = rear_magnet_z)
+                translate([rear_blank_inner_x, y, z])
+                    rotate([0, -90, 0]) magnet_boss_positive();
         }
     }
 }
@@ -698,7 +644,7 @@ module complete_core() {
         receiver();
         psu_receiver_bridges();
         front_panel_seat_and_receivers();
-        intake_panel_receivers();
+        intake_magnets_and_guides();
         ssd_receiver_rails();
         esp32_receiver_rails();
     }
@@ -826,11 +772,11 @@ echo("integrated PSU receiver bounds mm",
 echo("PSU receiver rear setback mm", body[0] - psu_receiver_rear_x);
 echo("PSU interface", "NexGen 110 x 46.34 mm server/FlexATX/LOP family; receiver fused to rear core");
 echo("front service panel/seat mm", [front_panel_size, front_panel_inset, front_panel_front_x]);
-echo("front service panel retention", "4 hidden snap hooks; 0.30 mm nominal receiver clearance");
+echo("front service panel retention", "4 pairs of 8x2 mm magnets on a 2 mm support shoulder");
 echo("rear vertical service blanks YxZxX mm",
      [[rear_blank_widths[0], rear_blank_height, rear_blank_thickness],
       [rear_blank_widths[1], rear_blank_height, rear_blank_thickness]]);
-echo("rear blank retention", "4 hidden snap hooks each; common to horizontal and vertical rear covers");
+echo("rear blank retention", "4 pairs of 8x2 mm magnets each; common to horizontal and vertical rear covers");
 echo("2.5-inch bay origin/receiver X bounds mm",
      [ssd_origin, [ssd_receiver_x0, ssd_receiver_x1 + ssd_insert_boss_length]]);
 echo("2.5-inch supported device mm", ssd_device);

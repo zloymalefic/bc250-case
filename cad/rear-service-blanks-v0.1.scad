@@ -1,6 +1,6 @@
-// Two vertical snap-in rear service blanks shared by both rear-cover variants.
+// Two vertical magnetic rear service blanks shared by both rear-cover variants.
 // Connector-specific cuts are deliberately deferred; these freeze the interface.
-include <lib/snap-interface.scad>
+include <lib/magnet-interface.scad>
 
 $fn = 32;
 
@@ -20,17 +20,11 @@ module rounded_blank(width, height, radius = 3) {
                 translate([x, y]) circle(r = radius);
 }
 
-module blank_hooks(width, height) {
-    for (x = [12, width - 12]) {
-        translate([x, 8, 0]) snap_hook();
-        translate([x, height - 8, 0]) rotate([0, 0, 180]) snap_hook();
-    }
-}
-
 module service_blank(width) {
-    union() {
+    difference() {
         rounded_blank(width, blank_height);
-        blank_hooks(width, blank_height);
+        for (x = [7, width - 7], y = [7, blank_height - 7])
+            translate([x, y, 0]) magnet_pocket_positive();
     }
 }
 
@@ -47,6 +41,6 @@ else {
 echo("part", part);
 echo("rear service blank widths/height/thickness mm",
      [blank_widths, blank_height, panel_thickness]);
-echo("retention", "4 hidden hooks per blank; 0.30 mm nominal slot clearance");
+echo("retention", "4 pairs of 8 x 2 mm magnets per blank");
 assert(max(blank_widths) <= 250 && blank_height <= 250,
        "Rear service blank exceeds 250 mm print-bed target");

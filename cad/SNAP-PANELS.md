@@ -1,26 +1,30 @@
-# Hidden snap-fit panels v0.1
+# Magnetic intake panels v0.2
 
 The JF13K intake is divided into two independently removable 130 × 131 mm covers:
 
-- nominal half-panel print envelope: 130 × 131 × 12 mm including hooks;
+- nominal half-panel print envelope: 130 × 131 × 8 mm including grille relief;
 - one 120 mm fan field per half;
-- four hidden cantilever hooks per half;
+- four 8 × 2 mm magnet pairs per half;
+- a small bottom-edge pry notch for non-destructive removal;
+- two shallow longitudinal guide channels engaging chassis tongues;
 - a 10 mm visible gap exposes the structural rib retained in the shell;
 - matching eight-sided cover/window outlines and a raised 108 mm fan rim;
 - no external panel bolts;
 - a damaged half can be replaced without reprinting the other side.
 
-Initial PETG/ASA snap parameters:
+Magnet pockets are 8.25 mm diameter and 2.20 mm deep. The dimensional allowance
+is deliberately conservative for ordered printing and adhesive. Print a pocket
+coupon with the intended material and service before committing the full covers.
 
-- arm: 8.0 × 2.2 × 8.0 mm;
-- barb engagement: 1.0 mm;
-- receiver clearance: 0.30 mm per side.
+The matching eight chassis magnet seats, four guide tongues and 10 mm central
+rib are integrated into `core-assembly-v0.1.scad`. No magnet pocket is placed on
+the front/rear chassis joint. The tongues prevent panel shear and act as local
+longitudinal stiffeners around the large intake opening; the magnets only resist
+pull-off force.
 
-These numbers are test values, not production values. Print `fit-calibration-coupon-v0.1.scad` first. Test at least five insertion/removal cycles and reject any setting that creates whitening, root cracking, excessive looseness, or a release force likely to damage the panel.
-
-The matching eight receiver pockets and the 10 mm central rib are integrated
-into `core-assembly-v0.1.scad`. The rib straddles the front/rear chassis joint;
-no hook is located directly on that joint.
+The historical SCAD filename `intake-panel-snap-v0.1.scad` is retained so the
+existing export tooling does not break; its production geometry contains no
+panel hooks.
 
 ## Deferred fan-cover depth
 

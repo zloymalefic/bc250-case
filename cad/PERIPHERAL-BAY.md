@@ -10,7 +10,7 @@ drive stands in the Y-Z plane and slides out through the front service opening:
 - open 110 × 80 × 2.4 mm bridge cassette;
 - four elongated M3 slots on a 76.6 × 61.72 mm bottom pattern;
 - two chassis guide walls, shallow retaining lips and a rear travel stop;
-- one front-access M3 cassette screw, reached after removing the snap panel;
+- one front-access M3 cassette screw, reached after removing the magnetic panel;
 - the drive/cassette end at X=39.4 while JF13K starts at X=44.5.
 
 The bay is outside the JF13K fan footprint and does not use the two-millimetre

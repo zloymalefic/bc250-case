@@ -13,7 +13,7 @@ below 6 mm. See `JF13K-PHOTO-FIT.md` for the evidence and residual checks.
 The broad-side intake now consists of two chamfered 128 × 119 mm windows separated by a
 real 10 mm shell rib at the chassis split. Two independent 130 × 131 mm covers
 leave that rib visible. Their grille centres are fixed at global X=105 and
-X=225 mm, matching the two JF13K fan centres. Eight snap receiver pockets are
+X=225 mm, matching the two JF13K fan centres. Eight magnet seats are
 fused to the inner wall; the lower right pattern is shifted away from the ESP32
 service path.
 
@@ -44,7 +44,7 @@ inside the lower chassis chamfer instead of extending the exterior silhouette.
 - server, FlexATX, and LOP adapter plates remain interchangeable service parts,
   while no PSU bracket protrudes outside the enclosure.
 - the 125 × 165 mm front service panel now has a 2 mm recessed seat, a rear
-  support shoulder, and four matching hidden snap receivers in the front core;
+  support shoulder, and four matching 8 × 2 mm magnet seats in the front core;
 - the panel remains separately printable and removable without opening the
   structural chassis seam.
 - two ribbed M3 insert bosses now retain the NexGen-derived button plate;
@@ -52,9 +52,9 @@ inside the lower chassis chamfer instead of extending the exterior silhouette.
   separately printable four-port cassette with two hidden hooks;
 - the cassette carries the 103 × 30 × 10 mm hub envelope, so a future cheaper
   hub changes the cassette rather than the main front panel wherever possible.
-- both rear-cover variants now share two vertical snap seats: a 71.30 × 144.30
+- both rear-cover variants now share two vertical magnetic seats: a 71.30 × 144.30
   mm board/I/O blank and a 47.30 × 144.30 mm PSU blank;
-- each rear blank has four hidden hooks and a 2 mm support shoulder; final
+- each rear blank has four magnet pairs and a 2 mm support shoulder; final
   connector apertures are confined to these inexpensive replaceable parts.
 - the front-load 2.5-inch cassette supports 7–15 mm devices on a 76.6 × 61.72
   mm M3 pattern and slides in the free pocket ahead of JF13K;
@@ -77,7 +77,7 @@ The exact screw length and insert pilot remain provisional until the fit coupon 
 
 ## Next required interfaces
 
-1. Validate front- and rear-panel hooks with the existing clearance coupon.
+1. Validate the 8.25 × 2.20 mm magnet pockets with a small print coupon.
 2. Add final connector apertures to the replaceable rear blanks after cable and
    port alignment is frozen.
 3. Physically check the Anker cassette, M3 button inserts, and switch travel.

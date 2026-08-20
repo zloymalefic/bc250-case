@@ -1,5 +1,5 @@
-// Split JF13K intake panel with hidden NexGen-style snap hooks.
-include <lib/snap-interface.scad>
+// Split JF13K intake panel with Nyacom-style magnetic retention.
+include <lib/magnet-interface.scad>
 
 $fn = 32;
 
@@ -13,6 +13,9 @@ panel_gap = 10;
 grille_outer_d = 108;
 grille_inner_d = 101;
 grille_relief = 1.2;
+magnet_x = [24, panel_half[0] - 24];
+magnet_y = [4, panel_half[1] - 4];
+pry_notch_d = 10;
 
 module chamfered_panel_2d(width, height, cut) {
     polygon([
@@ -57,12 +60,16 @@ module recessed_esp32_skirt() {
         translate([x, 0, -10]) cube([4, 5, 10.2]);
 }
 
-module hook_set(lower_x = [18, panel_half[0] - 18]) {
-    // Hooks face the long receiver rails. A concealed edge notch releases them.
-    for (x = lower_x)
-        translate([x, 4, 0]) snap_hook();
-    for (x = [18, panel_half[0] - 18])
-        translate([x, panel_half[1] - 4, 0]) rotate([0, 0, 180]) snap_hook();
+module magnet_pockets_and_pry_notch() {
+    for (x = magnet_x, y = magnet_y)
+        translate([x, y, 0]) magnet_pocket_positive();
+    translate([panel_half[0] / 2, 0, -0.1])
+        cylinder(h = panel_half[2] + grille_relief + 0.3, d = pry_notch_d);
+
+    // Shallow channels capture the chassis tongues. They prevent the magnets
+    // carrying shear and make the two long rails work as side-wall stiffeners.
+    for (y = [2, panel_half[1] - 6])
+        translate([22, y, -0.1]) cube([86, 4, 1.5]);
 }
 
 module left_panel() {
@@ -70,9 +77,9 @@ module left_panel() {
         difference() {
             panel_skin();
             fan_field(75);
+            magnet_pockets_and_pry_notch();
         }
         grille_ring(75);
-        hook_set();
     }
 }
 
@@ -81,10 +88,10 @@ module right_panel() {
         difference() {
             panel_skin();
             fan_field(55);
+            magnet_pockets_and_pry_notch();
         }
         grille_ring(55);
         recessed_esp32_skirt();
-        hook_set([88, panel_half[0] - 18]);
     }
 }
 
@@ -97,7 +104,8 @@ else {
 }
 
 echo("part", part);
-echo("panel_half_print_bounds_nominal_mm", [panel_half[0], panel_half[1], panel_half[2] + snap_arm_drop]);
+echo("panel_half_print_bounds_nominal_mm", [panel_half[0], panel_half[1], panel_half[2] + grille_relief]);
 echo("structural_gap_mm", panel_gap);
-echo("snap_count_per_half", 4);
+echo("magnets_per_cover", 4);
+echo("pry_notch_mm", pry_notch_d);
 assert(panel_half[0] <= 250 && panel_half[1] <= 250, "Panel half exceeds 250 mm print-bed limit");

@@ -24,11 +24,9 @@ dimension list does not map axes to variants reliably, the project uses that
 maximum envelope with clearance and keeps the contact insert replaceable. See
 `USB-RETURN-INTERFACE.md`.
 
-## Snap-fit access panels
+## Magnetic access panels
 
-Routine panels must use hidden hooks engaging the chassis perimeter, following the NexGen service concept. No decorative panel is retained by visible bolts. A concealed release notch is allowed; structural chassis joints may still use internal screws.
-
-The exact hook thickness and interference will be selected with a small PETG/ASA calibration coupon because printer, material, and layer direction materially affect snap life.
+Routine service panels use concealed 8 × 2 mm magnets and support shoulders. The side grilles additionally use a bottom pry notch and guide tongues so magnets carry pull-off load while printed geometry carries shear. Structural chassis joints and the load-bearing rear cover may still use internal M3 screws.
 
 ## Universal internal PSU chassis
 

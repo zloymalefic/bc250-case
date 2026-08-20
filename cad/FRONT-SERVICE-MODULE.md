@@ -8,7 +8,8 @@ The yellow Nyacom-style front insert is now independent from both service compon
 - cassette face: 27.93 × 70.35 × 3 mm;
 - baseline hub: Anker A7516 four-port USB 3.0, 103 × 30 × 10 mm;
 - front apertures: four vertical USB-A data ports;
-- hidden hooks retain the main panel and USB cassette;
+- four pairs of 8 × 2 mm magnets retain the main panel on its support shoulder;
+- the small USB cassette keeps its accessible internal clips and can be serviced after the magnetic main panel is removed;
 - concealed release notches permit servicing without visible screws.
 - two M3 insert bosses and edge ribs retain the NexGen-derived button plate.
 

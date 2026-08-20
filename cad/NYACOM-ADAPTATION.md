@@ -21,7 +21,7 @@ The necessary functional change is the broad JF13K intake cover. Two separated 1
 
 - The external appearance remains Nyacom-derived.
 - The power button uses the NexGen three-part, backlit, rotatable module concept.
-- The Nyacom-like broad cover is retained visually but mechanically uses hidden NexGen-style printed snap hooks instead of magnets or visible screws.
+- The Nyacom-like broad cover is retained visually and returns to the source project's magnetic service concept: four 8 × 2 mm magnet pairs per half, a bottom pry notch and anti-shear guide rails.
 - A common internal PSU rail accepts separate Cisco server-PSU and FlexATX adapters.
 - Unlike the referenced NexGen implementation, no PSU mount may protrude beyond the enclosure. Only a flush rear interface panel is allowed at the coloured end ring.
 

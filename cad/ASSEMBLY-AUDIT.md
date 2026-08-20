@@ -11,9 +11,9 @@ All production-looking exports have therefore been withdrawn. `cad/exports/` now
 | Interface | Result | Evidence / required correction |
 |---|---|---|
 | Chassis front ↔ chassis rear | integrated, unvalidated | The collar aligns the sections and two bottom-access M3 screws retain them. Insert/collar coupon results remain open. |
-| Intake halves ↔ chassis | aligned, unvalidated | Eight hook coordinates match eight receiver coordinates. Clearance and release access still require coupon results. |
+| Intake halves ↔ chassis | aligned, unvalidated | Eight 8×2 magnet pairs align; bottom pry notches provide release. Four long guide tongues resist shear and stiffen the broad opening. Pocket fit still requires a coupon. |
 | Front panel ↔ chassis | integrated, unvalidated | The 125 × 165 mm panel has a recessed shoulder and four matching hidden receivers in the front core. Snap coupon result remains open. |
-| Rear service blanks ↔ both rear covers | integrated, unvalidated | Two vertical blanks share identical 2 mm seats and four hidden receivers each in the horizontal cover and tower base. Connector cuts and snap coupon remain open. |
+| Rear service blanks ↔ both rear covers | integrated, unvalidated | Two vertical blanks share identical 2 mm seats and four magnet pairs each in the horizontal cover and tower base. Connector cuts and magnet-pocket coupon remain open. |
 | Button ↔ front panel | integrated, unvalidated | Two M3 plate axes now match two ribbed insert bosses. Insert fit and switch travel remain open. |
 | Anker A7516 cassette ↔ front panel | integrated, unvalidated | Vertical 28.6 × 71.0 mm opening, two hidden receivers, four USB-A cuts, and a 103 × 30 × 10 mm cradle are modeled. Physical fit remains open. |
 | Board spine ↔ chassis | integrated, unvalidated | Eight transverse M4 axes now match eight webbed core bosses. M4 insert fit and load testing remain open. |
