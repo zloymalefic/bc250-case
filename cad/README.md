@@ -14,6 +14,8 @@
 
 `intake-panel-snap-v0.1.scad` divides the JF13K intake into two sub-250 mm snap-fit panels. `snap-fit-coupon-v0.1.scad` is the required material/printer calibration object; see `SNAP-PANELS.md`.
 
+`fit-calibration-coupon-v0.1.scad` adds M3/M4 insert pilots and screw-clearance gauges to three production-size snap receiver clearances. Use it as the single pre-production print and record the result in `FIT-CALIBRATION.md`.
+
 `front-service-module-v0.1.scad` combines a Nyacom-style snap-fit front panel with independent openings for the NexGen-derived button and a replaceable USB-A/USB-C cassette. See `FRONT-SERVICE-MODULE.md`.
 
 `board-tray-v0.1.scad` is a split structural perimeter frame for the BC-250. It preserves a continuous 12 mm backplate channel and includes independent anchors for future JF13K transport supports. See `BOARD-TRAY.md`.
@@ -66,6 +68,7 @@ openscad -D 'variant="flexatx"' \
 openscad -D 'part="front"' -o exports/chassis-front-v0.3.stl chassis-split-v0.1.scad
 openscad -D 'part="rear"' -o exports/chassis-rear-v0.3.stl chassis-split-v0.1.scad
 openscad -o exports/snap-fit-coupon-v0.1.stl snap-fit-coupon-v0.1.scad
+openscad -o exports/fit-calibration-coupon-v0.1.stl fit-calibration-coupon-v0.1.scad
 openscad -D 'part="left"' -o exports/intake-panel-left-v0.1.stl intake-panel-snap-v0.1.scad
 openscad -D 'part="right"' -o exports/intake-panel-right-v0.1.stl intake-panel-snap-v0.1.scad
 openscad -D 'part="panel"' -o exports/front-panel-nyacom-v0.1.stl front-service-module-v0.1.scad

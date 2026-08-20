@@ -22,15 +22,15 @@ module snap_hook() {
     }
 }
 
-module snap_receiver_slot(depth = 8) {
+module snap_receiver_slot(depth = 8, clearance = snap_slot_clearance) {
     translate([
-        -snap_arm_width / 2 - snap_slot_clearance,
+        -snap_arm_width / 2 - clearance,
         -0.1,
-        -snap_arm_drop - snap_slot_clearance
+        -snap_arm_drop - clearance
     ])
         cube([
-            snap_arm_width + 2 * snap_slot_clearance,
+            snap_arm_width + 2 * clearance,
             depth + 0.2,
-            snap_arm_drop + 2 * snap_slot_clearance
+            snap_arm_drop + 2 * clearance
         ]);
 }
