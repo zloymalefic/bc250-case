@@ -51,8 +51,6 @@ inside the lower chassis chamfer instead of extending the exterior silhouette.
 - its eight transverse M4 axes now terminate in matching core bosses;
 - shallow boss webs remain outside the central PSU envelope and carry the
   895 g JF13K transport load into the structural shell;
-- continuous upper and lower longitudinal shelves join every board-spine boss
-  to the side shell instead of relying on isolated transverse posts;
 - the board/spine datum is shifted 4 mm below geometric centre, preserving
   2.65 mm between the lower 12 mm bosses and the provisional PSU envelope;
 - both spine halves can be exported from the master coordinate source.
@@ -73,11 +71,9 @@ inside the lower chassis chamfer instead of extending the exterior silhouette.
   separately printable four-port cassette with two hidden hooks;
 - the cassette carries the 103 × 30 × 10 mm hub envelope, so a future cheaper
   hub changes the cassette rather than the main front panel wherever possible.
-- both rear-cover variants are monolithic and expose the confirmed
-  110 × 46.34 mm universal PSU adapter face, so the PSU outlet is not blocked;
-- a continuous 10 mm rear perimeter frame carries all four cover fasteners;
-  segmented opposite-side exhaust slots sit above the PSU and retain shell
-  webs between openings.
+- both rear-cover variants are monolithic, matching the source-case strategy;
+  temporary board/I/O and PSU blanks have been removed. Final connector cuts
+  will be made directly in each rear variant after their positions are frozen.
 - the front-load 2.5-inch cassette supports 7–15 mm devices on a 76.6 × 61.72
   mm M3 pattern and slides in the free pocket ahead of JF13K;
 - two guide walls, retaining lips, a rear stop and one front-access M3 screw
