@@ -46,7 +46,10 @@ openscad -o exports/support-vertical-v0.1.stl support-vertical.scad
 openscad -o exports/exterior-nyacom-horizontal-v0.2.3mf exterior-nyacom-v0.2.scad
 openscad -D 'orientation="vertical"' \
   -o exports/exterior-nyacom-vertical-v0.2.3mf exterior-nyacom-v0.2.scad
-openscad -o exports/power-button-nexgen-v0.1.3mf power-button-nexgen-v0.1.scad
+openscad -o exports/power-button-nexgen-v0.2.3mf power-button-nexgen-v0.1.scad
+python3 ../tools/prepare_nexgen_button_logo.py \
+  '../references/printables-1793043-nexgen-pro-v2/Power Button/pro-v2-steam-logo.3mf' \
+  exports/power-button-steam-logo-nexgen-v0.2.3mf
 openscad -o exports/psu-internal-cisco-v0.1.stl psu-universal-internal-v0.1.scad
 openscad -D 'variant="flexatx"' \
   -o exports/psu-internal-flexatx-v0.1.stl psu-universal-internal-v0.1.scad

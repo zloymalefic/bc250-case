@@ -6,10 +6,10 @@
 
 | Источник | Форматы | Полезность | Статус лицензии |
 |---|---|---|---|
-| `hafriedlander/bc250-case` | OpenSCAD, STL, изображения | Детальная proxy-модель BC-250, параметрический корпус, кронштейны | Отдельный LICENSE в репозитории не найден; прямое копирование деталей пока запрещено |
-| `onemorecap/bc-250-shell-case` | STEP, 3MF, STL, изображения | Редактируемый модульный chassis, крепёж и разбиение для печати | Отдельный LICENSE в репозитории не найден; прямое копирование деталей пока запрещено |
-| `NexGen-3D-Printing/SteamMachine` | README, XLSX BOM, 3MF, архивы | Принципы модульности, PSU-модули, faceplates, обслуживание | Лицензию конкретных CAD-файлов необходимо проверить на исходной странице |
-| `zloymalefic/BC-250-PC-Remote-Control` | Arduino/C++, HTML/CSS | Электрические интерфейсы контроллера питания и кнопки | Используется как связанный пользовательский проект; геометрия платы пока внешняя |
+| [hafriedlander/bc250-case](https://github.com/hafriedlander/bc250-case) | OpenSCAD, STL, изображения | Детальная proxy-модель BC-250, параметрический корпус, кронштейны | Отдельный LICENSE в репозитории не найден; прямое копирование деталей пока запрещено |
+| [onemorecap/bc-250-shell-case](https://github.com/onemorecap/bc-250-shell-case) | STEP, 3MF, STL, изображения | Редактируемый модульный chassis, крепёж и разбиение для печати | Отдельный LICENSE в репозитории не найден; прямое копирование деталей пока запрещено |
+| [NexGen-3D-Printing/SteamMachine](https://github.com/NexGen-3D-Printing/SteamMachine) | README, XLSX BOM, 3MF, архивы | Принципы модульности, PSU-модули, faceplates, обслуживание | CAD-пакет Printables: CC BY-NC 4.0 |
+| [zloymalefic/BC-250-PC-Remote-Control](https://github.com/zloymalefic/BC-250-PC-Remote-Control) | Arduino/C++, HTML/CSS | Электрические интерфейсы контроллера питания и кнопки | Используется как связанный пользовательский проект; геометрия платы пока внешняя |
 
 Зафиксированные ревизии:
 
@@ -22,6 +22,7 @@
 
 ### Nyacom Industrial Style Case for FlexATX
 
+- Source: https://www.printables.com/model/1737913-nyacoms-amd-bc-250-industrial-style-case-for-flexa
 - Printables model 1737913; полный архив распакован в `references/printables-1737913-nyacom-flex`.
 - 36 STL, 2 reference 3MF и 42-страничный PDF.
 - Общий envelope корпуса по STL: около 125 × 315 × 175 мм (~6,9 л), без внешних кабелей и ножек.
@@ -30,6 +31,7 @@
 
 ### NexGen3D Steam Machine PRO V2
 
+- Files: https://www.printables.com/model/1793043-nexgen3d-diy-steam-machine-pro-v2-liquid-cooled-bc/files
 - Printables model 1793043; полный архив распакован в `references/printables-1793043-nexgen-pro-v2`.
 - 43 файла 3MF, 1 редактируемый STEP пустой faceplate и 15-страничный PDF.
 - Примерный общий envelope front + rear: 329,1 × 109,35 × 282,1 мм (~10,15 л); требует проверки сборочных transforms.
@@ -38,6 +40,7 @@
 
 ### BC-250 Quiet Case Tower Cooler
 
+- Source: https://www.printables.com/model/1652979
 - Printables model 1652979; архив распакован в `references/printables-1652979-quiet-case`.
 - Это дополнительный референс, а не запрошенный адаптер AN600.
 - 16 STL и 7-страничный PDF; envelope assembled STL около 180 × 368 × 269 мм (~17,8 л).
@@ -46,6 +49,7 @@
 
 ### DeepCool AN600 adapter for AMD BC-250
 
+- Source: https://www.printables.com/model/1707972-deepcool-an600-adapter-for-amd-bc-250
 - Printables model 1707972; полный архив распакован в `references/printables-1707972-an600-adapter`.
 - Содержит STL, 3MF и 3-страничный PDF; редактируемого STEP/CAD нет.
 - STL и 3MF имеют совпадающий envelope 105 × 105 × 8 мм.

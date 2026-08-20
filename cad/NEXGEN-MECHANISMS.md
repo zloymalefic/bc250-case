@@ -8,9 +8,11 @@ The supplied NexGen files separate the module into:
 
 - mounting plate, measured raw envelope 44.54 × 31.59 × 5.10 mm;
 - transparent rear/light-pipe section, 6.00 × 19.80 × 22.06 mm in its print orientation;
-- removable emblem/cap, 6.20 × 16.00 × 16.00 mm in its print orientation.
+- removable Steam-emblem cap, 6.20 × 16.00 × 16.00 mm in its print orientation. The original `pro-v2-steam-logo.3mf` is imported directly and retains NexGen attribution.
 
 The project recreation uses a 16 mm switch, two M3 fasteners, separate light pipe, and removable cap. The complete plate can be removed, rotated 90 degrees, and snapped back into the Nyacom-style front insert when the case orientation changes.
+
+The logo remains a separate multi-material 3MF so its original three colour bodies are not destructively merged. Load `power-button-nexgen-v0.2.3mf` and `power-button-steam-logo-nexgen-v0.2.3mf` as parts of the same assembly in the slicer.
 
 ## Snap-fit access panels
 

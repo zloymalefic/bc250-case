@@ -5,6 +5,7 @@
 $fn = 64;
 
 exploded = true;
+show_nexgen_logo_preview = true;
 plate = [44.5, 31.6, 5.1];
 plate_radius = 4;
 button_d = 16.2;
@@ -39,27 +40,25 @@ module light_pipe() {
     }
 }
 
-module button_cap() {
+module nexgen_steam_logo_cap() {
+    // Original supplied NexGen asset. Source bounds are 6.20 x 16 x 16 mm
+    // with thickness along X; transform places it flat with Z=0 at its rear.
     color([0.10, 0.11, 0.13])
-    difference() {
-        cylinder(h = 6.2, d = cap_d);
-        // Simple illuminated power glyph; final emblem remains replaceable.
-        translate([0, 0, 5.4]) {
-            difference() {
-                cylinder(h = 1, d = 8.2);
-                cylinder(h = 1.2, d = 5.3);
-                translate([-1.4, -5, -0.1]) cube([2.8, 5.5, 1.4]);
-            }
-            translate([-1.1, 0, 0]) cube([2.2, 5.2, 1]);
-        }
-    }
+        translate([0, 0, 3.566254])
+            rotate([0, 90, 0])
+                translate([0, -4.527873, -95.01802])
+                    import("vendor/nexgen/pro-v2-steam-logo.stl");
 }
 
 mounting_plate();
 translate([plate[0] / 2, plate[1] / 2, exploded ? 12 : 0]) light_pipe();
-translate([plate[0] / 2, plate[1] / 2, exploded ? 25 : 1.8]) button_cap();
+// The original logo is a three-body multi-material object. Reference-only
+// display avoids destructively unioning it during OpenSCAD export.
+if (show_nexgen_logo_preview)
+    %translate([plate[0] / 2, plate[1] / 2, exploded ? 25 : 1.8]) nexgen_steam_logo_cap();
 
 echo("module", "three-part rotatable backlit power button");
 echo("plate_mm", plate);
 echo("switch_nominal_mm", 16);
 echo("fasteners", "2x M3");
+echo("logo_source", "NexGen PRO V2 pro-v2-steam-logo.3mf");

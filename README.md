@@ -6,6 +6,15 @@ Engineering project for a compact, quiet, 3D-printable Steam Machine-style enclo
 
 The design is still in the research and geometry-validation phase. Dimensions and compatibility are not treated as final until they are confirmed by source CAD or physical measurement.
 
+## Based on and inspired by
+
+This enclosure is explicitly based on and inspired by two primary community projects:
+
+- [nyacom's AMD BC-250 Industrial Style Case for FlexATX](https://www.printables.com/model/1737913-nyacoms-amd-bc-250-industrial-style-case-for-flexa) - primary exterior design, proportions, end-ring language, and removable-cover concept;
+- [NexGen3D DIY Steam Machine PRO V2](https://www.printables.com/model/1793043-nexgen3d-diy-steam-machine-pro-v2-liquid-cooled-bc/files) - power-button assembly, serviceable snap/slot panels, universal PSU mounting strategy, and modular internal architecture.
+
+Additional source projects, direct links, adopted features, pinned revisions, and licensing notes are documented in [ATTRIBUTION.md](ATTRIBUTION.md) and [SOURCES.md](SOURCES.md). This is an independent community derivative and is not an official product of the referenced creators or hardware vendors.
+
 ## Current direction
 
 - Common chassis for the BC-250 and JF13K assembly.
@@ -21,12 +30,14 @@ The design is still in the research and geometry-validation phase. Dimensions an
 - `BC-250-JF13K-agent-context.md` - original project context and priorities.
 - `DESIGN-BRIEF.md` - evolving engineering requirements and decisions.
 - `SOURCES.md` - reference registry, pinned revisions, formats, licenses, and preliminary measurements.
+- `ATTRIBUTION.md` - complete credits, direct links, adopted features, and derivative-license notices.
 - `TECHNICAL-REPORT-01.md` - layout comparison and the selected two-level architecture.
 - `cad/layout-a-envelope.scad` - parameterized collision/envelope model for layout A.
 - `cad/exterior-nyacom-v0.2.scad` - replacement exterior direction closely based on the Nyacom industrial case language.
 - `cad/NYACOM-ADAPTATION.md` - retained design features, necessary JF13K changes, and derivative-license note.
 - `cad/exports/exterior-nyacom-*-v0.2.3mf` - compiled horizontal and vertical Nyacom-style concept assemblies.
 - `cad/power-button-nexgen-v0.1.scad` - recreated three-part, backlit, rotatable NexGen-style button module.
+- `cad/exports/power-button-steam-logo-nexgen-v0.2.3mf` - original NexGen three-colour Steam emblem, reoriented for the project button without remeshing.
 - `cad/psu-universal-internal-v0.1.scad` - common internal rail with separate Cisco and FlexATX adapters.
 - `cad/NEXGEN-MECHANISMS.md` - exact NexGen mechanisms selected for reuse and their project-specific constraints.
 - `cad/PSU-INTERFACE.md` - fully internal PSU interface and flush-rear requirement.
