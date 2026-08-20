@@ -29,6 +29,7 @@ Additional source projects, direct links, adopted features, pinned revisions, an
 
 - `BC-250-JF13K-agent-context.md` - original project context and priorities.
 - `DESIGN-BRIEF.md` - evolving engineering requirements and decisions.
+- `BOM.md` - provisional fastener, consumable, filament, electronics, and procurement list with project article numbers and quantities.
 - `SOURCES.md` - reference registry, pinned revisions, formats, licenses, and preliminary measurements.
 - `ATTRIBUTION.md` - complete credits, direct links, adopted features, and derivative-license notices.
 - `docs/FINAL-VISUALIZATION.md` - final Blender/GLB rendering, viewing, and exploded-view delivery plan.
