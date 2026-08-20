@@ -68,5 +68,4 @@ openscad -D 'part="panel"' -o exports/front-panel-nyacom-v0.1.stl front-service-
 openscad -D 'part="usb-cassette"' -o exports/usb-hub-cassette-v0.1.stl front-service-module-v0.1.scad
 openscad -D 'part="front"' -o exports/board-tray-front-v0.1.stl board-tray-v0.1.scad
 openscad -D 'part="rear"' -o exports/board-tray-rear-v0.1.stl board-tray-v0.1.scad
-openscad -o exports/integration-assembly-v0.1.csg integration-assembly-v0.1.scad
 ```

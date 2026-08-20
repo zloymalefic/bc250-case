@@ -13,4 +13,4 @@ With the conservative JF13K stack, the cooler reaches Z=166.6 mm. The 195 mm bod
 
 These values are internally consistent but still depend on provisional Cisco PSU and installed-JF13K envelopes. Physical measurements remain mandatory before production printing.
 
-The integrated view is distributed as native OpenSCAD source and CSG rather than a merged 3MF. The assembly intentionally contains separate, overlapping joints and service parts; forcing them into one mesh would create a misleading non-manifold export. Individual printable components remain available as validated STL/3MF files.
+The integrated view is distributed as native OpenSCAD source rather than a merged 3MF. The assembly intentionally contains separate, overlapping joints and service parts; forcing them into one mesh would create a misleading non-manifold export. Individual printable components remain available as validated STL/3MF files.
