@@ -22,6 +22,8 @@
 
 `peripheral-bay-v0.1.scad` provides separate removable cassettes for a 7 mm 2.5-inch SSD and the provisional 60 × 60 mm ESP32 relay board. See `PERIPHERAL-BAY.md` for compatibility limits and thermal caveats.
 
+`rear-service-system-v0.1.scad` provides a flush Nyacom-style rear panel with two common snap-fit module openings for BC-250 I/O and Cisco/FlexATX interfaces. See `REAR-SERVICE-SYSTEM.md`.
+
 It is intentionally not a printable enclosure. The model is used to:
 
 - expose dimensional assumptions;
@@ -72,4 +74,8 @@ openscad -D 'part="front"' -o exports/board-tray-front-v0.1.stl board-tray-v0.1.
 openscad -D 'part="rear"' -o exports/board-tray-rear-v0.1.stl board-tray-v0.1.scad
 openscad -D 'part="ssd7"' -o exports/ssd7-cassette-v0.1.stl peripheral-bay-v0.1.scad
 openscad -D 'part="esp32"' -o exports/esp32-relay-cassette-v0.1.stl peripheral-bay-v0.1.scad
+openscad -D 'part="rear-panel"' -o exports/rear-panel-nyacom-v0.1.stl rear-service-system-v0.1.scad
+openscad -D 'part="io-blank"' -o exports/rear-io-blank-v0.1.stl rear-service-system-v0.1.scad
+openscad -D 'part="cisco"' -o exports/rear-cisco-insert-v0.1.stl rear-service-system-v0.1.scad
+openscad -D 'part="flexatx"' -o exports/rear-flexatx-insert-v0.1.stl rear-service-system-v0.1.scad
 ```
