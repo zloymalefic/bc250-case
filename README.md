@@ -32,6 +32,8 @@ The design is still in the research and geometry-validation phase. Dimensions an
 - `cad/PSU-INTERFACE.md` - fully internal PSU interface and flush-rear requirement.
 - `cad/chassis-split-v0.1.scad` - front/rear printable structural sections with an internal alignment collar.
 - `cad/CHASSIS-SPLIT.md` - split location, print envelopes, clearance, and retention details.
+- `cad/intake-panel-snap-v0.1.scad` - two independently replaceable JF13K intake halves with hidden hooks.
+- `cad/snap-fit-coupon-v0.1.scad` - required snap-clearance test before full-panel printing.
 - `cad/exports/layout-a-envelope.stl` - compiled validation export; not a printable final case.
 - `cad/support-horizontal.scad` and `cad/support-vertical.scad` - interchangeable support prototypes using a common M4 interface.
 - `cad/SUPPORT-INTERFACE.md` - dimensions, fasteners, and unresolved validation points for both orientations.

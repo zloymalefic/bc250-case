@@ -12,6 +12,8 @@
 
 `chassis-split-v0.1.scad` divides the 330 mm structural tunnel into two sub-250 mm print sections with an internal octagonal alignment collar and hidden M3 retention. See `CHASSIS-SPLIT.md`.
 
+`intake-panel-snap-v0.1.scad` divides the JF13K intake into two sub-250 mm snap-fit panels. `snap-fit-coupon-v0.1.scad` is the required material/printer calibration object; see `SNAP-PANELS.md`.
+
 It is intentionally not a printable enclosure. The model is used to:
 
 - expose dimensional assumptions;
@@ -50,4 +52,7 @@ openscad -D 'variant="flexatx"' \
   -o exports/psu-internal-flexatx-v0.1.stl psu-universal-internal-v0.1.scad
 openscad -D 'part="front"' -o exports/chassis-front-v0.1.stl chassis-split-v0.1.scad
 openscad -D 'part="rear"' -o exports/chassis-rear-v0.1.stl chassis-split-v0.1.scad
+openscad -o exports/snap-fit-coupon-v0.1.stl snap-fit-coupon-v0.1.scad
+openscad -D 'part="left"' -o exports/intake-panel-left-v0.1.stl intake-panel-snap-v0.1.scad
+openscad -D 'part="right"' -o exports/intake-panel-right-v0.1.stl intake-panel-snap-v0.1.scad
 ```
