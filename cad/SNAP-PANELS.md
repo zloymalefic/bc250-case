@@ -18,3 +18,12 @@ Initial PETG/ASA snap parameters:
 These numbers are test values, not production values. Print `fit-calibration-coupon-v0.1.scad` first. Test at least five insertion/removal cycles and reject any setting that creates whitening, root cracking, excessive looseness, or a release force likely to damage the panel.
 
 The matching eight receiver pockets are integrated into `chassis-split-v0.1.scad`. No hook is located on the structural front/rear chassis joint.
+
+## Deferred fan-cover depth
+
+These two halves are separate covers above the JF13K fans, not structural walls
+and not cooler supports. Their current flat 4 mm skin is only an interface
+prototype. Final inner relief/stand-off is intentionally deferred until a
+physical fan-side check; it may rise locally beyond the nominal body-side datum.
+The released covers must not touch the fan frames, screws, blades, or wiring and
+must repeat the airflow/no-contact check independently of the main chassis.

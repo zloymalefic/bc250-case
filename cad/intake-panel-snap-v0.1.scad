@@ -5,6 +5,8 @@ $fn = 32;
 
 part = "left"; // left | right | assembly
 
+// Interface prototype only: final fan-facing cover relief is deliberately
+// deferred and may be raised locally. Do not release this flat skin for print.
 panel_half = [135, 131, 4];
 panel_radius = 6;
 seam_tongue = 5;

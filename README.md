@@ -39,6 +39,8 @@ Additional source projects, direct links, adopted features, pinned revisions, an
 - `cad/layout-a-envelope.scad` - parameterized collision/envelope model for layout A.
 - `cad/exterior-nyacom-v0.2.scad` - replacement exterior direction closely based on the Nyacom industrial case language.
 - `cad/NYACOM-ADAPTATION.md` - retained design features, necessary JF13K changes, and derivative-license note.
+- `cad/JF13K-PHOTO-FIT.md` - official JF13K envelope, photo/board-model cross-check,
+  panel clearance, and remaining physical sanity checks.
 - `cad/power-button-nexgen-v0.1.scad` - recreated three-part, backlit, rotatable NexGen-style button module.
 - `cad/psu-universal-internal-v0.2.scad` - internal receiver for the common
   NexGen 110 × 46.34 mm server/FlexATX/LOP adapter family.

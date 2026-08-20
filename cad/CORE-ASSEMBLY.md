@@ -4,6 +4,12 @@
 
 The component architecture follows the Nyacom reference: BC-250 is vertical in the longitudinal X-Z plane, JF13K projects toward the broad side intake, and the Cisco PSU is rotated to a 40 mm Y thickness on the opposite side of the board. The former horizontal two-level layout is superseded.
 
+The JF13K proxy is now fixed to the official 241 × 121 × 92 mm product envelope
+and centred on the locally verified 308.0 × 144.3 mm PCB datum. Supplied assembly
+photographs validate the orientation and installed height. This leaves 9.4 mm
+from the fan-side envelope to the inner intake-panel face; CAD rejects anything
+below 6 mm. See `JF13K-PHOTO-FIT.md` for the evidence and residual checks.
+
 ## What is now mechanically closed
 
 - front and rear use the same 330 × 155 × 195 mm coordinate system;

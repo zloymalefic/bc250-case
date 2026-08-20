@@ -62,8 +62,18 @@ board_origin = [(body[0] - board[0]) / 2, 48,
                 (body[2] - board[2]) / 2];
 cisco_psu = [240, 40, 96];
 cisco_origin = [70, 6, 30];
-jf13k = [240, 92, 121]; // conservative installed envelope, pending measurement
-jf13k_origin = [45, board_origin[1] + board[1] + 0.4, 36];
+// JIUSHARK publishes 241 x 121 x 92 mm.  In this coordinate system the
+// cooler's 92 mm installed height is Y and its 121 mm width is Z.  The supplied
+// side/top photographs confirm that it is centred over the bare PCB closely
+// enough to use the board envelope as the assembly datum.
+jf13k = [241, 92, 121];
+jf13k_origin = [
+    board_origin[0] + (board[0] - jf13k[0]) / 2,
+    board_origin[1] + board[1],
+    board_origin[2] + (board[2] - jf13k[2]) / 2
+];
+jf13k_panel_gap = body[1] - wall - (jf13k_origin[1] + jf13k[1]);
+jf13k_required_gap = 6; // hard no-contact allowance; nominal model leaves 9.4 mm
 
 module oct_prism_x(length, width, height, cut) {
     translate([0, 0, height])
@@ -310,7 +320,7 @@ echo("board envelope/origin mm", [board, board_origin]);
 echo("Cisco envelope/origin mm", [cisco_psu, cisco_origin]);
 echo("JF13K envelope/origin mm", [jf13k, jf13k_origin]);
 echo("PSU-to-board gap mm", board_origin[1] - (cisco_origin[1] + cisco_psu[1]));
-echo("JF13K-to-side-wall gap mm", body[1] - (jf13k_origin[1] + jf13k[1]));
+echo("JF13K-to-inner-side-wall gap mm", jf13k_panel_gap);
 echo("release status", "core validation only; end panels and tray not yet integrated");
 
 assert(split_x + collar_length <= 250, "Front core exceeds preliminary print envelope");
@@ -319,4 +329,5 @@ assert(vertical_base_footprint[0] <= 250 && vertical_base_footprint[1] <= 250,
        "Vertical rear/base cover exceeds preliminary print envelope");
 assert(board_origin[1] - (cisco_origin[1] + cisco_psu[1]) >= 2, "Cisco PSU collides with vertical board plane");
 assert(jf13k_origin[1] + jf13k[1] <= body[1] - wall, "JF13K envelope collides with side wall");
+assert(jf13k_panel_gap >= jf13k_required_gap, "JF13K has less than 6 mm hard clearance to intake panel");
 assert(board_origin[2] + board[2] <= body[2] - wall, "Vertical board exceeds inner height");
