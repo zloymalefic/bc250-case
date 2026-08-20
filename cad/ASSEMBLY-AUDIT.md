@@ -16,6 +16,7 @@ All production-looking exports have therefore been withdrawn. `cad/exports/` now
 | Monolithic rear covers ↔ chassis | integrated, unvalidated | Both rear variants are single structural bodies on the common four-point M3 interface. Final PSU/I/O apertures remain open. |
 | Button ↔ front panel | integrated, unvalidated | NexGen plate mounts entirely against the inside face; two blind M3 insert axes, central passage and a thickness extension align the external cap. Insert fit and switch travel remain open. |
 | Anker A7516 cassette ↔ front panel | integrated, unvalidated | Vertical 28.6 × 71.0 mm opening, two hidden receivers, four USB-A cuts, and a 103 × 30 × 10 mm cradle are modeled. Physical fit remains open. |
+| ESP32 service cover ↔ chassis | integrated, unvalidated | The 98 × 40 mm cover replaces a matching 3 mm shell seat, follows the lower 16 mm chamfer and becomes coplanar above it. Four magnet pairs sit on solid frame outside the service opening. Pocket fit remains open. |
 | Board spine ↔ chassis | integrated, unvalidated | Eight transverse M4 axes now match eight webbed core bosses. M4 insert fit and load testing remain open. |
 | BC-250 ↔ board spine | partially defined | Bare PCB envelope is now 308.0 × 144.3 × 1.6 mm and the split pocket is modeled; final edge clamps still require a real-board keepout check. |
 | JF13K ↔ spine/chassis | partially defined | Official envelope and photo-derived placement are frozen; the spine load path reaches the shell. Non-contact transport-pad locations remain open. |

@@ -30,20 +30,12 @@ const root=new THREE.Group();root.rotation.x=-Math.PI/2;scene.add(root);
 const stl=new STLLoader();
 const material=(color,opts={})=>new THREE.MeshStandardMaterial({color,roughness:opts.roughness??.62,metalness:opts.metalness??.08,transparent:!!opts.opacity,opacity:opts.opacity??1,side:opts.side??THREE.FrontSide});
 const mats={shell:material(0x252a30),shell2:material(0x434b55),intake:material(0xaeb9c5,{roughness:.48}),service:material(0xd84730),dark:material(0x171b20),logo:material(0xf1f3f4,{roughness:.3}),metal:material(0x89919a,{metalness:.72,roughness:.28}),board:material(0x20a568,{roughness:.74}),cooler:material(0xe8edf2,{metalness:.18,roughness:.3}),pipe:material(0xbcc6ce,{metalness:.52,roughness:.22}),light:material(0xd9f1ff,{roughness:.16,opacity:.62,side:THREE.DoubleSide}),psu:material(0xe88924,{metalness:.45,roughness:.35}),button:material(0xf0c642,{metalness:.35,roughness:.3}),anker:material(0x2f79d0,{metalness:.3,roughness:.35}),rearUsb:material(0xe35ca0,{metalness:.2,roughness:.4}),ssd:material(0x9b6de3,{metalness:.45,roughness:.3}),esp32:material(0x24bfd0,{metalness:.2,roughness:.42})};
-const componentDefs=[
-  ['shell','Корпус и каркас','#434b55'],['frontCover','Передняя крышка','#d84730'],
-  ['rearCover','Задняя крышка','#d84730'],['board','Плата BC-250','#20a568'],
-  ['cooler','Кулер JF13K','#e8edf2'],['psu','Блок питания Cisco','#e88924'],
-  ['button','Кнопка питания','#f0c642'],['anker','Anker USB HUB','#2f79d0'],
-  ['ssd','Кассета SSD','#9b6de3'],['esp32','Кассета ESP32','#24bfd0'],
-  ['rearUsb','Задний USB return','#e35ca0']
-];
 const parts=[];
 const T=(position=[0,0,0],matrix=null,center=false)=>({position,matrix,center});
 const specs=[
  ['front-core','Передняя половина корпуса','front-core.stl','shell',T(),[-70,0,0]],
  ['rear-core','Задняя половина корпуса','rear-core.stl','shell2',T([165,0,0]),[70,0,0]],
- ['front-panel','Фигурная торцевая панель Nyacom · 4×M3','front-panel.stl','service',T([-6,0,0],new THREE.Matrix4().set(0,0,1,0, 1,0,0,0, 0,1,0,0, 0,0,0,1)),[-105,0,0]],
+ ['front-panel','Фигурная торцевая панель Nyacom · 4×M3','front-panel.stl','service',T([0,0,0],new THREE.Matrix4().set(0,0,-1,0, 1,0,0,0, 0,1,0,0, 0,0,0,1)),[-105,0,0]],
  ['front-usb','Кассета фронтального USB-хаба','front-usb-cassette.stl','dark',T([-12,111.335,87.325],new THREE.Matrix4().set(0,0,-1,0, 1,0,0,0, 0,1,0,0, 0,0,0,1)),[-115,20,0]],
  ['spine-front','Передняя часть каркаса платы','board-spine-front.stl','shell2',T([7,42,17.35]),[-25,-12,0]],
  ['spine-rear','Задняя часть каркаса платы','board-spine-rear.stl','shell2',T([165,42,17.35]),[25,-12,0]],
@@ -55,7 +47,7 @@ const specs=[
  ['rear-usb','NexGen USB return · задняя панель','usb-cover.stl','rearUsb',T([337,52,95],new THREE.Matrix4().set(1,0,0,0, 0,0,1,0, 0,1,0,0, 0,0,0,1),true),[125,-22,0]],
  ['ssd','Кассета SSD','ssd-cassette.stl','ssd',T([22,60,42.5],new THREE.Matrix4().set(0,0,1,0, 0,1,0,0, 1,0,0,0, 0,0,0,1)),[-55,-40,-30]],
  ['esp32-cassette','Боковая кассета ESP32-реле','esp32-cassette.stl','esp32',T([180,70,5]),[0,45,-35]],
- ['esp32-cover','Крышка отсека ESP32','esp32-cover.stl','shell2',T([175,151,0],new THREE.Matrix4().set(1,0,0,0, 0,0,1,0, 0,1,0,0, 0,0,0,1)),[0,70,-35]],
+ ['esp32-cover','Крышка отсека ESP32 · заподлицо','esp32-cover.stl','shell2',T([165,151,0],new THREE.Matrix4().set(1,0,0,0, 0,0,1,0, 0,1,0,0, 0,0,0,1)),[0,70,-35]],
  ['intake-left','Левая съёмная крышка JF13K · прототип','intake-cover-left.stl','intake',T([30,151,28],new THREE.Matrix4().set(1,0,0,0, 0,0,1,0, 0,1,0,0, 0,0,0,1)),[0,65,0]],
  ['intake-right','Правая съёмная крышка JF13K · прототип','intake-cover-right.stl','intake',T([170,151,28],new THREE.Matrix4().set(1,0,0,0, 0,0,1,0, 0,1,0,0, 0,0,0,1)),[0,65,0]],
  ['rear-vertical','Вертикальная задняя крышка / основание','rear-cover-vertical.stl','service',T([330,-15,-15]),[135,0,0]],
@@ -108,9 +100,9 @@ function equipment(){box('psu','Cisco UCSC-PSU-650W V02',[240,40,96],[70,6,30],'
 
 await Promise.all(specs.map(loadPart));equipment();
 let rear='horizontal',explode=0;
-function updateLegend(){document.querySelectorAll('#component-legend button').forEach(button=>{const matches=parts.filter(p=>p.userData.group===button.dataset.component);const present=matches.length>0,visible=matches.some(p=>p.visible);button.classList.toggle('missing',!present);button.classList.toggle('off',present&&!visible);button.querySelector('small').textContent=!present?'нет':visible?'виден':'скрыт'})}
+function updateLegend(){document.querySelectorAll('#component-legend button').forEach(button=>{const matches=parts.filter(p=>p.userData.id===button.dataset.partId);const present=matches.length>0,visible=matches.some(p=>p.visible);button.classList.toggle('missing',!present);button.classList.toggle('off',present&&!visible);button.querySelector('small').textContent=!present?'нет':visible?'виден':'скрыт'})}
 function updateVisibility(){const showShell=document.querySelector('#shell').checked,showEq=document.querySelector('#equipment').checked;for(const p of parts){let visible=(p.userData.equipment?showEq:showShell)&&p.userData.enabled;if(p.userData.id==='rear-vertical')visible=showShell&&rear==='vertical'&&p.userData.enabled;if(p.userData.id==='rear-horizontal')visible=showShell&&rear==='horizontal'&&p.userData.enabled;if(p.userData.id==='rear-usb')visible=showShell&&rear!=='none'&&p.userData.enabled;p.visible=visible}updateLegend()}
-function buildLegend(){const host=document.querySelector('#component-legend');for(const [id,name,color] of componentDefs){const button=document.createElement('button');button.type='button';button.dataset.component=id;button.innerHTML=`<b style="--swatch:${color}"></b><span>${name}</span><small></small>`;button.onclick=()=>{const matches=parts.filter(p=>p.userData.group===id);if(!matches.length)return;const enable=!matches.some(p=>p.visible);matches.forEach(p=>p.userData.enabled=enable);updateVisibility()};host.append(button)}}
+function buildLegend(){const host=document.querySelector('#component-legend');const entries=new Map();for(const part of parts)if(!entries.has(part.userData.id))entries.set(part.userData.id,part);for(const [id,part] of entries){const button=document.createElement('button');button.type='button';button.dataset.partId=id;const color=`#${part.material.color.getHexString()}`;button.innerHTML=`<b style="--swatch:${color}"></b><span>${part.userData.label}</span><small></small>`;button.onclick=()=>{const matches=parts.filter(p=>p.userData.id===id);const enable=!matches.some(p=>p.userData.enabled);matches.forEach(p=>p.userData.enabled=enable);updateVisibility()};host.append(button)}}
 buildLegend();
 function updateExplode(){for(const p of parts){const b=p.userData.base,e=p.userData.explode;p.position.set(b[0]+e[0]*explode,b[1]+e[1]*explode,b[2]+e[2]*explode)}}
 document.querySelector('#explode').addEventListener('input',e=>{explode=e.target.value/100;document.querySelector('#explode-value').value=`${e.target.value}%`;updateExplode()});

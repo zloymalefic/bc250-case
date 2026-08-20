@@ -165,11 +165,10 @@ esp_rail_wall = 3;
 esp_rail_height = 4.4;
 esp_service_opening = [74, 28]; // X width, Z height
 esp_service_origin = [esp_origin[0] - 3, 4];
-esp_cover_size = [78, 36, 3];
-esp_cover_origin = [esp_service_origin[0] - 2, 0];
-esp_cover_magnet_local = [[8, 5], [esp_cover_size[0] - 8, 5],
-                          [8, esp_cover_size[1] - 3],
-                          [esp_cover_size[0] - 8, esp_cover_size[1] - 3]];
+esp_cover_size = [98, 40, 3];
+esp_cover_origin = [esp_service_origin[0] - 12, 0];
+esp_cover_magnet_local = [[5, 20], [esp_cover_size[0] - 5, 20],
+                          [5, 32], [esp_cover_size[0] - 5, 32]];
 esp_top_gap = jf13k_origin[2] -
     (esp_origin[2] + esp_tray_size[2] + esp_device[2]);
 
@@ -210,10 +209,23 @@ module open_shell() {
 
         // Hidden extension below the fan opening lets the ESP32 cassette slide
         // out after the removable intake cover is released.
-        translate([esp_service_origin[0], body[1] - wall - 1,
+        translate([esp_service_origin[0], body[1] - chamfer - 1,
                    esp_service_origin[1]])
-            cube([esp_service_opening[0], wall + 2,
+            cube([esp_service_opening[0], chamfer + 2,
                   esp_service_opening[1]]);
+
+        // Remove exactly the 3 mm profiled skin replaced by the flush cover.
+        // This prevents coincident/overlapping plastic around the service bay.
+        esp32_cover_envelope_global();
+
+        // Blind pockets open from the recessed seat into the remaining shell.
+        // All four axes lie on solid frame outside the 74 mm service opening.
+        for (p = esp_cover_magnet_local)
+            translate([esp_cover_origin[0] + p[0], body[1] - 2.9,
+                       esp_cover_origin[1] + p[1]])
+                rotate([90, 0, 0])
+                    cylinder(h = magnet_pocket_depth + 0.2,
+                             d = magnet_pocket_d);
     }
 }
 
@@ -241,17 +253,13 @@ module intake_magnets_and_guides() {
     for (x = intake_panel_x) intake_magnets_and_guides_global(x);
 }
 
-module esp32_cover_magnets() {
-    // Bosses sit on solid shell immediately below and above the service cut.
-    // Their local X/Z coordinates match the separate cover.
+module esp32_cover_envelope_global() {
     multmatrix([
         [1, 0, 0, esp_cover_origin[0]],
         [0, 0, 1, body[1] - wall],
         [0, 1, 0, esp_cover_origin[1]],
         [0, 0, 0, 1]
-    ])
-        for (p = esp_cover_magnet_local)
-            translate([p[0], p[1], 0]) magnet_boss_negative();
+    ]) flush_chamfered_solid();
 }
 
 module esp32_service_cover_global() {
@@ -624,7 +632,6 @@ module complete_core() {
         psu_receiver_bridges();
         front_panel_seat_and_receivers();
         intake_magnets_and_guides();
-        esp32_cover_magnets();
         ssd_receiver_rails();
         esp32_receiver_rails();
     }

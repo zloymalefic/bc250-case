@@ -65,8 +65,10 @@ inside the lower chassis chamfer instead of extending the exterior silhouette.
 - the 68 × 68 mm ESP32 relay cassette sits horizontally under JF13K, leaving
   3.6 mm nominal clearance to the cooler envelope;
 - bottom guide rails, an inner stop and a printed detent allow side removal;
-  a separate 78 × 36 mm vented cover closes the 74 × 28 mm service opening
-  with four 8 × 2 mm magnet pairs and a 5 × 2 mm bottom pry notch.
+  a separate 98 × 40 mm vented cover closes the 74 × 28 mm service opening.
+  Its lower profile follows the 16 mm case chamfer, its upper profile is flush
+  with the straight side wall, and four 8 × 2 mm magnet pairs sit on solid
+  frame areas outside the opening; the bottom pry notch remains 5 × 2 mm.
 
 ## Assembly sequence for the core
 
