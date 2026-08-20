@@ -102,7 +102,9 @@ brew install --cask openscad
 ## Project files
 
 - `BC-250-JF13K-agent-context.md` - original project context and priorities.
-- `DESIGN-BRIEF.md` - evolving engineering requirements and decisions.
+- `DESIGN-BRIEF.md` - evolving engineering requirements plus mandatory
+  enclosure-envelope, mating-interface, physical-support, structural-strength,
+  and airflow validation rules.
 - `BOM.md` - provisional fastener, consumable, filament, electronics, and procurement list with project article numbers and quantities.
 - `SOURCES.md` - reference registry, pinned revisions, formats, licenses, and preliminary measurements.
 - `ATTRIBUTION.md` - complete credits, direct links, adopted features, and derivative-license notices.
