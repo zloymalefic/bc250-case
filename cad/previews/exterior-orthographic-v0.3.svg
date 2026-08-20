@@ -53,12 +53,12 @@
     <path class="rear" d="M0 32L32 0H46V390H32L0 358Z"/>
     <path class="front" d="M614 0H628L660 32V358L628 390H614Z"/>
     <!-- Mirrored view: front is on the right. -->
-    <rect class="pcb" x="18.3" y="52" width="623.4" height="288" opacity=".22"/>
+    <rect class="pcb" x="22" y="50.4" width="616" height="288.6" opacity=".22"/>
     <rect class="cooler" x="90" y="76" width="480" height="242" rx="5" opacity=".67"/>
     <rect class="psu" x="40" y="138" width="480" height="192" rx="4" opacity=".72"/>
     <text class="inside" x="330" y="102" text-anchor="middle">JF13K: проекция 240 × 121 мм</text>
     <text class="inside" x="280" y="310" text-anchor="middle">Cisco PSU: проекция 240 × 96 мм</text>
-    <text class="inside" x="330" y="68" text-anchor="middle">BC-250: 311,7 × 144 мм</text>
+    <text class="inside" x="330" y="68" text-anchor="middle">BC-250 PCB: 308 × 144,3 мм</text>
     <path class="dim" marker-start="url(#arr)" marker-end="url(#arr)" d="M0 420H660"/>
     <text class="caption" x="330" y="447" text-anchor="middle">330 мм</text>
     <path class="dim" marker-start="url(#arr)" marker-end="url(#arr)" d="M688 0V390"/>

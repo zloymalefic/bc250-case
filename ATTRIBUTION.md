@@ -57,6 +57,13 @@ This project is not designed in isolation. It is based on, adapted from, and ins
 - Used for: independent BC-250 heatsink-footprint comparison and M4 fastening
   study. It is not treated as a JF13K-compatible production adapter.
 
+### torassk - Accurate 3D Model of the AMD BC-250 Board
+
+- Source: https://www.printables.com/model/1341336-accurate-3d-model-of-the-amd-bc-250-board
+- License: Standard Digital File License in the supplied PDF.
+- Used locally only to cross-check factual board dimensions. No source file,
+  converted model, or linked derivative is hosted in this repository.
+
 ### BC-250 Quiet Case Tower Cooler
 
 - Source: https://www.printables.com/model/1652979

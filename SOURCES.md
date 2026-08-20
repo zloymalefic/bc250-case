@@ -77,6 +77,16 @@
   with nuts, using a mixture of cooler and removed stock-heatsink hardware.
 - License in supplied PDF: Public Domain.
 
+### torassk Accurate 3D Model of the AMD BC-250 Board
+
+- Source: https://www.printables.com/model/1341336-accurate-3d-model-of-the-amd-bc-250-board
+- The user supplied the package locally; it is intentionally not extracted into
+  or committed to this repository.
+- Files: STEP, STL, and a 2-page Printables PDF.
+- Author states that dimensions and mounting points match the real board.
+- License: Standard Digital File License; no sharing, hosting, remixing, or
+  redistribution. Used only as a local dimensional cross-check.
+
 ## Доступно в каталогах, но файлы ещё не получены
 
 ## Дополнительные источники геометрии BC-250

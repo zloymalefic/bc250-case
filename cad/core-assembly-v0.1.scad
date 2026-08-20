@@ -57,8 +57,9 @@ side_intake_opening = [266, 119];
 side_intake_origin = [32, 18];
 
 // Confirmed Nyacom architecture: all major components are vertical.
-board = [311.7, 1.6, 144];
-board_origin = [(body[0] - board[0]) / 2, 48, 25];
+board = [308.0, 1.6, 144.3];
+board_origin = [(body[0] - board[0]) / 2, 48,
+                (body[2] - board[2]) / 2];
 cisco_psu = [240, 40, 96];
 cisco_origin = [70, 6, 30];
 jf13k = [240, 92, 121]; // conservative installed envelope, pending measurement

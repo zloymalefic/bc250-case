@@ -16,15 +16,15 @@ All production-looking exports have therefore been withdrawn. `cad/exports/` now
 | Rear panel ↔ chassis | impossible | Panel has four hooks; chassis has no rear receiver pockets or end-frame seat. |
 | Button ↔ front panel | impossible | Button plate has two M3 holes; front panel provides no bosses or inserts. |
 | USB cassette ↔ front panel | unvalidated | Nominal face clearance exists, but hook receivers and actual hub envelope are not confirmed. |
-| Board tray ↔ chassis | incomplete | Tray rests on ledges, but no shared fastener pattern or captive retention exists. |
-| BC-250 ↔ board tray | unknown | Board outline and mounting-hole coordinates remain provisional. |
+| Board spine ↔ chassis | incomplete | The new vertical spine defines eight transverse M4 axes, but matching core bosses are the next integration step. |
+| BC-250 ↔ board spine | partially defined | Bare PCB envelope is now 308.0 × 144.3 × 1.6 mm and the split pocket is modeled; final edge clamps still require a real-board keepout check. |
 | JF13K ↔ tray/chassis | unknown | Only envelope and generic load-path anchors exist. |
 | PSU carrier ↔ chassis | impossible | Rail has slots but chassis has no matching points. Its withdrawn STL also contained the solid PSU envelope. |
 | Cisco PSU ↔ carrier | unknown | Envelope, latch, connector, and airflow are provisional. |
 | SSD cassette ↔ chassis | impossible | No mating bay, rails, or latch exists. |
 | ESP32 cassette ↔ chassis | impossible | No mating bay exists; board hole pattern is unmeasured. |
 | Horizontal supports ↔ chassis | partially defined | Four bosses exist, but inserts and assembled fit are unvalidated. |
-| Vertical supports ↔ chassis | impossible | Chassis has no matching end-face attachment pattern. |
+| Vertical rear/base cover ↔ chassis | integrated, unvalidated | The tapered cover and rear core share four M3 axes; insert fit, connector bend radius, and load test remain open. |
 
 ## Status of source models
 

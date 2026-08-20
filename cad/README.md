@@ -37,3 +37,7 @@ face. See `REAR-COVER-VARIANTS.md`.
 `HEATSINK-MOUNT-COMPARISON.md` compares the supplied Sean MK7/RZ620 mount with
 the previously supplied AN600 adapter and records why neither may yet be treated
 as a verified JF13K production mount.
+
+`board-spine-v0.1.scad` is the first dimensional vertical carrier based on the
+308.0 × 144.3 × 1.6 mm bare-PCB envelope. `BC250-DATUM.md` records the source,
+license boundary, open-reference cross-check, and remaining retention risk.
