@@ -10,6 +10,8 @@
 
 `power-button-nexgen-v0.1.scad` recreates the NexGen three-part button architecture as a removable mounting plate, translucent light pipe, and replaceable cap. See `NEXGEN-MECHANISMS.md` for measured reference envelopes and adopted constraints.
 
+`chassis-split-v0.1.scad` divides the 330 mm structural tunnel into two sub-250 mm print sections with an internal octagonal alignment collar and hidden M3 retention. See `CHASSIS-SPLIT.md`.
+
 It is intentionally not a printable enclosure. The model is used to:
 
 - expose dimensional assumptions;
@@ -46,4 +48,6 @@ openscad -o exports/power-button-nexgen-v0.1.3mf power-button-nexgen-v0.1.scad
 openscad -o exports/psu-internal-cisco-v0.1.stl psu-universal-internal-v0.1.scad
 openscad -D 'variant="flexatx"' \
   -o exports/psu-internal-flexatx-v0.1.stl psu-universal-internal-v0.1.scad
+openscad -D 'part="front"' -o exports/chassis-front-v0.1.stl chassis-split-v0.1.scad
+openscad -D 'part="rear"' -o exports/chassis-rear-v0.1.stl chassis-split-v0.1.scad
 ```

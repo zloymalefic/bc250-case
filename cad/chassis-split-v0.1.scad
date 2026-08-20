@@ -1,0 +1,105 @@
+// Split structural tunnel v0.1.
+// Two printable shell sections with an internal alignment collar.
+// External styling follows exterior-nyacom-v0.2.scad.
+
+$fn = 32;
+
+part = "assembly"; // front | rear | assembly
+
+body = [330, 155, 195];
+chamfer = 16;
+wall = 4;
+split_x = 165;
+collar_length = 9;
+collar_clearance = 0.35; // per side; tune with material coupon
+collar_wall = 2.4;
+assembly_gap = 12;
+
+module oct_prism_x(length, width, height, cut) {
+    translate([0, 0, height])
+        rotate([0, 90, 0])
+            linear_extrude(height = length)
+                polygon([
+                    [cut, 0], [height - cut, 0], [height, cut],
+                    [height, width - cut], [height - cut, width],
+                    [cut, width], [0, width - cut], [0, cut]
+                ]);
+}
+
+module full_open_shell() {
+    difference() {
+        oct_prism_x(body[0], body[1], body[2], chamfer);
+        translate([-1, wall, wall])
+            oct_prism_x(body[0] + 2, body[1] - 2 * wall, body[2] - 2 * wall, chamfer - wall);
+    }
+}
+
+module shell_slice(x0, length) {
+    intersection() {
+        full_open_shell();
+        translate([x0, -1, -1]) cube([length, body[1] + 2, body[2] + 2]);
+    }
+}
+
+module male_alignment_collar() {
+    outer_inset = wall + collar_clearance;
+    translate([split_x, outer_inset, outer_inset])
+    difference() {
+        oct_prism_x(
+            collar_length,
+            body[1] - 2 * outer_inset,
+            body[2] - 2 * outer_inset,
+            chamfer - outer_inset
+        );
+        translate([-0.5, collar_wall, collar_wall])
+            oct_prism_x(
+                collar_length + 1,
+                body[1] - 2 * outer_inset - 2 * collar_wall,
+                body[2] - 2 * outer_inset - 2 * collar_wall,
+                chamfer - outer_inset - collar_wall
+            );
+    }
+}
+
+module joint_boss_x(xpos, length, ypos, zpos) {
+    // Internal M3 boss. The screw axis crosses the chassis split along X.
+    translate([xpos, ypos, zpos])
+        rotate([0, 90, 0])
+            difference() {
+                cylinder(h = length, d = 10);
+                translate([0, 0, -0.1]) cylinder(h = length + 0.2, d = 3.2);
+            }
+}
+
+module front_section() {
+    union() {
+        shell_slice(0, split_x);
+        male_alignment_collar();
+        joint_boss_x(split_x - 14, 14, wall + 3, 38);
+        joint_boss_x(split_x - 14, 14, body[1] - wall - 3, body[2] - 38);
+    }
+}
+
+module rear_section() {
+    union() {
+        shell_slice(split_x, body[0] - split_x);
+        joint_boss_x(split_x, 14, wall + 3, 38);
+        joint_boss_x(split_x, 14, body[1] - wall - 3, body[2] - 38);
+    }
+}
+
+if (part == "front")
+    front_section();
+else if (part == "rear")
+    translate([-split_x, 0, 0]) rear_section();
+else {
+    color([0.10, 0.11, 0.13]) front_section();
+    color([0.17, 0.18, 0.20]) translate([assembly_gap, 0, 0]) rear_section();
+}
+
+echo("part", part);
+echo("front_print_bounds_nominal_mm", [split_x + collar_length, body[1], body[2]]);
+echo("rear_print_bounds_nominal_mm", [body[0] - split_x, body[1], body[2]]);
+echo("collar_clearance_per_side_mm", collar_clearance);
+assert(split_x + collar_length <= 250, "Front section exceeds preliminary 250 mm print-bed limit");
+assert(body[0] - split_x <= 250, "Rear section exceeds preliminary 250 mm print-bed limit");
