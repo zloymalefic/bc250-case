@@ -5,10 +5,11 @@
 use <board-spine-v0.1.scad>
 use <psu-universal-internal-v0.2.scad>
 use <front-service-module-v0.1.scad>
+use <rear-service-blanks-v0.1.scad>
 
 $fn = 40;
 
-part = "assembly"; // front-core | rear-core | board-spine-front | board-spine-rear | front-panel | rear-cover-horizontal | rear-cover-vertical | assembly
+part = "assembly"; // front-core | rear-core | board-spine-front | board-spine-rear | front-panel | rear-blank-board | rear-blank-psu | rear-cover-horizontal | rear-cover-vertical | assembly
 exploded_gap = 0;
 show_fasteners = true;
 show_equipment = true;
@@ -44,9 +45,21 @@ rear_service_opening = [125, 165];
 rear_module_gap = 5;
 rear_module_widths = [72, 48];
 rear_module_height = 145;
-
 horizontal_cover_depth = 6;
 vertical_cover_depth = 44;
+rear_module_y0 = (body[1] - rear_service_opening[0]) / 2;
+rear_module_z0 = (body[2] - rear_module_height) / 2;
+rear_blank_clearance = 0.35;
+rear_blank_thickness = 3;
+rear_blank_inner_x = body[0] + horizontal_cover_depth - rear_blank_thickness;
+rear_seat_depth = 3;
+rear_seat_overlap = 2;
+rear_blank_widths = [for (w = rear_module_widths) w - 2 * rear_blank_clearance];
+rear_blank_height = rear_module_height - 2 * rear_blank_clearance;
+rear_snap_block = [9, 12, 12];
+rear_snap_z = [rear_module_z0 + rear_blank_clearance + 8,
+               rear_module_z0 + rear_blank_clearance + rear_blank_height - 8];
+
 vertical_base_overhang = 15;
 vertical_base_footprint = [
     body[1] + 2 * vertical_base_overhang,
@@ -316,20 +329,91 @@ module rear_cover_screw_holes(x0, length) {
 }
 
 module rear_module_windows(length) {
-    y0 = (body[1] - rear_service_opening[0]) / 2;
-    z0 = (body[2] - rear_module_height) / 2;
-    translate([body[0] - 0.1, y0, z0])
+    translate([body[0] - 0.1, rear_module_y0, rear_module_z0])
         cube([length + 0.2, rear_module_widths[0], rear_module_height]);
     translate([body[0] - 0.1,
-               y0 + rear_module_widths[0] + rear_module_gap, z0])
+               rear_module_y0 + rear_module_widths[0] + rear_module_gap,
+               rear_module_z0])
         cube([length + 0.2, rear_module_widths[1], rear_module_height]);
+}
+
+function rear_window_y(index) =
+    index == 0 ? rear_module_y0 :
+    rear_module_y0 + rear_module_widths[0] + rear_module_gap;
+
+module rear_service_seats_and_receivers() {
+    difference() {
+        union() {
+            for (i = [0 : 1]) {
+                y0 = rear_window_y(i);
+                width = rear_module_widths[i];
+
+                // A 2 mm shoulder behind each window supports the blank.
+                difference() {
+                    translate([body[0], y0, rear_module_z0])
+                        cube([rear_seat_depth, width, rear_module_height]);
+                    translate([body[0] - 0.1, y0 + rear_seat_overlap,
+                               rear_module_z0 + rear_seat_overlap])
+                        cube([rear_seat_depth + 0.2,
+                              width - 2 * rear_seat_overlap,
+                              rear_module_height - 2 * rear_seat_overlap]);
+                }
+
+                blank_y0 = y0 + rear_blank_clearance;
+                snap_y = [blank_y0 + 12,
+                          blank_y0 + rear_blank_widths[i] - 12];
+                for (y = snap_y, z = rear_snap_z)
+                    translate([rear_blank_inner_x - rear_snap_block[0],
+                               y - rear_snap_block[1] / 2,
+                               z - rear_snap_block[2] / 2])
+                        cube(rear_snap_block);
+
+                // Each receiver reaches the nearest horizontal seat rail;
+                // none of the snap blocks is a disconnected island.
+                for (y = snap_y) {
+                    translate([rear_blank_inner_x - rear_snap_block[0],
+                               y - rear_snap_block[1] / 2, rear_module_z0])
+                        cube([rear_snap_block[0], rear_snap_block[1],
+                              rear_snap_z[0] - rear_module_z0]);
+                    translate([rear_blank_inner_x - rear_snap_block[0],
+                               y - rear_snap_block[1] / 2, rear_snap_z[1]])
+                        cube([rear_snap_block[0], rear_snap_block[1],
+                              rear_module_z0 + rear_module_height - rear_snap_z[1]]);
+                }
+            }
+        }
+
+        for (i = [0 : 1]) {
+            blank_y0 = rear_window_y(i) + rear_blank_clearance;
+            snap_y = [blank_y0 + 12,
+                      blank_y0 + rear_blank_widths[i] - 12];
+            for (y = snap_y, z = rear_snap_z)
+                translate([rear_blank_inner_x - 8.4, y - 4.3, z - 2.2])
+                    cube([8.6, 8.6, 4.4]);
+        }
+    }
+}
+
+module rear_service_blank_global(index) {
+    y0 = rear_window_y(index) + rear_blank_clearance;
+    multmatrix([
+        [0, 0, 1, rear_blank_inner_x],
+        [1, 0, 0, y0],
+        [0, 1, 0, rear_module_z0 + rear_blank_clearance],
+        [0, 0, 0, 1]
+    ]) service_blank(rear_blank_widths[index]);
 }
 
 module rear_cover_horizontal_global() {
     difference() {
-        translate([body[0], 0, 0])
-            oct_prism_x(horizontal_cover_depth, body[1], body[2], chamfer);
-        rear_module_windows(horizontal_cover_depth);
+        union() {
+            difference() {
+                translate([body[0], 0, 0])
+                    oct_prism_x(horizontal_cover_depth, body[1], body[2], chamfer);
+                rear_module_windows(horizontal_cover_depth);
+            }
+            rear_service_seats_and_receivers();
+        }
         rear_cover_screw_holes(body[0], horizontal_cover_depth);
     }
 }
@@ -384,10 +468,15 @@ module vertical_pad_recesses() {
 
 module rear_cover_vertical_global() {
     difference() {
-        vertical_base_outer_solid();
-        vertical_base_inner_cavity();
-        rear_module_windows(horizontal_cover_depth + 0.2);
-        vertical_base_cable_exits();
+        union() {
+            difference() {
+                vertical_base_outer_solid();
+                vertical_base_inner_cavity();
+                rear_module_windows(horizontal_cover_depth + 0.2);
+                vertical_base_cable_exits();
+            }
+            rear_service_seats_and_receivers();
+        }
         rear_cover_screw_holes(body[0], vertical_cover_depth);
         vertical_pad_recesses();
     }
@@ -452,6 +541,10 @@ else if (part == "board-spine-rear")
         board_spine_global("rear");
 else if (part == "front-panel")
     front_panel();
+else if (part == "rear-blank-board")
+    service_blank(rear_blank_widths[0]);
+else if (part == "rear-blank-psu")
+    service_blank(rear_blank_widths[1]);
 else if (part == "rear-cover-horizontal")
     translate([-body[0], 0, 0]) rear_cover_horizontal_global();
 else if (part == "rear-cover-vertical")
@@ -468,6 +561,10 @@ else {
         color([0.64, 0.12, 0.10]) rear_cover_horizontal_global();
     else if (rear_cover == "vertical")
         color([0.64, 0.12, 0.10]) rear_cover_vertical_global();
+    if (rear_cover != "none") {
+        color([0.22, 0.23, 0.26]) rear_service_blank_global(0);
+        color([0.28, 0.29, 0.32]) rear_service_blank_global(1);
+    }
 }
 
 echo("part", part);
@@ -502,7 +599,11 @@ echo("PSU receiver rear setback mm", body[0] - psu_receiver_rear_x);
 echo("PSU interface", "NexGen 110 x 46.34 mm server/FlexATX/LOP family; receiver fused to rear core");
 echo("front service panel/seat mm", [front_panel_size, front_panel_inset, front_panel_front_x]);
 echo("front service panel retention", "4 hidden snap hooks; 0.30 mm nominal receiver clearance");
-echo("release status", "core validation only; rear service blanks and peripheral bays not yet integrated");
+echo("rear vertical service blanks YxZxX mm",
+     [[rear_blank_widths[0], rear_blank_height, rear_blank_thickness],
+      [rear_blank_widths[1], rear_blank_height, rear_blank_thickness]]);
+echo("rear blank retention", "4 hidden snap hooks each; common to horizontal and vertical rear covers");
+echo("release status", "core validation only; peripheral bays and final connector cuts not yet integrated");
 
 assert(split_x + collar_length <= 250, "Front core exceeds preliminary print envelope");
 assert(body[0] - split_x <= 250, "Rear core exceeds preliminary print envelope");
@@ -523,3 +624,6 @@ assert(psu_receiver_rear_x < body[0] - wall,
 assert(front_panel_size[0] + 2 * front_panel_inset[0] == body[1] &&
        front_panel_size[1] + 2 * front_panel_inset[1] == body[2],
        "Front service panel is not centred on the case end");
+assert(rear_module_widths[0] + rear_module_widths[1] + rear_module_gap ==
+       rear_service_opening[0],
+       "Rear vertical module widths do not fill the common service opening");

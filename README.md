@@ -52,6 +52,8 @@ Additional source projects, direct links, adopted features, pinned revisions, an
 - `cad/intake-panel-snap-v0.1.scad` - two independently replaceable JF13K intake halves with hidden hooks.
 - `cad/fit-calibration-coupon-v0.1.scad` - combined M3/M4 insert, screw-hole, and snap-clearance pre-production test.
 - `cad/front-service-module-v0.1.scad` - snap-fit Nyacom front insert with independent button and USB cassette modules.
+- `cad/rear-service-blanks-v0.1.scad` - two vertical snap-in board/I/O and PSU
+  blanks shared by both rear-cover variants.
 - `cad/board-spine-v0.1.scad` - split vertical BC-250 carrier using the verified
   308.0 × 144.3 mm bare-PCB envelope and an open backplate area.
 - `cad/BC250-DATUM.md` - dimensional source audit and restricted-reference

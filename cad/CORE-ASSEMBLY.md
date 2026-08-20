@@ -35,6 +35,10 @@ below 6 mm. See `JF13K-PHOTO-FIT.md` for the evidence and residual checks.
   support shoulder, and four matching hidden snap receivers in the front core;
 - the panel remains separately printable and removable without opening the
   structural chassis seam.
+- both rear-cover variants now share two vertical snap seats: a 71.30 × 144.30
+  mm board/I/O blank and a 47.30 × 144.30 mm PSU blank;
+- each rear blank has four hidden hooks and a 2 mm support shoulder; final
+  connector apertures are confined to these inexpensive replaceable parts.
 
 ## Assembly sequence for the core
 
@@ -48,9 +52,9 @@ The exact screw length and insert pilot remain provisional until the fit coupon 
 
 ## Next required interfaces
 
-1. Add snap seats for the two vertical rear service blanks inside both common
-   rear-cover variants.
-2. Validate the front-panel hooks with the existing clearance coupon.
+1. Validate front- and rear-panel hooks with the existing clearance coupon.
+2. Add final connector apertures to the replaceable rear blanks after cable and
+   port alignment is frozen.
 3. Final BC-250 edge clamps and non-contact JF13K transport pads after physical
    keepout checks.
 4. Two rear-cover variants on one four-point M3 interface: a shallow horizontal

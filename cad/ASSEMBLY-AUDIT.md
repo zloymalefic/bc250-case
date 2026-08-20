@@ -13,7 +13,7 @@ All production-looking exports have therefore been withdrawn. `cad/exports/` now
 | Chassis front ↔ chassis rear | integrated, unvalidated | The collar aligns the sections and two bottom-access M3 screws retain them. Insert/collar coupon results remain open. |
 | Intake halves ↔ chassis | aligned, unvalidated | Eight hook coordinates match eight receiver coordinates. Clearance and release access still require coupon results. |
 | Front panel ↔ chassis | integrated, unvalidated | The 125 × 165 mm panel has a recessed shoulder and four matching hidden receivers in the front core. Snap coupon result remains open. |
-| Rear panel ↔ chassis | impossible | Panel has four hooks; chassis has no rear receiver pockets or end-frame seat. |
+| Rear service blanks ↔ both rear covers | integrated, unvalidated | Two vertical blanks share identical 2 mm seats and four hidden receivers each in the horizontal cover and tower base. Connector cuts and snap coupon remain open. |
 | Button ↔ front panel | impossible | Button plate has two M3 holes; front panel provides no bosses or inserts. |
 | USB cassette ↔ front panel | unvalidated | Nominal face clearance exists, but hook receivers and actual hub envelope are not confirmed. |
 | Board spine ↔ chassis | integrated, unvalidated | Eight transverse M4 axes now match eight webbed core bosses. M4 insert fit and load testing remain open. |
