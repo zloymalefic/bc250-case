@@ -4,7 +4,7 @@ Engineering project for a compact, quiet, 3D-printable Steam Machine-style enclo
 
 `AMD BC-250 + mounting adapter + JIUSHARK JF13K + modular PSU`
 
-The design is still in the research and geometry-validation phase. Dimensions and compatibility are not treated as final until they are confirmed by source CAD or physical measurement.
+The design is in a controlled recovery and geometry-validation phase. There is currently no printable enclosure release. Previous prototype exports were withdrawn because their mating interfaces did not form a buildable assembly; see [cad/ASSEMBLY-AUDIT.md](cad/ASSEMBLY-AUDIT.md).
 
 ## Based on and inspired by
 
@@ -37,9 +37,7 @@ Additional source projects, direct links, adopted features, pinned revisions, an
 - `cad/layout-a-envelope.scad` - parameterized collision/envelope model for layout A.
 - `cad/exterior-nyacom-v0.2.scad` - replacement exterior direction closely based on the Nyacom industrial case language.
 - `cad/NYACOM-ADAPTATION.md` - retained design features, necessary JF13K changes, and derivative-license note.
-- `cad/exports/exterior-nyacom-*-v0.2.3mf` - compiled horizontal and vertical Nyacom-style concept assemblies.
 - `cad/power-button-nexgen-v0.1.scad` - recreated three-part, backlit, rotatable NexGen-style button module.
-- `cad/exports/power-button-steam-logo-nexgen-v0.2.3mf` - original NexGen three-colour Steam emblem, reoriented for the project button without remeshing.
 - `cad/psu-universal-internal-v0.1.scad` - common internal rail with separate Cisco and FlexATX adapters.
 - `cad/NEXGEN-MECHANISMS.md` - exact NexGen mechanisms selected for reuse and their project-specific constraints.
 - `cad/PSU-INTERFACE.md` - fully internal PSU interface and flush-rear requirement.
@@ -47,14 +45,13 @@ Additional source projects, direct links, adopted features, pinned revisions, an
 - `cad/CHASSIS-SPLIT.md` - split location, print envelopes, clearance, and retention details.
 - `cad/chassis-joint-coupon-v0.1.scad` - reduced-cost three-clearance test of the real chamfered chassis joint.
 - `cad/intake-panel-snap-v0.1.scad` - two independently replaceable JF13K intake halves with hidden hooks.
-- `cad/snap-fit-coupon-v0.1.scad` - required snap-clearance test before full-panel printing.
 - `cad/fit-calibration-coupon-v0.1.scad` - combined M3/M4 insert, screw-hole, and snap-clearance pre-production test.
 - `cad/front-service-module-v0.1.scad` - snap-fit Nyacom front insert with independent button and USB cassette modules.
 - `cad/board-tray-v0.1.scad` - split open-centre BC-250 tray with adjustable slots and JF13K load-path anchors.
-- `cad/integration-assembly-v0.1.scad` - combined chassis/tray/Cisco PSU packaging validation.
 - `cad/peripheral-bay-v0.1.scad` - removable 7 mm SSD and ESP32 relay-board cassettes.
 - `cad/rear-service-system-v0.1.scad` - flush rear panel with replaceable I/O and PSU inserts.
-- `cad/exports/layout-a-envelope.stl` - compiled validation export; not a printable final case.
+- `cad/ASSEMBLY-AUDIT.md` - authoritative compatibility audit and recovery order.
+- `cad/exports/README.md` - authoritative list of STL files currently approved for slicing.
 - `cad/support-horizontal.scad` and `cad/support-vertical.scad` - interchangeable support prototypes using a common M4 interface.
 - `cad/SUPPORT-INTERFACE.md` - dimensions, fasteners, and unresolved validation points for both orientations.
 - `cad/previews/layout-a-top.svg` - reproducible top-view projection for quick browser inspection.

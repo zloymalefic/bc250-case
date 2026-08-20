@@ -1,89 +1,22 @@
 # CAD workspace
 
-`layout-a-envelope.scad` is the first parameterized packaging model for the recommended longitudinal two-level architecture.
+Current status: **design recovery; no printable enclosure release**.
 
-`support-horizontal.scad` and `support-vertical.scad` are the first printable support prototypes. Both use the common parameters in `lib/common.scad`; see `SUPPORT-INTERFACE.md` for the mechanical contract and unresolved details.
+Read `ASSEMBLY-AUDIT.md` before using any model. It records why the previous collection could not be assembled and defines the recovery order.
 
-`exterior-nyacom-v0.2.scad` is the active exterior direction. It follows the supplied Nyacom reference closely while replacing its stock-cooler airflow with a two-field JF13K intake. See `NYACOM-ADAPTATION.md`.
+## Safe outputs
 
-`psu-universal-internal-v0.1.scad` defines a fully internal common PSU rail with separate Cisco and FlexATX adapters. Nothing in this interface may protrude through the Nyacom-style rear ring; see `PSU-INTERFACE.md`.
-
-`power-button-nexgen-v0.1.scad` recreates the NexGen three-part button architecture as a removable mounting plate, translucent light pipe, and replaceable cap. See `NEXGEN-MECHANISMS.md` for measured reference envelopes and adopted constraints.
-
-`chassis-split-v0.1.scad` divides the 330 mm structural tunnel into two sub-250 mm print sections with an internal octagonal alignment collar and hidden M3 retention. See `CHASSIS-SPLIT.md`.
-
-`chassis-joint-coupon-v0.1.scad` extracts the real chamfered shell/collar corner at three clearances, avoiding two full chassis prints just to calibrate the split fit. See `CHASSIS-JOINT-COUPON.md`.
-
-`intake-panel-snap-v0.1.scad` divides the JF13K intake into two sub-250 mm snap-fit panels. `snap-fit-coupon-v0.1.scad` is the required material/printer calibration object; see `SNAP-PANELS.md`.
-
-`fit-calibration-coupon-v0.1.scad` adds M3/M4 insert pilots and screw-clearance gauges to three production-size snap receiver clearances. Use it as the single pre-production print and record the result in `FIT-CALIBRATION.md`.
-
-`front-service-module-v0.1.scad` combines a Nyacom-style snap-fit front panel with independent openings for the NexGen-derived button and a replaceable USB-A/USB-C cassette. See `FRONT-SERVICE-MODULE.md`.
-
-`board-tray-v0.1.scad` is a split structural perimeter frame for the BC-250. It preserves a continuous 12 mm backplate channel and includes independent anchors for future JF13K transport supports. See `BOARD-TRAY.md`.
-
-`integration-assembly-v0.1.scad` combines the split shell, board tray, Cisco PSU rail, and BC-250 proxy. The first combined check moves the board plane to Z=65 mm to preserve the 12 mm PSU-to-board channel; see `INTEGRATION-CHECK-01.md`.
-
-`peripheral-bay-v0.1.scad` provides separate removable cassettes for a 7 mm 2.5-inch SSD and the provisional 60 × 60 mm ESP32 relay board. See `PERIPHERAL-BAY.md` for compatibility limits and thermal caveats.
-
-`rear-service-system-v0.1.scad` provides a flush Nyacom-style rear panel with two common snap-fit module openings for BC-250 I/O and Cisco/FlexATX interfaces. See `REAR-SERVICE-SYSTEM.md`.
-
-It is intentionally not a printable enclosure. The model is used to:
-
-- expose dimensional assumptions;
-- test component placement and service zones;
-- compare horizontal and vertical supports;
-- detect obvious collisions before detailed CAD;
-- update uncertain dimensions without rebuilding the model.
-
-Key provisional inputs are grouped at the top of the file. In particular, confirm the Cisco PSU envelope and the installed JF13K Z stack before deriving printable parts.
-
-Expected console values with the current assumptions:
-
-- chassis: 330 × 155 × 195 mm;
-- bounding volume: 9.974 litres;
-- nominal PSU-to-PCB backplate channel: 12 mm;
-- conservative JF13K top Z: 156.6 mm.
-
-The first square-section study looked and behaved unlike the Nyacom reference. The corrected 155 × 195 mm cross-section is narrower and taller, retains the minimum 12 mm cable channel, and leaves 38.4 mm above the conservative JF13K envelope for the intake panel and structural support.
-
-Open `layout-a-envelope.scad` in OpenSCAD and use Preview (`F5`). Display toggles at the top isolate the shell, component envelopes, supports, and airflow guides.
-
-Reproducible exports:
+Only the small test pieces in `exports/` are currently approved for slicing. See `exports/README.md`.
 
 ```sh
-openscad -o exports/layout-a-envelope.stl layout-a-envelope.scad
-openscad -D 'show_chassis=false' -D 'export_projection=true' \
-  -o previews/layout-a-top.svg layout-a-envelope.scad
-openscad -o exports/support-horizontal-v0.2.stl support-horizontal.scad
-openscad -o exports/support-vertical-v0.1.stl support-vertical.scad
-openscad -o exports/exterior-nyacom-horizontal-v0.2.3mf exterior-nyacom-v0.2.scad
-openscad -D 'orientation="vertical"' \
-  -o exports/exterior-nyacom-vertical-v0.2.3mf exterior-nyacom-v0.2.scad
-openscad -o exports/power-button-nexgen-v0.2.3mf power-button-nexgen-v0.1.scad
-python3 ../tools/prepare_nexgen_button_logo.py \
-  '../references/printables-1793043-nexgen-pro-v2/Power Button/pro-v2-steam-logo.3mf' \
-  exports/power-button-steam-logo-nexgen-v0.2.3mf
-openscad -o exports/psu-internal-cisco-v0.1.stl psu-universal-internal-v0.1.scad
-openscad -D 'variant="flexatx"' \
-  -o exports/psu-internal-flexatx-v0.1.stl psu-universal-internal-v0.1.scad
-openscad -D 'part="front"' -o exports/chassis-front-v0.4.stl chassis-split-v0.1.scad
-openscad -D 'part="rear"' -o exports/chassis-rear-v0.4.stl chassis-split-v0.1.scad
+openscad -o exports/fit-calibration-coupon-v0.1.stl fit-calibration-coupon-v0.1.scad
 openscad -D 'clearances=[0.25]' -o exports/chassis-joint-coupon-0.25mm-v0.1.stl chassis-joint-coupon-v0.1.scad
 openscad -D 'clearances=[0.35]' -o exports/chassis-joint-coupon-0.35mm-v0.1.stl chassis-joint-coupon-v0.1.scad
 openscad -D 'clearances=[0.45]' -o exports/chassis-joint-coupon-0.45mm-v0.1.stl chassis-joint-coupon-v0.1.scad
-openscad -o exports/snap-fit-coupon-v0.1.stl snap-fit-coupon-v0.1.scad
-openscad -o exports/fit-calibration-coupon-v0.1.stl fit-calibration-coupon-v0.1.scad
-openscad -D 'part="left"' -o exports/intake-panel-left-v0.1.stl intake-panel-snap-v0.1.scad
-openscad -D 'part="right"' -o exports/intake-panel-right-v0.1.stl intake-panel-snap-v0.1.scad
-openscad -D 'part="panel"' -o exports/front-panel-nyacom-v0.1.stl front-service-module-v0.1.scad
-openscad -D 'part="usb-cassette"' -o exports/usb-hub-cassette-v0.1.stl front-service-module-v0.1.scad
-openscad -D 'part="front"' -o exports/board-tray-front-v0.1.stl board-tray-v0.1.scad
-openscad -D 'part="rear"' -o exports/board-tray-rear-v0.1.stl board-tray-v0.1.scad
-openscad -D 'part="ssd7"' -o exports/ssd7-cassette-v0.1.stl peripheral-bay-v0.1.scad
-openscad -D 'part="esp32"' -o exports/esp32-relay-cassette-v0.1.stl peripheral-bay-v0.1.scad
-openscad -D 'part="rear-panel"' -o exports/rear-panel-nyacom-v0.1.stl rear-service-system-v0.1.scad
-openscad -D 'part="io-blank"' -o exports/rear-io-blank-v0.1.stl rear-service-system-v0.1.scad
-openscad -D 'part="cisco"' -o exports/rear-cisco-insert-v0.1.stl rear-service-system-v0.1.scad
-openscad -D 'part="flexatx"' -o exports/rear-flexatx-insert-v0.1.stl rear-service-system-v0.1.scad
 ```
+
+## Retained studies
+
+Other `.scad` files are non-release studies. They preserve useful dimensions and geometry for rebuilding the master assembly, but their interfaces are incomplete. Successful OpenSCAD compilation does not make a study printable or compatible with another study.
+
+The exterior direction is documented by `previews/exterior-nyacom-v0.2.svg`. It is an orthographic visual concept, not a manufacturing drawing.

@@ -21,6 +21,6 @@ The 330 mm Nyacom-style structural tunnel is divided at X=165 mm:
 - four 13 mm reinforced floor bosses provide the corrected 258 × 99 mm horizontal-support pattern;
 - bosses accept M4 clearance screws and provisional 5.6 mm heat-set-insert pilots installed from inside.
 
-The collar clearance is provisional. Before printing complete shell sections, print `exports/chassis-joint-coupon-v0.1.stl`, which contains real chamfered interface pairs at 0.25, 0.35, and 0.45 mm clearance per side.
+The collar clearance is provisional. Before rebuilding complete shell exports, print the three `exports/chassis-joint-coupon-*-v0.1.stl` pairs at 0.25, 0.35, and 0.45 mm clearance per side.
 
 Receiver interference remains tied to the snap calibration coupon. Full chassis printing must wait until the selected material passes repeated insertion/removal testing.
