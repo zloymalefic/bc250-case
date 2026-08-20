@@ -236,6 +236,13 @@ module open_shell() {
         // cavity leaves a positive shoulder for the barb to catch behind.
         esp32_snap_receiver_pockets_global();
 
+        // Nyacom v2.4-inspired backplate exhaust: segmented slots preserve
+        // longitudinal webs and sit above the Cisco PSU envelope. Intake air
+        // from the JF13K side can leave the chassis after crossing the cooler
+        // and upper backplate cavity instead of recirculating inside the shell.
+        for (x = [48, 108, 178, 238], z = [136, 150, 164])
+            translate([x, -1, z]) cube([44, wall + 2, 5]);
+
     }
 }
 
@@ -416,6 +423,27 @@ module spine_core_bosses() {
                     cylinder(h = m4_insert_depth + 0.2, d = m4_insert_pilot_d);
         }
     }
+}
+
+module spine_load_rails() {
+    // Nyacom-style continuous top/bottom structural shelves. They fuse every
+    // transverse board-spine boss into the side shell and distribute the JF13K
+    // transport load along the enclosure instead of through isolated posts.
+    rail_height = 5;
+    for (z_local = spine_mount_z_local) {
+        z = spine_origin[2] + z_local;
+        translate([spine_origin[0], wall - 0.4, z - rail_height / 2])
+            cube([spine_frame[0],
+                  spine_origin[1] - wall + 0.8,
+                  rail_height]);
+    }
+}
+
+module rear_service_frame() {
+    // A full perimeter load path joins all four rear-cover insert bosses to
+    // the shell. Ports stay in the open centre; no screw receiver floats.
+    translate([body[0] - rear_boss_depth, 0, 0])
+        collar_ring(rear_boss_depth + 0.2, 0, 10);
 }
 
 module board_spine_global(which = "assembly") {
@@ -637,11 +665,19 @@ module rear_cover_screw_holes(x0, length) {
         }
 }
 
+module psu_rear_aperture(x0, length) {
+    translate([x0 - 0.1,
+               psu_receiver_origin[1] + 4,
+               psu_receiver_origin[2] + 4])
+        cube([length + 0.2, psu_contract_face[0], psu_contract_face[1]]);
+}
+
 module rear_cover_horizontal_global() {
     difference() {
         translate([body[0], 0, 0])
             oct_prism_x(horizontal_cover_depth, body[1], body[2], chamfer);
         rear_cover_screw_holes(body[0], horizontal_cover_depth);
+        psu_rear_aperture(body[0], horizontal_cover_depth);
     }
 }
 
@@ -703,6 +739,7 @@ module rear_cover_vertical_global() {
             }
         }
         rear_cover_screw_holes(body[0], vertical_cover_depth);
+        psu_rear_aperture(body[0], vertical_cover_depth);
         vertical_pad_recesses();
     }
 }
@@ -711,6 +748,7 @@ module complete_core() {
     union() {
         open_shell();
         spine_core_bosses();
+        spine_load_rails();
         receiver();
         psu_receiver_bridges();
         front_panel_seat_and_receivers();
@@ -739,6 +777,7 @@ module rear_core_global() {
                 translate([split_x, -1, -1]) cube([body[0] - split_x + 1, body[1] + 2, body[2] + 2]);
             }
             rear_interface_bosses();
+            rear_service_frame();
         }
         rear_seam_holes();
     }
@@ -863,6 +902,13 @@ assert(spine_boss_length > m4_insert_depth, "Board-spine boss is too short for i
 assert(spine_origin[0] >= wall && spine_origin[0] + spine_frame[0] <= body[0] - wall,
        "Board spine exceeds inner chassis length");
 assert(spine_to_psu_gap >= 2, "Lower board-spine bosses collide with PSU bay");
+assert(spine_origin[2] + spine_mount_z_local[0] + 2.5 <= cisco_origin[2],
+       "Lower structural shelf enters the PSU envelope");
+assert(spine_origin[2] + spine_mount_z_local[1] - 2.5 >=
+       cisco_origin[2] + cisco_psu[2],
+       "Upper structural shelf enters the PSU envelope");
+assert(136 > cisco_origin[2] + cisco_psu[2],
+       "Backplate exhaust slots enter the PSU envelope");
 assert(abs(psu_receiver_origin[0] + psu_receiver_outer[0] - psu_receiver_rear_x) < 0.01,
        "PSU receiver constants drifted from the internal receiver source");
 assert(psu_receiver_rear_x < body[0] - wall,
