@@ -2,9 +2,11 @@
 // Single source for the two structural shell halves and their real retention.
 // Units: millimetres. Global axes: X front-to-rear, Y left-to-right, Z bottom-to-top.
 
+use <board-spine-v0.1.scad>
+
 $fn = 40;
 
-part = "assembly"; // front-core | rear-core | rear-cover-horizontal | rear-cover-vertical | assembly
+part = "assembly"; // front-core | rear-core | board-spine-front | board-spine-rear | rear-cover-horizontal | rear-cover-vertical | assembly
 exploded_gap = 0;
 show_fasteners = true;
 show_equipment = true;
@@ -58,8 +60,9 @@ side_intake_origin = [32, 18];
 
 // Confirmed Nyacom architecture: all major components are vertical.
 board = [308.0, 1.6, 144.3];
+board_vertical_offset = -4; // clears the lower spine bosses above the PSU bay
 board_origin = [(body[0] - board[0]) / 2, 48,
-                (body[2] - board[2]) / 2];
+                (body[2] - board[2]) / 2 + board_vertical_offset];
 cisco_psu = [240, 40, 96];
 cisco_origin = [70, 6, 30];
 // JIUSHARK publishes 241 x 121 x 92 mm.  In this coordinate system the
@@ -74,6 +77,22 @@ jf13k_origin = [
 ];
 jf13k_panel_gap = body[1] - wall - (jf13k_origin[1] + jf13k[1]);
 jf13k_required_gap = 6; // hard no-contact allowance; nominal model leaves 9.4 mm
+
+// Separate 316 x 8 x 152.3 mm board spine.  Its PCB pocket puts the board at
+// the global board_origin above; eight M4 screws enter core-side insert bosses.
+spine_frame = [316, 8, 152.3];
+spine_origin = [board_origin[0] - 4, board_origin[1] - 6,
+                board_origin[2] - 4];
+spine_split_x = spine_frame[0] / 2;
+spine_mount_x_local = [24, 92, spine_frame[0] - 92, spine_frame[0] - 24];
+spine_mount_z_local = [4, spine_frame[2] - 4];
+spine_boss_d = 12;
+spine_boss_y0 = wall;
+spine_boss_length = spine_origin[1] - spine_boss_y0;
+m4_insert_pilot_d = 5.6; // provisional; select with a dedicated insert coupon
+m4_insert_depth = 8;
+spine_to_psu_gap = cisco_origin[2] -
+    (spine_origin[2] + spine_mount_z_local[0] + spine_boss_d / 2);
 
 module oct_prism_x(length, width, height, cut) {
     translate([0, 0, height])
@@ -149,6 +168,42 @@ module rear_interface_bosses() {
             translate([0, 0, rear_boss_depth - 6.2])
                 cylinder(h = 6.3, d = m3_insert_pilot_d);
         }
+}
+
+module spine_core_bosses() {
+    // All axes sit below/above the PSU envelope, leaving its central bay open.
+    for (x_local = spine_mount_x_local, z_local = spine_mount_z_local) {
+        x = spine_origin[0] + x_local;
+        z = spine_origin[2] + z_local;
+        difference() {
+            union() {
+                translate([x, spine_boss_y0, z])
+                    rotate([-90, 0, 0])
+                    cylinder(h = spine_boss_length, d = spine_boss_d);
+
+                // A shallow web makes each long transverse boss printable and
+                // prevents twisting under the cooler's transport load.
+                translate([x - spine_boss_d / 2, spine_boss_y0, z - 2])
+                    cube([spine_boss_d, spine_boss_length, 4]);
+            }
+            translate([x, spine_boss_y0 + spine_boss_length - m4_insert_depth, z])
+                rotate([-90, 0, 0])
+                    cylinder(h = m4_insert_depth + 0.2, d = m4_insert_pilot_d);
+        }
+    }
+}
+
+module board_spine_global(which = "assembly") {
+    translate(spine_origin) {
+        if (which == "front")
+            front_spine();
+        else if (which == "rear")
+            rear_spine();
+        else {
+            front_spine();
+            rear_spine();
+        }
+    }
 }
 
 module rear_cover_screw_holes(x0, length) {
@@ -241,7 +296,10 @@ module rear_cover_vertical_global() {
 }
 
 module complete_core() {
-    open_shell();
+    union() {
+        open_shell();
+        spine_core_bosses();
+    }
 }
 
 module front_core_global() {
@@ -286,6 +344,11 @@ if (part == "front-core")
     front_core_global();
 else if (part == "rear-core")
     translate([-split_x, 0, 0]) rear_core_global();
+else if (part == "board-spine-front")
+    translate(-spine_origin) board_spine_global("front");
+else if (part == "board-spine-rear")
+    translate([-spine_origin[0] - spine_split_x, -spine_origin[1], -spine_origin[2]])
+        board_spine_global("rear");
 else if (part == "rear-cover-horizontal")
     translate([-body[0], 0, 0]) rear_cover_horizontal_global();
 else if (part == "rear-cover-vertical")
@@ -294,6 +357,7 @@ else if (part == "rear-cover-vertical")
 else {
     color([0.10, 0.11, 0.13]) front_core_global();
     color([0.16, 0.17, 0.19]) translate([exploded_gap, 0, 0]) rear_core_global();
+    color([0.24, 0.25, 0.29]) board_spine_global();
     if (show_fasteners && exploded_gap == 0) fastener_proxies();
     if (show_equipment && exploded_gap == 0) vertical_equipment_proxies();
     if (rear_cover == "horizontal")
@@ -321,6 +385,12 @@ echo("Cisco envelope/origin mm", [cisco_psu, cisco_origin]);
 echo("JF13K envelope/origin mm", [jf13k, jf13k_origin]);
 echo("PSU-to-board gap mm", board_origin[1] - (cisco_origin[1] + cisco_psu[1]));
 echo("JF13K-to-inner-side-wall gap mm", jf13k_panel_gap);
+echo("board-spine origin/frame mm", [spine_origin, spine_frame]);
+echo("board-spine M4 global axes X/Z mm",
+     [[for (x = spine_mount_x_local) spine_origin[0] + x],
+      [for (z = spine_mount_z_local) spine_origin[2] + z]]);
+echo("board-spine fasteners", "8x M4 into core-side heat-set inserts; dimensions provisional");
+echo("lower board-spine boss to PSU gap mm", spine_to_psu_gap);
 echo("release status", "core validation only; end panels and tray not yet integrated");
 
 assert(split_x + collar_length <= 250, "Front core exceeds preliminary print envelope");
@@ -331,3 +401,7 @@ assert(board_origin[1] - (cisco_origin[1] + cisco_psu[1]) >= 2, "Cisco PSU colli
 assert(jf13k_origin[1] + jf13k[1] <= body[1] - wall, "JF13K envelope collides with side wall");
 assert(jf13k_panel_gap >= jf13k_required_gap, "JF13K has less than 6 mm hard clearance to intake panel");
 assert(board_origin[2] + board[2] <= body[2] - wall, "Vertical board exceeds inner height");
+assert(spine_boss_length > m4_insert_depth, "Board-spine boss is too short for insert");
+assert(spine_origin[0] >= wall && spine_origin[0] + spine_frame[0] <= body[0] - wall,
+       "Board spine exceeds inner chassis length");
+assert(spine_to_psu_gap >= 2, "Lower board-spine bosses collide with PSU bay");

@@ -16,9 +16,9 @@ All production-looking exports have therefore been withdrawn. `cad/exports/` now
 | Rear panel ↔ chassis | impossible | Panel has four hooks; chassis has no rear receiver pockets or end-frame seat. |
 | Button ↔ front panel | impossible | Button plate has two M3 holes; front panel provides no bosses or inserts. |
 | USB cassette ↔ front panel | unvalidated | Nominal face clearance exists, but hook receivers and actual hub envelope are not confirmed. |
-| Board spine ↔ chassis | incomplete | The new vertical spine defines eight transverse M4 axes, but matching core bosses are the next integration step. |
+| Board spine ↔ chassis | integrated, unvalidated | Eight transverse M4 axes now match eight webbed core bosses. M4 insert fit and load testing remain open. |
 | BC-250 ↔ board spine | partially defined | Bare PCB envelope is now 308.0 × 144.3 × 1.6 mm and the split pocket is modeled; final edge clamps still require a real-board keepout check. |
-| JF13K ↔ tray/chassis | unknown | Only envelope and generic load-path anchors exist. |
+| JF13K ↔ spine/chassis | partially defined | Official envelope and photo-derived placement are frozen; the spine load path reaches the shell. Non-contact transport-pad locations remain open. |
 | Universal PSU receiver ↔ chassis | partially defined | The internal 110 × 46.34 mm receiver is printable and stays behind X=318; matching core bosses are the next integration step. |
 | NexGen PSU adapter ↔ receiver | defined, unvalidated | Server/FlexATX/LOP plate depths fit the common guides and interior clamps; print clearance remains untested. |
 | Cisco PSU ↔ server adapter | reference-derived | Use the supplied NexGen universal server-PSU mount with an inward offset; no separate Cisco body measurement is required. |
@@ -37,7 +37,7 @@ Confirmed architecture: BC-250 and the major internal components are vertical al
 
 1. Establish one master coordinate system and one assembly source.
 2. Complete chassis retention and both end-panel seats.
-3. Add the vertical board-spine attachment pattern and measured BC-250/JF13K proxies.
+3. Add final PCB edge clamps and non-contact JF13K transport pads after physical keepout checks.
 4. Add the internal common PSU interface without equipment envelopes in printable output.
 5. Add horizontal and vertical supports against explicit chassis interfaces.
 6. Add button, USB, SSD, and ESP32 modules only after their receivers exist.
