@@ -51,6 +51,8 @@ Additional source projects, direct links, adopted features, pinned revisions, an
 - `cad/peripheral-bay-v0.1.scad` - removable 7 mm SSD and ESP32 relay-board cassettes.
 - `cad/rear-service-system-v0.1.scad` - flush rear panel with replaceable I/O and PSU inserts.
 - `cad/ASSEMBLY-AUDIT.md` - authoritative compatibility audit and recovery order.
+- `cad/core-assembly-v0.1.scad` - active single-source rebuild of the two-part structural core and accessible seam retention.
+- `cad/CORE-ASSEMBLY.md` - core assembly sequence, closed interfaces, and remaining work.
 - `cad/exports/README.md` - authoritative list of STL files currently approved for slicing.
 - `cad/support-horizontal.scad` and `cad/support-vertical.scad` - interchangeable support prototypes using a common M4 interface.
 - `cad/SUPPORT-INTERFACE.md` - dimensions, fasteners, and unresolved validation points for both orientations.

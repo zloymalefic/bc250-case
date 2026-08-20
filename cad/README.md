@@ -20,3 +20,7 @@ openscad -D 'clearances=[0.45]' -o exports/chassis-joint-coupon-0.45mm-v0.1.stl 
 Other `.scad` files are non-release studies. They preserve useful dimensions and geometry for rebuilding the master assembly, but their interfaces are incomplete. Successful OpenSCAD compilation does not make a study printable or compatible with another study.
 
 The exterior direction is documented by `previews/exterior-nyacom-v0.2.svg`. It is an orthographic visual concept, not a manufacturing drawing.
+
+## Active rebuild
+
+`core-assembly-v0.1.scad` is the active master for the two structural halves. It replaces the inaccessible axial joint with two bottom-access M3 fasteners. See `CORE-ASSEMBLY.md`. It remains validation-only until end panels and internal mounting interfaces are integrated.

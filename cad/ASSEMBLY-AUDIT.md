@@ -32,11 +32,12 @@ The remaining `.scad` files are retained as design studies and reusable geometry
 
 ## Controlled recovery order
 
+Confirmed architecture: BC-250 and the major internal components are vertical along the long axis, matching the Nyacom reference assembly. The earlier horizontal two-level layout is superseded.
+
 1. Establish one master coordinate system and one assembly source.
 2. Complete chassis retention and both end-panel seats.
-3. Add the board-tray attachment pattern and measured BC-250/JF13K proxies.
+3. Add the vertical board-spine attachment pattern and measured BC-250/JF13K proxies.
 4. Add the internal common PSU interface without equipment envelopes in printable output.
 5. Add horizontal and vertical supports against explicit chassis interfaces.
 6. Add button, USB, SSD, and ESP32 modules only after their receivers exist.
 7. Run collision and manifold checks, then populate `cad/exports/release/<version>/` as one versioned set.
-
