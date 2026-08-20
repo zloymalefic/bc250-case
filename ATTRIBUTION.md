@@ -50,6 +50,13 @@ This project is not designed in isolation. It is based on, adapted from, and ins
 - License: Public Domain, as identified in the supplied Printables package.
 - Used for: the initial LGA1700-style cooler-interface study and JF13K fit-check planning.
 
+### Sean - BC-250 Heat Sink Mount (MK7)
+
+- Source: https://www.printables.com/model/1217021-bc-250-heat-sink-mount
+- License: Public Domain, as identified in the supplied Printables PDF.
+- Used for: independent BC-250 heatsink-footprint comparison and M4 fastening
+  study. It is not treated as a JF13K-compatible production adapter.
+
 ### BC-250 Quiet Case Tower Cooler
 
 - Source: https://www.printables.com/model/1652979

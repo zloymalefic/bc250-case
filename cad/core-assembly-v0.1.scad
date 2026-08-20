@@ -4,10 +4,11 @@
 
 $fn = 40;
 
-part = "assembly"; // front-core | rear-core | assembly
+part = "assembly"; // front-core | rear-core | rear-cover-horizontal | rear-cover-vertical | assembly
 exploded_gap = 0;
 show_fasteners = true;
 show_equipment = true;
+rear_cover = "vertical"; // none | horizontal | vertical
 
 body = [330, 155, 195];
 split_x = 165;
@@ -27,6 +28,26 @@ m3_insert_pilot_d = 4.2; // provisional; select with fit coupon
 m3_floor_clearance_d = 3.4;
 m3_csk_head_d = 6.4;
 m3_csk_depth = 1.8;
+
+// Common rear-cover interface. Both rear-cover variants use the same four axes
+// and accept the same future PSU/I/O service cassette.
+rear_mount_y = [30, body[1] - 30];
+rear_mount_z = [5, body[2] - 5];
+rear_boss_d = 14;
+rear_boss_depth = 10;
+rear_cover_clearance_d = 3.4;
+rear_service_opening = [125, 165];
+
+horizontal_cover_depth = 6;
+vertical_cover_depth = 44;
+vertical_base_overhang = 15;
+vertical_base_footprint = [
+    body[1] + 2 * vertical_base_overhang,
+    body[2] + 2 * vertical_base_overhang
+];
+vertical_base_ring_depth = 4;
+vertical_pad_d = 12;
+vertical_pad_recess = 1.0;
 
 side_intake_opening = [266, 119];
 side_intake_origin = [32, 18];
@@ -103,6 +124,93 @@ module rear_seam_holes() {
     }
 }
 
+module rear_interface_bosses() {
+    for (y = rear_mount_y, z = rear_mount_z)
+        translate([body[0] - rear_boss_depth, y, z])
+        rotate([0, 90, 0])
+        difference() {
+            cylinder(h = rear_boss_depth, d = rear_boss_d);
+            // Blind heat-set pilot opens only at the rear face.
+            translate([0, 0, rear_boss_depth - 6.2])
+                cylinder(h = 6.3, d = m3_insert_pilot_d);
+        }
+}
+
+module rear_cover_screw_holes(x0, length) {
+    for (y = rear_mount_y, z = rear_mount_z)
+        translate([x0 - 0.1, y, z])
+        rotate([0, 90, 0]) {
+            cylinder(h = length + 0.2, d = rear_cover_clearance_d);
+            translate([0, 0, length - m3_csk_depth])
+                cylinder(h = m3_csk_depth + 0.2,
+                         d1 = rear_cover_clearance_d, d2 = m3_csk_head_d);
+        }
+}
+
+module rear_service_window(length, margin = 0.4) {
+    translate([
+        body[0] - 0.1,
+        (body[1] - rear_service_opening[0]) / 2 - margin,
+        (body[2] - rear_service_opening[1]) / 2 - margin
+    ])
+        cube([length + 0.2,
+              rear_service_opening[0] + 2 * margin,
+              rear_service_opening[1] + 2 * margin]);
+}
+
+module rear_cover_horizontal_global() {
+    difference() {
+        translate([body[0], 0, 0])
+            oct_prism_x(horizontal_cover_depth, body[1], body[2], chamfer);
+        rear_service_window(horizontal_cover_depth);
+        rear_cover_screw_holes(body[0], horizontal_cover_depth);
+    }
+}
+
+module vertical_base_outer_ring() {
+    outer_y = -vertical_base_overhang;
+    outer_z = -vertical_base_overhang;
+    x0 = body[0] + vertical_cover_depth - vertical_base_ring_depth;
+    difference() {
+        translate([x0, outer_y, outer_z])
+            oct_prism_x(vertical_base_ring_depth,
+                        vertical_base_footprint[0], vertical_base_footprint[1],
+                        chamfer + vertical_base_overhang);
+        translate([x0 - 0.1, -0.5, -0.5])
+            oct_prism_x(vertical_base_ring_depth + 0.2,
+                        body[1] + 1, body[2] + 1, chamfer + 0.5);
+    }
+}
+
+module vertical_base_pillars() {
+    // Four open-sided rails leave the full centre free for plugs and cable bends.
+    for (y = rear_mount_y, z = rear_mount_z)
+        translate([body[0], y, z])
+        rotate([0, 90, 0])
+            cylinder(h = vertical_cover_depth, d = rear_boss_d);
+}
+
+module vertical_pad_recesses() {
+    // Recesses are on the desk-facing plane after the enclosure is rotated upright.
+    pad_y = rear_mount_y;
+    pad_z = [-7, body[2] + 7];
+    for (y = pad_y, z = pad_z)
+        translate([body[0] + vertical_cover_depth - vertical_pad_recess, y, z])
+        rotate([0, 90, 0])
+            cylinder(h = vertical_pad_recess + 0.2, d = vertical_pad_d);
+}
+
+module rear_cover_vertical_global() {
+    difference() {
+        union() {
+            vertical_base_outer_ring();
+            vertical_base_pillars();
+        }
+        rear_cover_screw_holes(body[0], vertical_cover_depth);
+        vertical_pad_recesses();
+    }
+}
+
 module complete_core() {
     open_shell();
 }
@@ -120,9 +228,12 @@ module front_core_global() {
 
 module rear_core_global() {
     difference() {
-        intersection() {
-            complete_core();
-            translate([split_x, -1, -1]) cube([body[0] - split_x + 1, body[1] + 2, body[2] + 2]);
+        union() {
+            intersection() {
+                complete_core();
+                translate([split_x, -1, -1]) cube([body[0] - split_x + 1, body[1] + 2, body[2] + 2]);
+            }
+            rear_interface_bosses();
         }
         rear_seam_holes();
     }
@@ -146,11 +257,20 @@ if (part == "front-core")
     front_core_global();
 else if (part == "rear-core")
     translate([-split_x, 0, 0]) rear_core_global();
+else if (part == "rear-cover-horizontal")
+    translate([-body[0], 0, 0]) rear_cover_horizontal_global();
+else if (part == "rear-cover-vertical")
+    translate([-body[0], vertical_base_overhang, vertical_base_overhang])
+        rear_cover_vertical_global();
 else {
     color([0.10, 0.11, 0.13]) front_core_global();
     color([0.16, 0.17, 0.19]) translate([exploded_gap, 0, 0]) rear_core_global();
     if (show_fasteners && exploded_gap == 0) fastener_proxies();
     if (show_equipment && exploded_gap == 0) vertical_equipment_proxies();
+    if (rear_cover == "horizontal")
+        color([0.30, 0.31, 0.34]) rear_cover_horizontal_global();
+    else if (rear_cover == "vertical")
+        color([0.30, 0.31, 0.34]) rear_cover_vertical_global();
 }
 
 echo("part", part);
@@ -159,6 +279,11 @@ echo("seam fasteners", "2x M3 countersunk, bottom access");
 echo("seam fastener coordinates mm", [seam_fastener_x, seam_fastener_y]);
 echo("front print bounds nominal mm", [split_x + collar_length, body[1], body[2]]);
 echo("rear print bounds nominal mm", [body[0] - split_x, body[1], body[2]]);
+echo("rear cover variants", ["horizontal", "vertical"]);
+echo("common rear service cassette mm", rear_service_opening);
+echo("vertical base depth/footprint mm", [vertical_cover_depth, vertical_base_footprint]);
+echo("vertical base cable cavity mm", vertical_cover_depth - vertical_base_ring_depth);
+echo("rear-cover fasteners", "4x M3; horizontal length provisional 10 mm; vertical length provisional 45 mm");
 echo("board orientation", "vertical X-Z plane");
 echo("board envelope/origin mm", [board, board_origin]);
 echo("Cisco envelope/origin mm", [cisco_psu, cisco_origin]);
@@ -169,6 +294,8 @@ echo("release status", "core validation only; end panels and tray not yet integr
 
 assert(split_x + collar_length <= 250, "Front core exceeds preliminary print envelope");
 assert(body[0] - split_x <= 250, "Rear core exceeds preliminary print envelope");
+assert(vertical_base_footprint[0] <= 250 && vertical_base_footprint[1] <= 250,
+       "Vertical rear/base cover exceeds preliminary print envelope");
 assert(board_origin[1] - (cisco_origin[1] + cisco_psu[1]) >= 2, "Cisco PSU collides with vertical board plane");
 assert(jf13k_origin[1] + jf13k[1] <= body[1] - wall, "JF13K envelope collides with side wall");
 assert(board_origin[2] + board[2] <= body[2] - wall, "Vertical board exceeds inner height");

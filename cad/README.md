@@ -24,3 +24,12 @@ The exterior direction is documented by `previews/exterior-nyacom-v0.2.svg`. It 
 ## Active rebuild
 
 `core-assembly-v0.1.scad` is the active master for the two structural halves. It replaces the inaccessible axial joint with two bottom-access M3 fasteners. See `CORE-ASSEMBLY.md`. It remains validation-only until end panels and internal mounting interfaces are integrated.
+
+The same master now includes two interchangeable rear-cover structures:
+`rear-cover-horizontal` and `rear-cover-vertical`. The latter becomes a 44 mm
+open cable-management base when the complete enclosure is stood on its rear
+face. See `REAR-COVER-VARIANTS.md`.
+
+`HEATSINK-MOUNT-COMPARISON.md` compares the supplied Sean MK7/RZ620 mount with
+the previously supplied AN600 adapter and records why neither may yet be treated
+as a verified JF13K production mount.

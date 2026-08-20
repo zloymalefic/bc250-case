@@ -66,6 +66,17 @@
 - Крепёж автора: 4× M3×12, 4× M3×20, 8× M3 nuts.
 - Лицензия: Public Domain.
 
+### Sean BC-250 Heat Sink Mount (MK7)
+
+- Source: https://www.printables.com/model/1217021-bc-250-heat-sink-mount
+- Printables model 1217021; supplied archive extracted to
+  `references/printables-1217021-heatsink-mount`.
+- Contains one 105.56 × 104.39 × 8 mm STL and a 2-page Printables PDF.
+- Intended for the PCCOOLER RZ620 Intel clip bracket, not the JIUSHARK JF13K.
+- Author describes M4 installation from below, either self-tapped or through
+  with nuts, using a mixture of cooler and removed stock-heatsink hardware.
+- License in supplied PDF: Public Domain.
+
 ## Доступно в каталогах, но файлы ещё не получены
 
 ## Дополнительные источники геометрии BC-250

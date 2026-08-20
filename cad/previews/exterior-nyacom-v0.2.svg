@@ -1,76 +1,115 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1100" viewBox="0 0 1600 1100">
   <defs>
     <style>
-      .title{font:700 30px system-ui,sans-serif;fill:#17191d}.sub{font:16px system-ui,sans-serif;fill:#626872}
-      .label{font:700 21px system-ui,sans-serif;fill:#252930}.dim{font:14px system-ui,sans-serif;fill:#69717c}
-      .body{fill:#20242a;stroke:#0b0d10;stroke-width:4}.panel{fill:#15181d;stroke:#414750;stroke-width:3}
-      .edge{fill:none;stroke:#2580ff;stroke-width:4}.detail{fill:#080a0d;stroke:#737b86;stroke-width:2}
-      .guide{fill:none;stroke:#a7adb6;stroke-width:1.5;stroke-dasharray:5 5}
+      .title{font:700 30px system-ui,sans-serif;fill:#f4f6f8}.sub{font:15px system-ui,sans-serif;fill:#aab1bb}
+      .h{font:700 18px system-ui,sans-serif;fill:#f4f6f8}.label{font:700 15px system-ui,sans-serif;fill:#dce1e7}
+      .dim{font:14px system-ui,sans-serif;fill:#9da6b1}.note{font:13px system-ui,sans-serif;fill:#c0c6ce}
+      .body{fill:#22272e;stroke:#07090b;stroke-width:3}.face{fill:#171b20;stroke:#4a525c;stroke-width:2}
+      .front{fill:#d6a619;stroke:#080a0c;stroke-width:3}.rear{fill:#b93730;stroke:#080a0c;stroke-width:3}
+      .base{fill:#343b44;stroke:#0a0c0f;stroke-width:3}.edge{fill:none;stroke:#3692ff;stroke-width:3}
+      .hidden{fill:none;stroke:#737d89;stroke-width:1.4;stroke-dasharray:6 5}.measure{stroke:#7e8996;stroke-width:1.2}
+      .pcb{fill:#267a50;stroke:#4daf79;stroke-width:2}.cooler{fill:#66717d;stroke:#aab3bc;stroke-width:2}
+      .psu{fill:#725431;stroke:#bd8a4d;stroke-width:2}.cable{fill:none;stroke:#69aaff;stroke-width:5;stroke-linecap:round}
     </style>
-    <pattern id="hex" width="12" height="10" patternUnits="userSpaceOnUse">
-      <path d="M3 1h6l3 4-3 4H3L0 5z" fill="none" stroke="#555d67" stroke-width="1"/>
+    <pattern id="mesh" width="12" height="10" patternUnits="userSpaceOnUse">
+      <path d="M3 1h6l3 4-3 4H3L0 5z" fill="none" stroke="#59626d" stroke-width="1"/>
     </pattern>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+      <path d="M0 0L8 4L0 8z" fill="#7e8996"/>
+    </marker>
   </defs>
 
-  <rect width="1400" height="900" fill="#f5f6f7"/>
-  <text class="title" x="55" y="55">BC-250 + JF13K — exterior concept v0.2</text>
-  <text class="sub" x="55" y="84">Simple orthographic views · nominal enclosure 330 × 155 × 195 mm · horizontal configuration</text>
+  <rect width="1600" height="1100" fill="#101318"/>
+  <text class="title" x="48" y="48">BC-250 + JF13K — внешний вид и две задние крышки</text>
+  <text class="sub" x="48" y="76">Текущая компоновка v0.3 · корпус 330 × 155 × 195 мм · вертикальная BC-250 · основание 185 × 225 × 44 мм</text>
 
-  <!-- Left side: visible service side; front is at the left. -->
-  <g transform="translate(55 145)">
-    <text class="label" x="275" y="-18" text-anchor="middle">LEFT</text>
-    <path class="body" d="M0 22L22 0H528L550 22V303L528 325H22L0 303Z"/>
-    <path d="M0 22L22 0H40V325H22L0 303Z" fill="#edb80e" stroke="#0b0d10" stroke-width="3"/>
-    <path d="M510 0H528L550 22V303L528 325H510Z" fill="#d92c22" stroke="#0b0d10" stroke-width="3"/>
-    <rect class="panel" x="47" y="45" width="456" height="235" rx="5"/>
-    <path class="edge" d="M47 280H503"/>
-    <g stroke="#060708" stroke-width="8" stroke-linecap="round">
-      <path d="M405 192l30-9"/><path d="M405 214l30-9"/><path d="M405 236l30-9"/>
-      <path d="M447 192l30-9"/><path d="M447 214l30-9"/><path d="M447 236l30-9"/>
+  <g transform="translate(55 125)">
+    <text class="h" x="255" y="0">ВЕРТИКАЛЬНО — ОСНОВНОЙ ВИД</text>
+    <path class="base" d="M105 760L157 728H437L489 760V812L437 844H157L105 812Z"/>
+    <path d="M139 766L174 745H420L455 766V802L420 823H174L139 802Z" fill="#0f1216" stroke="#59626d" stroke-width="2"/>
+    <path class="body" d="M139 103L174 80H420L455 103V739L420 762H174L139 739Z"/>
+    <path class="front" d="M139 103L174 80H420L455 103V135L420 158H174L139 135Z"/>
+    <rect x="163" y="178" width="268" height="527" rx="5" fill="url(#mesh)" stroke="#59626d" stroke-width="2"/>
+    <path class="edge" d="M163 178V705"/>
+    <g stroke="#090b0e" stroke-width="9" stroke-linecap="round">
+      <path d="M342 588l52-14"/><path d="M342 620l52-14"/><path d="M342 652l52-14"/>
     </g>
-    <rect x="66" y="322" width="110" height="9" rx="3" fill="#090b0d"/>
-    <rect x="374" y="322" width="110" height="9" rx="3" fill="#090b0d"/>
-    <text class="dim" x="275" y="352" text-anchor="middle">330 × 195 mm</text>
+    <circle cx="205" cy="119" r="13" fill="#101419" stroke="#6e7782" stroke-width="2"/>
+    <path d="M205 110v9m-6-5a9 9 0 1 0 12 0" fill="none" stroke="#3692ff" stroke-width="2"/>
+    <rect x="236" y="109" width="34" height="12" rx="2" fill="#090b0e"/>
+    <rect x="278" y="107" width="24" height="16" rx="7" fill="#090b0e"/>
+    <path class="cable" d="M300 748v42q0 20 23 20h86"/>
+    <path class="cable" d="M340 748v28q0 20-23 20h-88"/>
+    <text class="note" x="297" y="817" text-anchor="middle">40 мм для штекеров · кабели вниз → выход вбок</text>
+    <path class="measure" marker-start="url(#arrow)" marker-end="url(#arrow)" d="M91 80V762"/>
+    <text class="dim" x="76" y="430" transform="rotate(-90 76 430)" text-anchor="middle">374 мм с основанием</text>
+    <path class="measure" marker-start="url(#arrow)" marker-end="url(#arrow)" d="M105 872H489"/>
+    <text class="dim" x="297" y="895" text-anchor="middle">225 мм</text>
+    <text class="dim" x="297" y="925" text-anchor="middle">опорная площадь 185 × 225 мм</text>
   </g>
 
-  <!-- Right side: clean opposite side; front is at the right. -->
-  <g transform="translate(795 145)">
-    <text class="label" x="275" y="-18" text-anchor="middle">RIGHT</text>
-    <path class="body" d="M0 22L22 0H528L550 22V303L528 325H22L0 303Z"/>
-    <path d="M0 22L22 0H40V325H22L0 303Z" fill="#d92c22" stroke="#0b0d10" stroke-width="3"/>
-    <path d="M510 0H528L550 22V303L528 325H510Z" fill="#edb80e" stroke="#0b0d10" stroke-width="3"/>
-    <rect class="panel" x="47" y="45" width="456" height="235" rx="5"/>
-    <path class="edge" d="M47 45H503"/>
-    <rect x="66" y="322" width="110" height="9" rx="3" fill="#090b0d"/>
-    <rect x="374" y="322" width="110" height="9" rx="3" fill="#090b0d"/>
-    <text class="dim" x="275" y="352" text-anchor="middle">330 × 195 mm</text>
+  <g transform="translate(725 120)">
+    <text class="h" x="185" y="0">ВИД СЛЕВА — INTAKE JF13K</text>
+    <path class="body" d="M0 28L28 0H342L370 28V497L342 525H28L0 497Z"/>
+    <path class="front" d="M0 28L28 0H342L370 28V60H0Z"/>
+    <rect x="28" y="82" width="314" height="381" rx="4" fill="url(#mesh)" stroke="#59626d" stroke-width="2"/>
+    <rect class="cooler" x="67" y="111" width="236" height="326" rx="6" opacity=".45"/>
+    <circle cx="185" cy="202" r="73" fill="none" stroke="#8c96a1" stroke-width="3" opacity=".7"/>
+    <circle cx="185" cy="350" r="73" fill="none" stroke="#8c96a1" stroke-width="3" opacity=".7"/>
+    <path class="base" d="M-15 525H385V591H-15Z"/>
+    <rect x="17" y="542" width="336" height="29" fill="#0f1216" stroke="#59626d" stroke-width="2"/>
+    <text class="dim" x="185" y="617" text-anchor="middle">195 × 330 мм · основание +44 мм</text>
   </g>
 
-  <!-- Front end. -->
-  <g transform="translate(270 535)">
-    <text class="label" x="129" y="-20" text-anchor="middle">FRONT</text>
-    <path d="M0 26L26 0H232L258 26V299L232 325H26L0 299Z" fill="#edb80e" stroke="#0b0d10" stroke-width="4"/>
-    <path class="panel" d="M14 34L40 14H218L244 34V291L218 311H40L14 291Z"/>
-    <circle class="detail" cx="78" cy="82" r="17"/><circle cx="78" cy="82" r="7" fill="#2580ff"/>
-    <rect class="detail" x="54" y="126" width="49" height="18" rx="3"/>
-    <rect class="detail" x="63" y="162" width="31" height="13" rx="6"/>
-    <g stroke="#07090b" stroke-width="7" stroke-linecap="round">
-      <path d="M55 220h48"/><path d="M55 241h48"/><path d="M55 262h48"/>
-    </g>
-    <rect x="126" y="43" width="92" height="242" rx="5" fill="#111419" stroke="#343a42" stroke-width="2"/>
-    <text class="dim" x="129" y="348" text-anchor="middle">155 × 195 mm</text>
+  <g transform="translate(1170 120)">
+    <text class="h" x="155" y="0">ВИД СПРАВА — КОМПОНОВКА</text>
+    <path class="body" d="M0 24L24 0H286L310 24V501L286 525H24L0 501Z"/>
+    <path class="front" d="M0 24L24 0H286L310 24V58H0Z"/>
+    <rect class="pcb" x="78" y="72" width="8" height="421"/>
+    <rect class="cooler" x="91" y="111" width="171" height="326" rx="5" opacity=".8"/>
+    <rect class="psu" x="17" y="164" width="54" height="324" rx="4"/>
+    <text class="note" x="96" y="96">JF13K</text>
+    <text class="note" x="26" y="188" transform="rotate(90 26 188)">CISCO PSU</text>
+    <text class="note" x="73" y="505">BC-250 вертикально</text>
+    <path class="base" d="M-15 525H325V591H-15Z"/>
+    <rect x="15" y="542" width="280" height="29" fill="#0f1216" stroke="#59626d" stroke-width="2"/>
+    <text class="dim" x="155" y="617" text-anchor="middle">155 × 330 мм · основание +44 мм</text>
   </g>
 
-  <!-- Rear end with flush replaceable service zones. -->
-  <g transform="translate(870 535)">
-    <text class="label" x="129" y="-20" text-anchor="middle">REAR</text>
-    <path d="M0 26L26 0H232L258 26V299L232 325H26L0 299Z" fill="#d92c22" stroke="#0b0d10" stroke-width="4"/>
-    <path class="panel" d="M14 34L40 14H218L244 34V291L218 311H40L14 291Z"/>
-    <rect class="detail" x="31" y="48" width="196" height="76" rx="3"/>
-    <rect class="detail" x="35" y="159" width="188" height="77" rx="3"/>
-    <rect x="43" y="171" width="130" height="53" fill="url(#hex)" stroke="#555d67" stroke-width="2"/>
-    <rect x="183" y="177" width="28" height="40" rx="2" fill="#080a0d" stroke="#737b86" stroke-width="2"/>
-    <path class="edge" d="M34 268H224"/>
-    <text class="dim" x="129" y="348" text-anchor="middle">155 × 195 mm</text>
+  <g transform="translate(720 790)">
+    <text class="h" x="93" y="0">ПЕРЕД</text>
+    <path class="front" d="M0 18L18 0H168L186 18V216L168 234H18L0 216Z"/>
+    <path class="face" d="M12 26L30 12H156L174 26V208L156 222H30L12 208Z"/>
+    <circle cx="56" cy="62" r="14" fill="#0b0e12" stroke="#68727d" stroke-width="2"/>
+    <path d="M56 53v9m-6-5a9 9 0 1 0 12 0" fill="none" stroke="#3692ff" stroke-width="2"/>
+    <rect x="39" y="92" width="39" height="13" rx="2" fill="#080a0d"/>
+    <rect x="45" y="119" width="27" height="11" rx="5" fill="#080a0d"/>
+    <rect x="96" y="34" width="58" height="166" fill="url(#mesh)"/>
+    <text class="dim" x="93" y="258" text-anchor="middle">155 × 195</text>
   </g>
+
+  <g transform="translate(960 790)">
+    <text class="h" x="93" y="0">ЗАД — ОБЩАЯ ВСТАВКА</text>
+    <path class="rear" d="M0 18L18 0H168L186 18V216L168 234H18L0 216Z"/>
+    <path class="face" d="M12 26L30 12H156L174 26V208L156 222H30L12 208Z"/>
+    <rect x="30" y="34" width="126" height="74" rx="4" fill="#0a0c10" stroke="#6b7480" stroke-width="2"/>
+    <rect x="30" y="126" width="126" height="72" rx="4" fill="#0a0c10" stroke="#6b7480" stroke-width="2"/>
+    <text class="note" x="93" y="78" text-anchor="middle">BC-250 I/O</text>
+    <text class="note" x="93" y="169" text-anchor="middle">PSU cassette</text>
+    <text class="dim" x="93" y="258" text-anchor="middle">кассета 125 × 165</text>
+  </g>
+
+  <g transform="translate(1210 790)">
+    <text class="h" x="155" y="0">ГОРИЗОНТАЛЬНО</text>
+    <path class="body" d="M0 17L17 0H293L310 17V160L293 177H17L0 160Z"/>
+    <path class="front" d="M0 17L17 0H30V177H17L0 160Z"/>
+    <path class="rear" d="M292 0H293L310 17V160L293 177H292Z"/>
+    <rect x="35" y="25" width="252" height="127" rx="4" fill="url(#mesh)"/>
+    <rect x="38" y="174" width="62" height="8" rx="3" fill="#06080a"/>
+    <rect x="210" y="174" width="62" height="8" rx="3" fill="#06080a"/>
+    <text class="note" x="155" y="205" text-anchor="middle">обычная задняя крышка, глубина 6 мм</text>
+    <text class="dim" x="155" y="230" text-anchor="middle">330 × 155 × 195 мм</text>
+  </g>
+
+  <text class="sub" x="48" y="1068">Архитектура и пропорции зафиксированы; отверстия I/O, PSU и форма опор уточняются после измерения реальных разъёмов и fit-check крепления кулера.</text>
 </svg>

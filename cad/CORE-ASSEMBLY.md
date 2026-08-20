@@ -29,4 +29,6 @@ The exact screw length and insert pilot remain provisional until the fit coupon 
 1. Front and rear bezel seats with accessible retention.
 2. Matching snap receivers for both end service panels.
 3. One vertical board spine shared by BC-250, JF13K load supports, and chassis.
+4. Two rear-cover variants on one four-point M3 interface: a shallow horizontal
+   cover and a 44 mm open cable-management base for tower orientation.
 4. One internal PSU-rail pattern shared by rail and chassis.
