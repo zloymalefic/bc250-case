@@ -18,6 +18,8 @@
 
 `board-tray-v0.1.scad` is a split structural perimeter frame for the BC-250. It preserves a continuous 12 mm backplate channel and includes independent anchors for future JF13K transport supports. See `BOARD-TRAY.md`.
 
+`integration-assembly-v0.1.scad` combines the split shell, board tray, Cisco PSU rail, and BC-250 proxy. The first combined check moves the board plane to Z=65 mm to preserve the 12 mm PSU-to-board channel; see `INTEGRATION-CHECK-01.md`.
+
 It is intentionally not a printable enclosure. The model is used to:
 
 - expose dimensional assumptions;
@@ -66,4 +68,5 @@ openscad -D 'part="panel"' -o exports/front-panel-nyacom-v0.1.stl front-service-
 openscad -D 'part="usb-cassette"' -o exports/usb-hub-cassette-v0.1.stl front-service-module-v0.1.scad
 openscad -D 'part="front"' -o exports/board-tray-front-v0.1.stl board-tray-v0.1.scad
 openscad -D 'part="rear"' -o exports/board-tray-rear-v0.1.stl board-tray-v0.1.scad
+openscad -o exports/integration-assembly-v0.1.csg integration-assembly-v0.1.scad
 ```
