@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1600" viewBox="0 0 1800 1600">
+  <defs>
+    <style>
+      .title{font:700 30px system-ui,sans-serif;fill:#171a1f}.subtitle{font:15px system-ui,sans-serif;fill:#626a74}
+      .view-title{font:700 19px system-ui,sans-serif;fill:#20242a}.caption{font:14px system-ui,sans-serif;fill:#5e6670}
+      .small{font:12px system-ui,sans-serif;fill:#69727d}.case{fill:#252a31;stroke:#0d0f12;stroke-width:3}
+      .panel{fill:#171b20;stroke:#555e69;stroke-width:2}.front{fill:#d6a719;stroke:#0d0f12;stroke-width:3}
+      .rear{fill:#b63a32;stroke:#0d0f12;stroke-width:3}.base{fill:#353c45;stroke:#0d0f12;stroke-width:3}
+      .slot{fill:#090b0e}.outline{fill:none;stroke:#747e89;stroke-width:1.5}.dim{fill:none;stroke:#8a939e;stroke-width:1.2}
+      .pcb{fill:#24734c;stroke:#46a472;stroke-width:2}.cooler{fill:#68737f;stroke:#a0aab4;stroke-width:2}
+      .psu{fill:#735332;stroke:#bc884c;stroke-width:2}.cable{fill:none;stroke:#347fdd;stroke-width:4;stroke-linecap:round}
+      .inside{font:12px system-ui,sans-serif;fill:#e1e5ea}
+    </style>
+    <pattern id="mesh" width="11" height="10" patternUnits="userSpaceOnUse">
+      <path d="M2.75 1h5.5L11 5 8.25 9h-5.5L0 5z" fill="none" stroke="#59636e" stroke-width="1"/>
+    </pattern>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse">
+      <path d="M0 0L8 4L0 8z" fill="#8a939e"/>
+    </marker>
+
+    <!-- Exact 2 px/mm silhouettes. -->
+    <path id="side-shell" d="M0 32L32 0H628L660 32V358L628 390H32L0 358Z"/>
+    <path id="end-shell" d="M0 32L32 0H278L310 32V358L278 390H32L0 358Z"/>
+  </defs>
+
+  <rect width="1800" height="1600" fill="#f3f4f6"/>
+  <text class="title" x="55" y="52">BC-250 + JF13K — согласованные ортогональные проекции v0.3</text>
+  <text class="subtitle" x="55" y="80">Один масштаб 2 px/мм · корпус 330 × 155 × 195 мм · перед X=0 · зад X=330 · без перспективных искажений</text>
+
+  <!-- LEFT -->
+  <g transform="translate(55 145)">
+    <text class="view-title" x="330" y="-24" text-anchor="middle">ЛЕВАЯ СТОРОНА — INTAKE JF13K</text>
+    <use href="#side-shell" class="case"/>
+    <path class="front" d="M0 32L32 0H46V390H32L0 358Z"/>
+    <path class="rear" d="M614 0H628L660 32V358L628 390H614Z"/>
+    <rect x="58" y="46" width="544" height="298" rx="5" fill="url(#mesh)" stroke="#59636e" stroke-width="2"/>
+    <rect class="cooler" x="90" y="76" width="480" height="242" rx="5" opacity=".28"/>
+    <circle class="outline" cx="210" cy="197" r="120"/><circle class="outline" cx="450" cy="197" r="120"/>
+    <g stroke="#080a0c" stroke-width="9" stroke-linecap="round">
+      <path d="M520 258l46-13"/><path d="M520 282l46-13"/><path d="M520 306l46-13"/>
+    </g>
+    <path class="dim" marker-start="url(#arr)" marker-end="url(#arr)" d="M0 420H660"/>
+    <text class="caption" x="330" y="447" text-anchor="middle">330 мм</text>
+    <path class="dim" marker-start="url(#arr)" marker-end="url(#arr)" d="M-28 0V390"/>
+    <text class="caption" x="-43" y="195" text-anchor="middle" transform="rotate(-90 -43 195)">195 мм</text>
+    <text class="small" x="23" y="375">ПЕРЕД</text><text class="small" x="587" y="375">ЗАД</text>
+  </g>
+
+  <!-- RIGHT -->
+  <g transform="translate(900 145)">
+    <text class="view-title" x="330" y="-24" text-anchor="middle">ПРАВАЯ СТОРОНА — ВНУТРЕННЯЯ КОМПОНОВКА</text>
+    <use href="#side-shell" class="case"/>
+    <path class="rear" d="M0 32L32 0H46V390H32L0 358Z"/>
+    <path class="front" d="M614 0H628L660 32V358L628 390H614Z"/>
+    <!-- Mirrored view: front is on the right. -->
+    <rect class="pcb" x="18.3" y="52" width="623.4" height="288" opacity=".22"/>
+    <rect class="cooler" x="90" y="76" width="480" height="242" rx="5" opacity=".67"/>
+    <rect class="psu" x="40" y="138" width="480" height="192" rx="4" opacity=".72"/>
+    <text class="inside" x="330" y="102" text-anchor="middle">JF13K: проекция 240 × 121 мм</text>
+    <text class="inside" x="280" y="310" text-anchor="middle">Cisco PSU: проекция 240 × 96 мм</text>
+    <text class="inside" x="330" y="68" text-anchor="middle">BC-250: 311,7 × 144 мм</text>
+    <path class="dim" marker-start="url(#arr)" marker-end="url(#arr)" d="M0 420H660"/>
+    <text class="caption" x="330" y="447" text-anchor="middle">330 мм</text>
+    <path class="dim" marker-start="url(#arr)" marker-end="url(#arr)" d="M688 0V390"/>
+    <text class="caption" x="704" y="195" text-anchor="middle" transform="rotate(-90 704 195)">195 мм</text>
+    <text class="small" x="15" y="375">ЗАД</text><text class="small" x="582" y="375">ПЕРЕД</text>
+  </g>
+
+  <!-- FRONT -->
+  <g transform="translate(170 690)">
+    <text class="view-title" x="155" y="-24" text-anchor="middle">ПЕРЕДНЯЯ ПАНЕЛЬ</text>
+    <use href="#end-shell" class="front"/>
+    <path class="panel" d="M14 39L40 14H270L296 39V351L270 376H40L14 351Z"/>
+    <circle cx="75" cy="76" r="21" fill="#0b0e12" stroke="#737d88" stroke-width="3"/>
+    <path d="M75 62v14m-10-8a15 15 0 1 0 20 0" fill="none" stroke="#347fdd" stroke-width="3"/>
+    <rect class="slot" x="48" y="126" width="58" height="20" rx="3"/>
+    <rect class="slot" x="57" y="170" width="40" height="16" rx="8"/>
+    <rect x="142" y="45" width="120" height="290" rx="4" fill="url(#mesh)" stroke="#59636e" stroke-width="2"/>
+    <text class="inside" x="77" y="215" text-anchor="middle">USB-A</text><text class="inside" x="77" y="236" text-anchor="middle">USB-C</text>
+    <path class="dim" marker-start="url(#arr)" marker-end="url(#arr)" d="M0 420H310"/>
+    <text class="caption" x="155" y="447" text-anchor="middle">155 мм</text>
+    <path class="dim" marker-start="url(#arr)" marker-end="url(#arr)" d="M-28 0V390"/>
+    <text class="caption" x="-43" y="195" text-anchor="middle" transform="rotate(-90 -43 195)">195 мм</text>
+  </g>
+
+  <!-- REAR -->
+  <g transform="translate(575 690)">
+    <text class="view-title" x="155" y="-24" text-anchor="middle">ЗАДНЯЯ КРЫШКА — ОБЫЧНАЯ</text>
+    <use href="#end-shell" class="rear"/>
+    <path class="panel" d="M14 39L40 14H270L296 39V351L270 376H40L14 351Z"/>
+    <!-- Common 125 × 165 mm service cassette, shown at the same 2 px/mm scale. -->
+    <rect x="30" y="30" width="250" height="330" rx="4" fill="#0c0f13" stroke="#77818c" stroke-width="2"/>
+    <rect class="outline" x="48" y="55" width="214" height="128" rx="4"/>
+    <rect class="outline" x="48" y="211" width="214" height="118" rx="4"/>
+    <text class="inside" x="155" y="124" text-anchor="middle">BC-250 I/O — после замеров</text>
+    <text class="inside" x="155" y="275" text-anchor="middle">сменная вставка Cisco PSU</text>
+    <circle cx="60" cy="16" r="5" fill="#afb6bf"/><circle cx="250" cy="16" r="5" fill="#afb6bf"/>
+    <circle cx="60" cy="374" r="5" fill="#afb6bf"/><circle cx="250" cy="374" r="5" fill="#afb6bf"/>
+    <path class="dim" marker-start="url(#arr)" marker-end="url(#arr)" d="M0 420H310"/>
+    <text class="caption" x="155" y="447" text-anchor="middle">155 мм · крышка 6 мм по X</text>
+    <path class="dim" marker-start="url(#arr)" marker-end="url(#arr)" d="M338 0V390"/>
+    <text class="caption" x="354" y="195" text-anchor="middle" transform="rotate(-90 354 195)">195 мм</text>
+  </g>
+
+  <!-- VERTICAL: exact left projection rotated; rear is now down. -->
+  <g transform="translate(1190 640)">
+    <text class="view-title" x="225" y="0" text-anchor="middle">ВЕРТИКАЛЬНАЯ УСТАНОВКА</text>
+    <text class="caption" x="225" y="24" text-anchor="middle">левая проекция повёрнута: перед сверху, зад снизу</text>
+    <g transform="translate(420 60) rotate(90)">
+      <!-- side-shell is 660×390; after rotation it is 390×660 -->
+      <use href="#side-shell" class="case"/>
+      <path class="front" d="M0 32L32 0H46V390H32L0 358Z"/>
+      <path class="rear" d="M614 0H628L660 32V358L628 390H614Z"/>
+      <rect x="58" y="46" width="544" height="298" rx="5" fill="url(#mesh)" stroke="#59636e" stroke-width="2"/>
+    </g>
+    <!-- Desk-facing base: body width 195, footprint width 225, height 44. -->
+    <path class="base" d="M0 720H450V808H0Z"/>
+    <rect x="30" y="736" width="390" height="45" fill="#f3f4f6" stroke="#69737e" stroke-width="2"/>
+    <path class="cable" d="M205 721v32q0 18 20 18h108"/>
+    <path class="cable" d="M245 721v18q0 18-20 18H118"/>
+    <text class="small" x="225" y="800" text-anchor="middle">44 мм: штекеры вниз, кабели выходят в стороны</text>
+    <path class="dim" marker-start="url(#arr)" marker-end="url(#arr)" d="M0 840H450"/>
+    <text class="caption" x="225" y="866" text-anchor="middle">225 мм в этой проекции</text>
+    <text class="caption" x="225" y="894" text-anchor="middle">общая высота 330 + 44 = 374 мм</text>
+  </g>
+
+  <text class="subtitle" x="55" y="1560">Перспективных видов нет. Детали без измерений подписаны как зоны, а не выданы за готовые отверстия.</text>
+</svg>

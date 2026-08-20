@@ -2,7 +2,7 @@
 
 This replaces the generic v0.1 styling direction.
 
-![Nyacom-inspired exterior preview](previews/exterior-nyacom-v0.2.svg)
+![Согласованные проекции корпуса](previews/exterior-orthographic-v0.3.svg)
 
 The visual architecture deliberately follows the supplied Nyacom reference:
 

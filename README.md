@@ -25,7 +25,7 @@ Additional source projects, direct links, adopted features, pinned revisions, an
 - Vertical BC-250/JF13K assembly with controlled intake through the broad side panel.
 - Serviceable front USB hub, 2.5-inch drive mount, and ESP32 relay-controller tray.
 
-![Nyacom-inspired exterior adaptation v0.2](cad/previews/exterior-nyacom-v0.2.svg)
+![Согласованные проекции корпуса v0.3](cad/previews/exterior-orthographic-v0.3.svg)
 
 ## Project files
 
@@ -59,7 +59,8 @@ Additional source projects, direct links, adopted features, pinned revisions, an
 - `cad/exports/README.md` - authoritative list of STL files currently approved for slicing.
 - `cad/support-horizontal.scad` and `cad/support-vertical.scad` - interchangeable support prototypes using a common M4 interface.
 - `cad/SUPPORT-INTERFACE.md` - dimensions, fasteners, and unresolved validation points for both orientations.
-- `cad/previews/layout-a-top.svg` - reproducible top-view projection for quick browser inspection.
+- `cad/previews/exterior-orthographic-v0.3.svg` - four orthographic projections
+  at one scale plus a tower-orientation schematic derived from the left view.
 - `references/printables-*` - downloaded reference models retained with their source PDFs and license information.
 - `tools/inspect_3mf.py` - small utility for reporting raw 3MF vertex bounds.
 
