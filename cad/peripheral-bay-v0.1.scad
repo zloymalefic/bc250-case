@@ -1,17 +1,21 @@
-// Removable peripheral cassettes: 7 mm 2.5-inch SSD and ESP32 relay board.
+// Removable peripheral cassettes: 7-15 mm 2.5-inch drive and ESP32 relay board.
 // Device-hole coordinates remain adjustable until hardware is measured.
 
 $fn = 40;
 
-part = "set"; // ssd7 | esp32 | set
+part = "set"; // ssd | esp32 | set
 
-ssd_envelope = [100, 70, 7];
+ssd_envelope = [100.5, 69.9, 15];
 ssd_tray = [110, 80, 2.4];
 esp_envelope = [60, 60, 22];
 esp_tray = [68, 68, 2.4];
 
 slot_d = 3.6;
 slot_length = 12;
+ssd_hole_pitch = [76.6, 61.72];
+ssd_hole_origin = [(ssd_tray[0] - ssd_hole_pitch[0]) / 2,
+                   (ssd_tray[1] - ssd_hole_pitch[1]) / 2];
+ssd_retention_axis = [ssd_tray[0] / 2, 4];
 
 module elongated_hole(length, diameter, height) {
     hull() {
@@ -20,7 +24,7 @@ module elongated_hole(length, diameter, height) {
     }
 }
 
-module ssd7_cassette() {
+module ssd_cassette() {
     color([0.24, 0.25, 0.28])
     difference() {
         union() {
@@ -30,15 +34,24 @@ module ssd7_cassette() {
             cube([8, ssd_tray[1], ssd_tray[2]]);
             translate([ssd_tray[0] - 8, 0, 0]) cube([8, ssd_tray[1], ssd_tray[2]]);
 
-            // Four low adjustable retainers; total cassette height remains under 10 mm.
+            // Low corner locators do not constrain drive thickness; the same
+            // tray accepts common 7, 9.5, 12.5 and 15 mm 2.5-inch devices.
             for (x = [5, ssd_tray[0] - 9], y = [5, ssd_tray[1] - 9])
-                translate([x, y, ssd_tray[2] - 1.0]) cube([4, 4, 7.5]);
+                translate([x, y, ssd_tray[2] - 0.4]) cube([4, 4, 3.4]);
+
+            // Front service ear for one axial M3 retention screw.
+            translate([ssd_retention_axis[0] - 7, 0, 0])
+                cube([14, 10, 4.8]);
         }
 
-        // Adjustable M3 device slots instead of unverified fixed hole coordinates.
-        for (x = [18, ssd_tray[0] - 18], y = [4, ssd_tray[1] - 4])
+        // SFF-style 76.6 x 61.72 mm bottom pattern with longitudinal tolerance.
+        for (x = [ssd_hole_origin[0], ssd_hole_origin[0] + ssd_hole_pitch[0]],
+             y = [ssd_hole_origin[1], ssd_hole_origin[1] + ssd_hole_pitch[1]])
             translate([x, y, -0.1])
-                elongated_hole(slot_length, slot_d, ssd_tray[2] + 0.2);
+                elongated_hole(7, slot_d, ssd_tray[2] + 0.2);
+
+        translate([ssd_retention_axis[0], ssd_retention_axis[1], -0.1])
+            cylinder(h = 5.0, d = 3.4);
     }
 }
 
@@ -62,15 +75,16 @@ module esp32_cassette() {
     }
 }
 
-if (part == "ssd7") ssd7_cassette();
+if (part == "ssd") ssd_cassette();
 else if (part == "esp32") esp32_cassette();
 else {
-    ssd7_cassette();
+    ssd_cassette();
     translate([ssd_tray[0] + 15, 0, 0]) esp32_cassette();
 }
 
 echo("part", part);
 echo("supported_ssd_envelope_mm", ssd_envelope);
-echo("ssd_cassette_height_mm", ssd_tray[2] + 6.5);
+echo("ssd_bottom_hole_pitch_mm", ssd_hole_pitch);
+echo("ssd_retention", "1x front-access M3 plus 4x device M3");
 echo("esp32_board_envelope_provisional_mm", esp_envelope);
-assert(ssd_tray[2] + 6.5 <= 10, "SSD cassette exceeds allocated local channel height");
+assert(ssd_envelope[2] <= 15, "SSD exceeds supported maximum thickness");

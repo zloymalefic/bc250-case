@@ -1,15 +1,21 @@
-# Peripheral bay feasibility and cassettes v0.1
+# Peripheral bay and cassettes v0.2
 
 ## 2.5-inch storage
 
-The current two-level architecture can accommodate a common 7 mm 2.5-inch SSD in a local section of the 12 mm backplate channel:
+The active vertical architecture uses the free front pocket ahead of JF13K. The
+drive stands in the Y-Z plane and slides out through the front service opening:
 
-- supported provisional device envelope: 100 × 70 × 7 mm;
-- open bridge cassette: 110 × 80 × 8.9 mm maximum;
-- adjustable slots avoid claiming unverified drive-hole coordinates;
-- the cassette is removable without changing the main chassis.
+- supported device envelope: 100.5 × 69.9 × 15 mm maximum;
+- compatible nominal thicknesses: 7, 9.5, 12.5 and 15 mm;
+- open 110 × 80 × 2.4 mm bridge cassette;
+- four elongated M3 slots on a 76.6 × 61.72 mm bottom pattern;
+- two chassis guide walls, shallow retaining lips and a rear travel stop;
+- one front-access M3 cassette screw, reached after removing the snap panel;
+- the drive/cassette end at X=39.4 while JF13K starts at X=44.5.
 
-The cassette locally obstructs backplate airflow and must therefore be included in thermal testing. Devices 9.5 mm or 15 mm thick are not currently compatible; supporting them would require raising the board plane, moving the PSU, or increasing the enclosure.
+The bay is outside the JF13K fan footprint and does not use the two-millimetre
+PSU-to-board channel. SATA/power connector direction remains a final cable-route
+check, but it does not change the cassette or body envelope.
 
 ## ESP32 relay controller
 

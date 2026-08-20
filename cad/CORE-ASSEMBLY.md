@@ -44,6 +44,10 @@ below 6 mm. See `JF13K-PHOTO-FIT.md` for the evidence and residual checks.
   mm board/I/O blank and a 47.30 × 144.30 mm PSU blank;
 - each rear blank has four hidden hooks and a 2 mm support shoulder; final
   connector apertures are confined to these inexpensive replaceable parts.
+- the front-load 2.5-inch cassette supports 7–15 mm devices on a 76.6 × 61.72
+  mm M3 pattern and slides in the free pocket ahead of JF13K;
+- two guide walls, retaining lips, a rear stop and one front-access M3 screw
+  form a complete chassis interface without blocking the cooler intake.
 
 ## Assembly sequence for the core
 
@@ -61,6 +65,7 @@ The exact screw length and insert pilot remain provisional until the fit coupon 
 2. Add final connector apertures to the replaceable rear blanks after cable and
    port alignment is frozen.
 3. Physically check the Anker cassette, M3 button inserts, and switch travel.
+4. Verify the selected 2.5-inch drive's SATA/power cable direction.
 3. Final BC-250 edge clamps and non-contact JF13K transport pads after physical
    keepout checks.
 4. Two rear-cover variants on one four-point M3 interface: a shallow horizontal

@@ -7,10 +7,11 @@ use <psu-universal-internal-v0.2.scad>
 use <front-service-module-v0.1.scad>
 use <rear-service-blanks-v0.1.scad>
 use <power-button-nexgen-v0.1.scad>
+use <peripheral-bay-v0.1.scad>
 
 $fn = 40;
 
-part = "assembly"; // front-core | rear-core | board-spine-front | board-spine-rear | front-panel | front-button-mount | front-usb-cassette | rear-blank-board | rear-blank-psu | rear-cover-horizontal | rear-cover-vertical | assembly
+part = "assembly"; // front-core | rear-core | board-spine-front | board-spine-rear | front-panel | front-button-mount | front-usb-cassette | ssd-cassette | rear-blank-board | rear-blank-psu | rear-cover-horizontal | rear-cover-vertical | assembly
 exploded_gap = 0;
 show_fasteners = true;
 show_equipment = true;
@@ -135,6 +136,19 @@ front_snap_z = [front_panel_inset[1] + 8,
                 front_panel_inset[1] + front_panel_size[1] - 8];
 front_snap_block = [10, 12, 12];
 front_snap_slot = [8.6, 9, 4.4]; // 0.30 mm per-side hook clearance
+
+// Front-load 2.5-inch bay: the cassette plane is Y-Z and its thickness is X.
+// It occupies the free pocket between the front service panel and JF13K.
+ssd_tray_size = [110, 80, 2.4]; // local length, width, plate thickness
+ssd_device = [100.5, 69.9, 15];
+ssd_origin = [22, 60, 42.5];
+ssd_receiver_x0 = 7.0; // 1 mm overlap with the front-panel shoulder
+ssd_receiver_x1 = ssd_origin[0] + ssd_tray_size[2];
+ssd_rail_wall = 3;
+ssd_rail_lip = 1.4;
+ssd_retention_global = [ssd_origin[0], ssd_origin[1] + 4,
+                        ssd_origin[2] + ssd_tray_size[0] / 2];
+ssd_insert_boss_length = 9;
 
 module oct_prism_x(length, width, height, cut) {
     translate([0, 0, height])
@@ -337,6 +351,53 @@ module front_usb_cassette_global() {
                    75 + (71.0 - 70.35) / 2, 4]) usb_cassette();
 }
 
+module ssd_cassette_global() {
+    multmatrix([
+        [0, 0, 1, ssd_origin[0]],
+        [0, 1, 0, ssd_origin[1]],
+        [1, 0, 0, ssd_origin[2]],
+        [0, 0, 0, 1]
+    ]) ssd_cassette();
+}
+
+module ssd_receiver_rails() {
+    rail_length = ssd_receiver_x1 - ssd_receiver_x0;
+    // Side guide walls connect directly to the front structural seat.
+    for (y = [ssd_origin[1] - ssd_rail_wall,
+              ssd_origin[1] + ssd_tray_size[1]]) {
+        translate([ssd_receiver_x0, y, ssd_origin[2]])
+            cube([rail_length, ssd_rail_wall, ssd_tray_size[0]]);
+    }
+
+    // Shallow lips retain the tray edges while leaving the drive open to air.
+    translate([ssd_receiver_x0, ssd_origin[1] - ssd_rail_wall,
+               ssd_origin[2]])
+        cube([rail_length, ssd_rail_wall + ssd_rail_lip, 4]);
+    translate([ssd_receiver_x0,
+               ssd_origin[1] + ssd_tray_size[1] - ssd_rail_lip,
+               ssd_origin[2]])
+        cube([rail_length, ssd_rail_wall + ssd_rail_lip, 4]);
+
+    // Rear stop prevents the cassette reaching the JF13K keepout.
+    translate([ssd_receiver_x1, ssd_origin[1] - ssd_rail_wall,
+               ssd_origin[2]])
+        cube([2.4, ssd_tray_size[1] + 2 * ssd_rail_wall, 5]);
+
+    // One M3 insert boss is reached after removing the snap-fit front panel.
+    translate([ssd_receiver_x1, ssd_retention_global[1],
+               ssd_retention_global[2]])
+        rotate([0, 90, 0])
+            difference() {
+                cylinder(h = ssd_insert_boss_length, d = 9);
+                translate([0, 0, -0.1])
+                    cylinder(h = 6.2, d = m3_insert_pilot_d);
+            }
+    translate([ssd_receiver_x1 - 0.5, ssd_origin[1] - 0.5,
+               ssd_retention_global[2] - 2])
+        cube([ssd_insert_boss_length + 0.5,
+              2.0, 4]);
+}
+
 module rear_cover_screw_holes(x0, length) {
     for (y = rear_mount_y, z = rear_mount_z)
         translate([x0 - 0.1, y, z])
@@ -509,6 +570,7 @@ module complete_core() {
         receiver();
         psu_receiver_bridges();
         front_panel_seat_and_receivers();
+        ssd_receiver_rails();
     }
 }
 
@@ -565,6 +627,8 @@ else if (part == "front-button-mount")
     mounting_plate();
 else if (part == "front-usb-cassette")
     usb_cassette();
+else if (part == "ssd-cassette")
+    ssd_cassette();
 else if (part == "rear-blank-board")
     service_blank(rear_blank_widths[0]);
 else if (part == "rear-blank-psu")
@@ -581,6 +645,7 @@ else {
     color([0.76, 0.12, 0.09]) front_service_panel_global();
     color([0.10, 0.11, 0.13]) front_button_mount_global();
     color([0.14, 0.15, 0.17]) front_usb_cassette_global();
+    color([0.38, 0.40, 0.44]) ssd_cassette_global();
     if (show_fasteners && exploded_gap == 0) fastener_proxies();
     if (show_equipment && exploded_gap == 0) vertical_equipment_proxies();
     if (rear_cover == "horizontal")
@@ -629,7 +694,11 @@ echo("rear vertical service blanks YxZxX mm",
      [[rear_blank_widths[0], rear_blank_height, rear_blank_thickness],
       [rear_blank_widths[1], rear_blank_height, rear_blank_thickness]]);
 echo("rear blank retention", "4 hidden snap hooks each; common to horizontal and vertical rear covers");
-echo("release status", "core validation only; peripheral bays and final connector cuts not yet integrated");
+echo("2.5-inch bay origin/receiver X bounds mm",
+     [ssd_origin, [ssd_receiver_x0, ssd_receiver_x1 + ssd_insert_boss_length]]);
+echo("2.5-inch supported device mm", ssd_device);
+echo("2.5-inch retention", "4x device M3 plus 1x front-access cassette M3");
+echo("release status", "core validation only; ESP32 bay and final connector cuts not yet integrated");
 
 assert(split_x + collar_length <= 250, "Front core exceeds preliminary print envelope");
 assert(body[0] - split_x <= 250, "Rear core exceeds preliminary print envelope");
@@ -653,3 +722,7 @@ assert(front_panel_size[0] + 2 * front_panel_inset[0] == body[1] &&
 assert(rear_module_widths[0] + rear_module_widths[1] + rear_module_gap ==
        rear_service_opening[0],
        "Rear vertical module widths do not fill the common service opening");
+assert(ssd_origin[0] + ssd_tray_size[2] + ssd_device[2] < jf13k_origin[0],
+       "2.5-inch drive reaches the JF13K envelope");
+assert(ssd_origin[1] + ssd_tray_size[1] <= body[1] - wall,
+       "2.5-inch cassette exceeds the inner side wall");
