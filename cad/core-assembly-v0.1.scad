@@ -247,15 +247,24 @@ module esp32_snap_receiver_pocket_local(side, y) {
                                  : esp_cover_snap_x[1] - 0.4;
     cavity_x0 = side == "left" ? esp_cover_snap_x[0] - 3.7
                                 : esp_cover_snap_x[1] - 0.4;
-    // Slot through the profiled skin for the 2.2 mm arm.
-    translate([channel_x0, y - esp_snap_arm_width / 2 - esp_snap_slot_clearance,
-               root_z - 6.2])
-        cube([2.9, esp_snap_arm_width + 2 * esp_snap_slot_clearance, 6.8]);
-    // Barb chamber at full insertion; its exterior-facing roof is the catch.
-    translate([cavity_x0, y - esp_snap_arm_width / 2 - esp_snap_slot_clearance,
-               root_z - esp_snap_arm_drop - esp_snap_slot_clearance])
-        cube([4.1, esp_snap_arm_width + 2 * esp_snap_slot_clearance,
-              esp_snap_barb_height + 2 * esp_snap_slot_clearance]);
+    // The lower pair follows the 45-degree enclosure face; rotating the whole
+    // channel/cavity pair keeps its catch shoulder normal to the snap travel.
+    translate([0, y, root_z])
+        rotate([y < chamfer ? 45 : 0, 0, 0]) {
+            // Slot through the profiled skin for the 2.2 mm arm.
+            translate([channel_x0,
+                       -esp_snap_arm_width / 2 - esp_snap_slot_clearance,
+                       -6.2])
+                cube([2.9,
+                      esp_snap_arm_width + 2 * esp_snap_slot_clearance, 6.8]);
+            // Barb chamber at full insertion; its roof is the catch shoulder.
+            translate([cavity_x0,
+                       -esp_snap_arm_width / 2 - esp_snap_slot_clearance,
+                       -esp_snap_arm_drop - esp_snap_slot_clearance])
+                cube([4.1,
+                      esp_snap_arm_width + 2 * esp_snap_slot_clearance,
+                      esp_snap_barb_height + 2 * esp_snap_slot_clearance]);
+        }
 }
 
 module esp32_snap_receiver_pockets_global() {

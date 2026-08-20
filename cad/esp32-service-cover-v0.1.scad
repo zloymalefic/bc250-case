@@ -60,9 +60,11 @@ module esp32_service_cover(cover_size = cover, case_chamfer = 16) {
             // retention avoids the intake cover immediately above this part.
             for (y = snap_y) {
                 translate([snap_x[0], y, inner_z_at(y, case_chamfer)])
-                    rotate([0, 0, 90]) snap_hook();
+                    rotate([y < case_chamfer ? 45 : 0, 0, 0])
+                        rotate([0, 0, 90]) snap_hook();
                 translate([snap_x[1], y, inner_z_at(y, case_chamfer)])
-                    rotate([0, 0, -90]) snap_hook();
+                    rotate([y < case_chamfer ? 45 : 0, 0, 0])
+                        rotate([0, 0, -90]) snap_hook();
             }
         }
 
