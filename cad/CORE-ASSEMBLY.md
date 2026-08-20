@@ -43,8 +43,9 @@ inside the lower chassis chamfer instead of extending the exterior silhouette.
 - its rear extent stops at X=318, leaving 12 mm to the outside rear plane;
 - server, FlexATX, and LOP adapter plates remain interchangeable service parts,
   while no PSU bracket protrudes outside the enclosure.
-- the 125 × 175 mm Nyacom-proportioned front service panel has a rear support
-  shoulder and four front-access countersunk M3 screws into fused insert bosses;
+- the full-section 155 × 195 × 12 mm front cap preserves the Nyacom source
+  bevels and stepped surface, closes the entire case end, and uses four
+  front-access countersunk M3 screws into fused insert bosses;
 - the panel remains separately printable and removable without opening the
   structural chassis seam.
 - two ribbed M3 insert bosses now retain the NexGen-derived button plate;

@@ -12,7 +12,7 @@ All production-looking exports have therefore been withdrawn. `cad/exports/` now
 |---|---|---|
 | Chassis front ↔ chassis rear | integrated, unvalidated | The collar aligns the sections and two bottom-access M3 screws retain them. Insert/collar coupon results remain open. |
 | Intake halves ↔ chassis | aligned, unvalidated | Eight 8×2 magnet pairs align; bottom pry notches provide release. Four long guide tongues resist shear and stiffen the broad opening. Pocket fit still requires a coupon. |
-| Front panel ↔ chassis | integrated, unvalidated | The visible 125 × 175 mm Nyacom-proportioned panel has a support shoulder and four front-access M3 insert bosses. Screw length and insert fit remain open. |
+| Front panel ↔ chassis | integrated, unvalidated | Full 155 × 195 × 12 mm sculpted Nyacom-derived end cap matches the case section and has four front-access M3 insert bosses. Screw length and insert fit remain open. |
 | Monolithic rear covers ↔ chassis | integrated, unvalidated | Both rear variants are single structural bodies on the common four-point M3 interface. Final PSU/I/O apertures remain open. |
 | Button ↔ front panel | integrated, unvalidated | Two M3 plate axes now match two ribbed insert bosses. Insert fit and switch travel remain open. |
 | Anker A7516 cassette ↔ front panel | integrated, unvalidated | Vertical 28.6 × 71.0 mm opening, two hidden receivers, four USB-A cuts, and a 103 × 30 × 10 mm cradle are modeled. Physical fit remains open. |

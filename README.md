@@ -51,7 +51,7 @@ Additional source projects, direct links, adopted features, pinned revisions, an
 - `cad/chassis-joint-coupon-v0.1.scad` - reduced-cost three-clearance test of the real chamfered chassis joint.
 - `cad/intake-panel-snap-v0.1.scad` - two independently replaceable JF13K intake halves with hidden hooks.
 - `cad/fit-calibration-coupon-v0.1.scad` - combined M3/M4 insert, screw-hole, and snap-clearance pre-production test.
-- `cad/front-service-module-v0.1.scad` - bolted Nyacom-proportioned front panel with independent button and USB cassette modules.
+- `cad/front-service-module-v0.1.scad` - full-section sculpted Nyacom-derived front cap with an integrated NexGen button and USB cassette.
 - `cad/rear-service-blanks-v0.1.scad` - two vertical snap-in board/I/O and PSU
   blanks shared by both rear-cover variants.
 - `cad/board-spine-v0.1.scad` - split vertical BC-250 carrier using the verified

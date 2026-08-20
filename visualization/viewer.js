@@ -31,7 +31,8 @@ const stl=new STLLoader();
 const material=(color,opts={})=>new THREE.MeshStandardMaterial({color,roughness:opts.roughness??.62,metalness:opts.metalness??.08,transparent:!!opts.opacity,opacity:opts.opacity??1,side:opts.side??THREE.FrontSide});
 const mats={shell:material(0x252a30),shell2:material(0x434b55),intake:material(0xaeb9c5,{roughness:.48}),service:material(0xd84730),dark:material(0x171b20),logo:material(0xf1f3f4,{roughness:.3}),metal:material(0x89919a,{metalness:.72,roughness:.28}),board:material(0x20a568,{roughness:.74}),cooler:material(0xe8edf2,{metalness:.18,roughness:.3}),pipe:material(0xbcc6ce,{metalness:.52,roughness:.22}),light:material(0xd9f1ff,{roughness:.16,opacity:.62,side:THREE.DoubleSide}),psu:material(0xe88924,{metalness:.45,roughness:.35}),button:material(0xf0c642,{metalness:.35,roughness:.3}),anker:material(0x2f79d0,{metalness:.3,roughness:.35}),rearUsb:material(0xe35ca0,{metalness:.2,roughness:.4}),ssd:material(0x9b6de3,{metalness:.45,roughness:.3}),esp32:material(0x24bfd0,{metalness:.2,roughness:.42})};
 const componentDefs=[
-  ['shell','Корпус и каркас','#434b55'],['board','Плата BC-250','#20a568'],
+  ['shell','Корпус и каркас','#434b55'],['frontCover','Передняя крышка','#d84730'],
+  ['rearCover','Задняя крышка','#d84730'],['board','Плата BC-250','#20a568'],
   ['cooler','Кулер JF13K','#e8edf2'],['psu','Блок питания Cisco','#e88924'],
   ['button','Кнопка питания','#f0c642'],['anker','Anker USB HUB','#2f79d0'],
   ['ssd','Кассета SSD','#9b6de3'],['esp32','Кассета ESP32','#24bfd0'],
@@ -42,15 +43,15 @@ const T=(position=[0,0,0],matrix=null,center=false)=>({position,matrix,center});
 const specs=[
  ['front-core','Передняя половина корпуса','front-core.stl','shell',T(),[-70,0,0]],
  ['rear-core','Задняя половина корпуса','rear-core.stl','shell2',T([165,0,0]),[70,0,0]],
- ['front-panel','Передняя панель Nyacom · 4×M3','front-panel.stl','service',T([5,15,10],new THREE.Matrix4().set(0,0,-1,0, 1,0,0,0, 0,1,0,0, 0,0,0,1)),[-105,0,0]],
- ['front-usb','Кассета фронтального USB-хаба','front-usb-cassette.stl','dark',T([-1,103.335,93.325],new THREE.Matrix4().set(0,0,-1,0, 1,0,0,0, 0,1,0,0, 0,0,0,1)),[-115,20,0]],
+ ['front-panel','Фигурная торцевая панель Nyacom · 4×M3','front-panel.stl','service',T([-6,0,0],new THREE.Matrix4().set(0,0,1,0, 1,0,0,0, 0,1,0,0, 0,0,0,1)),[-105,0,0]],
+ ['front-usb','Кассета фронтального USB-хаба','front-usb-cassette.stl','dark',T([-12,111.335,87.325],new THREE.Matrix4().set(0,0,-1,0, 1,0,0,0, 0,1,0,0, 0,0,0,1)),[-115,20,0]],
  ['spine-front','Передняя часть каркаса платы','board-spine-front.stl','shell2',T([7,42,17.35]),[-25,-12,0]],
  ['spine-rear','Задняя часть каркаса платы','board-spine-rear.stl','shell2',T([165,42,17.35]),[25,-12,0]],
- ['button','Оригинальная монтажная пластина NexGen','button-plate.stl','button',T([4.5,45.6,159.15],new THREE.Matrix4().set(0,0,-1,0, 1,0,0,0, 0,1,0,0, 0,0,0,1),true),[-125,-15,20]],
- ['button-light','Оригинальный световод кнопки NexGen','button-light-pipe.stl','light',T([-0.7,45.6,159.15],new THREE.Matrix4().set(-1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1),true),[-135,-15,20]],
- ['button-bezel','Фасетированный наружный ободок кнопки','button-decorative-bezel.stl','button',T([-1.1,45.6,159.15]),[-140,-15,20]],
- ['button-cap','Декоративная кнопка NexGen','button-cap-black.stl','button',T([-1.2,45.6,159.15]),[-145,-15,20]],
- ['button-logo','Светлый логотип кнопки','button-logo-white.stl','logo',T([-1.3,45.6,159.15]),[-146,-15,20]],
+ ['button','Интегрированная монтажная пластина NexGen','button-plate.stl','button',T([-7,37.6,164.15],new THREE.Matrix4().set(0,0,-1,0, 1,0,0,0, 0,1,0,0, 0,0,0,1),true),[-125,-15,20]],
+ ['button-light','Световод кнопки NexGen','button-light-pipe.stl','light',T([-12.5,37.6,164.15],new THREE.Matrix4().set(-1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1),true),[-135,-15,20]],
+ ['button-bezel','Фасетированный наружный ободок кнопки','button-decorative-bezel.stl','button',T([-12.7,37.6,164.15]),[-140,-15,20]],
+ ['button-cap','Декоративная кнопка NexGen','button-cap-black.stl','button',T([-12.8,37.6,164.15]),[-145,-15,20]],
+ ['button-logo','Светлый логотип кнопки','button-logo-white.stl','logo',T([-12.9,37.6,164.15]),[-146,-15,20]],
  ['rear-usb','NexGen USB return · задняя панель','usb-cover.stl','rearUsb',T([337,52,95],new THREE.Matrix4().set(1,0,0,0, 0,0,1,0, 0,1,0,0, 0,0,0,1),true),[125,-22,0]],
  ['ssd','Кассета SSD','ssd-cassette.stl','ssd',T([22,60,42.5],new THREE.Matrix4().set(0,0,1,0, 0,1,0,0, 1,0,0,0, 0,0,0,1)),[-55,-40,-30]],
  ['esp32-cassette','Боковая кассета ESP32-реле','esp32-cassette.stl','esp32',T([180,70,5]),[0,45,-35]],
@@ -63,8 +64,8 @@ const specs=[
 ];
 
 function applyTransform(mesh,tr){if(tr.matrix){mesh.applyMatrix4(tr.matrix)}mesh.position.fromArray(tr.position)}
-function componentFor(id){if(id.startsWith('button'))return'button';if(id==='rear-usb')return'rearUsb';if(id==='ssd')return'ssd';if(id.startsWith('esp32'))return'esp32';if(id==='board')return'board';return'shell'}
-async function loadPart(spec){const [id,label,file,mat,tr,explode]=spec;const url=file.startsWith('../')?file:`assets/${file}`;const geometry=await stl.loadAsync(url);if(tr.center)geometry.center();geometry.computeVertexNormals();const mesh=new THREE.Mesh(geometry,mats[mat]);mesh.castShadow=true;mesh.receiveShadow=true;const group=componentFor(id);mesh.userData={id,label,group,base:[...tr.position],explode,equipment:group!=='shell',enabled:true};applyTransform(mesh,tr);root.add(mesh);parts.push(mesh)}
+function componentFor(id){if(id==='front-panel')return'frontCover';if(id==='rear-vertical'||id==='rear-horizontal')return'rearCover';if(id==='rear-usb')return'rearUsb';if(id.startsWith('button'))return'button';if(id==='ssd')return'ssd';if(id.startsWith('esp32'))return'esp32';if(id==='board')return'board';return'shell'}
+async function loadPart(spec){const [id,label,file,mat,tr,explode]=spec;const url=file.startsWith('../')?file:`assets/${file}`;const geometry=await stl.loadAsync(url);if(tr.center)geometry.center();geometry.computeVertexNormals();const mesh=new THREE.Mesh(geometry,mats[mat]);mesh.castShadow=true;mesh.receiveShadow=true;const group=componentFor(id);const equipment=!['shell','frontCover','rearCover'].includes(group);mesh.userData={id,label,group,base:[...tr.position],explode,equipment,enabled:true};applyTransform(mesh,tr);root.add(mesh);parts.push(mesh)}
 
 function box(id,label,size,pos,mat,group){const mesh=new THREE.Mesh(new THREE.BoxGeometry(...size),mats[mat]);mesh.position.set(pos[0]+size[0]/2,pos[1]+size[1]/2,pos[2]+size[2]/2);mesh.castShadow=true;mesh.userData={id,label,group,base:mesh.position.toArray(),explode:[0,55,0],equipment:true,enabled:true};root.add(mesh);parts.push(mesh);return mesh}
 function register(mesh,id,label,group,explode=[0,55,0]){mesh.castShadow=true;mesh.receiveShadow=true;mesh.userData={id,label,group,base:mesh.position.toArray(),explode,equipment:true,enabled:true};root.add(mesh);parts.push(mesh);return mesh}

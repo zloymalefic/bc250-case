@@ -6,17 +6,18 @@ $fn = 48;
 
 part = "assembly"; // panel | usb-cassette | assembly
 
-// Nyacom source panel is 125 x 175 x 12 mm overall. The visible plate and rear
-// locating lip reproduce that envelope without importing the source mesh.
-panel = [125, 175, 6];
-panel_chamfer = 12;
+// The source Nyacom panel is a complete 125 x 175 x 12 mm sculpted end cap.
+// It is scaled only in its face plane to the project's 155 x 195 mm section;
+// the original 12 mm depth, bevels and stepped surface remain intact.
+panel = [155, 195, 12];
+source_panel = [125, 175, 12];
 button_opening = [45.2, 32.3];
-button_origin = [8, 133];
+button_origin = [15, 148];
 usb_opening = [28.6, 71.0];
-usb_origin = [88, 83];
-panel_screw_points = [[9, 9], [panel[0] - 9, 9],
-                       [9, panel[1] - 9],
-                       [panel[0] - 9, panel[1] - 9]];
+usb_origin = [111, 87];
+panel_screw_points = [[18, 18], [panel[0] - 18, 18],
+                       [18, panel[1] - 18],
+                       [panel[0] - 18, panel[1] - 18]];
 panel_screw_d = 3.4;
 panel_screw_head_d = 6.4;
 panel_screw_head_depth = 1.8;
@@ -31,6 +32,7 @@ usb_port_pitch = 16.4;
 usb_port_y0 = 10.575;
 
 button_plate = [44.5, 31.6, 5.1];
+light_pipe_d = 19.8;
 button_mount_pitch = 34;
 button_boss_d = 9;
 button_boss_depth = 6;
@@ -44,6 +46,18 @@ module chamfered_panel_2d(width, height, cut) {
     ]);
 }
 
+module nyacom_sculpted_panel() {
+    scale([panel[0] / source_panel[0],
+           panel[1] / source_panel[1], 1])
+        multmatrix([
+            [1, 0, 0, 62.5],
+            [0, 0, 1, 87.5],
+            [0, 1, 0, 174],
+            [0, 0, 0, 1]
+        ])
+            import("../references/printables-1737913-nyacom-flex/body-front-panel.stl");
+}
+
 module capsule(length, width, depth) {
     hull() {
         translate([-length / 2 + width / 2, 0, 0]) cylinder(h = depth, d = width);
@@ -51,29 +65,47 @@ module capsule(length, width, depth) {
     }
 }
 
+module rounded_rect_pocket(size, radius, depth) {
+    hull()
+        for (x = [radius, size[0] - radius],
+             y = [radius, size[1] - radius])
+            translate([x, y, 0]) cylinder(h = depth, r = radius);
+}
+
 module front_panel() {
     color([0.94, 0.72, 0.05]) union() {
         difference() {
-            linear_extrude(height = panel[2])
-                chamfered_panel_2d(panel[0], panel[1], panel_chamfer);
+            union() {
+                nyacom_sculpted_panel();
+                // Continuous inner datum ties the source panel's ornamental
+                // ribs into one printable structural end cap after new cuts.
+                linear_extrude(height = 1.2)
+                    chamfered_panel_2d(panel[0], panel[1], 16);
+            }
 
-        // NexGen button mounting plate opening.
-        translate([button_origin[0], button_origin[1], -0.1])
-            cube([button_opening[0], button_opening[1], panel[2] + 0.2]);
+            // The NexGen mounting plate is recessed flush into the thick cap,
+            // rather than floating in a rectangular through-opening.
+            translate([button_origin[0] + 0.35,
+                       button_origin[1] + 0.35,
+                       panel[2] - button_plate[2]])
+                rounded_rect_pocket(button_plate, 4.2,
+                                    button_plate[2] + 0.2);
+
+            button_center = [button_origin[0] + button_opening[0] / 2,
+                             button_origin[1] + button_opening[1] / 2];
+            translate([button_center[0], button_center[1], -0.1])
+                cylinder(h = panel[2] + 0.2, d = light_pipe_d + 0.6);
+            for (x = [button_center[0] - button_mount_pitch / 2,
+                      button_center[0] + button_mount_pitch / 2])
+                translate([x, button_center[1], -0.1])
+                    cylinder(h = panel[2] - button_plate[2] + 0.2,
+                             d = button_insert_pilot_d);
 
             // Replaceable vertical Anker cassette opening.
             translate([usb_origin[0], usb_origin[1], -0.1])
                 cube([usb_opening[0], usb_opening[1], panel[2] + 0.2]);
 
-            // Nyacom-like lower industrial ventilation slots.
-            for (y = [28 : 13 : 67])
-                translate([panel[0] / 2, y, -0.1]) rotate([0, 0, -12])
-                    capsule(72, 5, panel[2] + 0.2);
-
             // Concealed finger release notches at the module edges.
-            translate([button_origin[0] + button_opening[0] / 2,
-                       button_origin[1] - 0.1, -0.1])
-                cylinder(h = panel[2] + 0.2, d = 7);
             translate([usb_origin[0] - 0.1,
                        usb_origin[1] + usb_opening[1] / 2, -0.1])
                 cylinder(h = panel[2] + 0.2, d = 7);
@@ -83,52 +115,13 @@ module front_panel() {
             for (p = panel_screw_points) {
                 translate([p[0], p[1], -0.1])
                     cylinder(h = panel[2] + 0.2, d = panel_screw_d);
-                translate([p[0], p[1], -0.1])
+                translate([p[0], p[1],
+                           panel[2] - panel_screw_head_depth])
                     cylinder(h = panel_screw_head_depth + 0.1,
-                             d1 = panel_screw_head_d, d2 = panel_screw_d);
+                             d1 = panel_screw_d, d2 = panel_screw_head_d);
             }
         }
 
-        // Two real M3 insert bosses retain the NexGen-derived button plate.
-        // Short ribs connect them to the opening edges instead of leaving
-        // isolated cylinders inside the cut-out.
-        for (i = [0 : 1]) {
-            x = button_origin[0] + button_opening[0] / 2 +
-                (i == 0 ? -button_mount_pitch / 2 : button_mount_pitch / 2);
-            y = button_origin[1] + button_opening[1] / 2;
-            difference() {
-                union() {
-                    translate([x, y, -button_boss_depth])
-                        cylinder(h = button_boss_depth, d = button_boss_d);
-                    translate([i == 0 ? button_origin[0] - 1 : x,
-                               y - button_boss_d / 2, -3])
-                        cube([i == 0 ? x - button_origin[0] + 1 :
-                                      button_origin[0] + button_opening[0] + 1 - x,
-                              button_boss_d, 3]);
-                }
-                translate([x, y, -button_boss_depth - 0.1])
-                    cylinder(h = button_boss_depth + 0.2,
-                             d = button_insert_pilot_d);
-            }
-        }
-
-        // Two internal rails receive the cassette's reduced snap hooks.
-        difference() {
-            union() {
-                translate([usb_origin[0] - 3, usb_origin[1] - 1, -5])
-                    cube([usb_opening[0] + 6, 8, 5]);
-                translate([usb_origin[0] - 3,
-                           usb_origin[1] + usb_opening[1] - 7, -5])
-                    cube([usb_opening[0] + 6, 8, 5]);
-            }
-            cassette_x0 = usb_origin[0] + (usb_opening[0] - usb_face[0]) / 2;
-            cassette_y0 = usb_origin[1] + (usb_opening[1] - usb_face[1]) / 2;
-            for (p = [[cassette_x0 + 8, cassette_y0 + 2.2],
-                      [cassette_x0 + usb_face[0] - 8,
-                       cassette_y0 + usb_face[1] - 2.2]])
-                translate([p[0] - 3.2, p[1] - 2.2, -5.1])
-                    cube([6.4, 4.4, 5.3]);
-        }
     }
 
 }

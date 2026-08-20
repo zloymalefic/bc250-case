@@ -121,22 +121,22 @@ psu_bridge_overlap = 0.4;
 psu_bridge_depth = 3;
 psu_bridge_height = 4;
 
-// Nyacom-proportioned front panel, retained by four front-access M3 screws.
-front_panel_size = [125, 175, 6];
+// Full-section Nyacom-derived sculpted end cap, retained by four M3 screws.
+front_panel_size = [155, 195, 12];
 front_panel_inset = [(body[1] - front_panel_size[0]) / 2,
                      (body[2] - front_panel_size[1]) / 2];
-front_panel_front_x = -1;
+front_panel_front_x = -12;
 front_panel_rear_x = front_panel_front_x + front_panel_size[2];
 front_seat_depth = 2;
 front_seat_overlap = 2.35;
 front_screw_points = [
-    [front_panel_inset[0] + 9, front_panel_inset[1] + 9],
-    [front_panel_inset[0] + front_panel_size[0] - 9,
-     front_panel_inset[1] + 9],
-    [front_panel_inset[0] + 9,
-     front_panel_inset[1] + front_panel_size[1] - 9],
-    [front_panel_inset[0] + front_panel_size[0] - 9,
-     front_panel_inset[1] + front_panel_size[1] - 9]
+    [front_panel_inset[0] + 18, front_panel_inset[1] + 18],
+    [front_panel_inset[0] + front_panel_size[0] - 18,
+     front_panel_inset[1] + 18],
+    [front_panel_inset[0] + 18,
+     front_panel_inset[1] + front_panel_size[1] - 18],
+    [front_panel_inset[0] + front_panel_size[0] - 18,
+     front_panel_inset[1] + front_panel_size[1] - 18]
 ];
 front_insert_boss_d = 16;
 front_insert_boss_depth = 8;
@@ -372,17 +372,7 @@ module psu_receiver_bridges() {
 
 module front_panel_seat_and_receivers() {
     union() {
-        // Visible front ring; the Nyacom-like panel projects 1 mm beyond it.
-        difference() {
-            oct_prism_x(front_panel_rear_x, body[1], body[2], chamfer);
-            translate([-0.1, front_panel_inset[0] - 0.35,
-                       front_panel_inset[1] - 0.35])
-                cube([front_panel_rear_x + 0.2,
-                      front_panel_size[0] + 0.7,
-                      front_panel_size[1] + 0.7]);
-        }
-
-        // Rear shoulder locates the panel and carries insertion loads.
+        // Internal shoulder supports the full-size external end cap.
         difference() {
             translate([front_panel_rear_x, 0, 0])
                 oct_prism_x(front_seat_depth, body[1], body[2], chamfer);
@@ -398,10 +388,18 @@ module front_panel_seat_and_receivers() {
         // axes match the countersunk holes in the removable panel.
         for (p = front_screw_points)
             difference() {
-                translate([front_panel_rear_x, p[0], p[1]])
-                    rotate([0, 90, 0])
-                        cylinder(h = front_insert_boss_depth,
-                                 d = front_insert_boss_d);
+                union() {
+                    translate([front_panel_rear_x, p[0], p[1]])
+                        rotate([0, 90, 0])
+                            cylinder(h = front_insert_boss_depth,
+                                     d = front_insert_boss_d);
+                    // Short web reaches the nearest side wall so the insert
+                    // boss is structural rather than an isolated island.
+                    translate([front_panel_rear_x,
+                               p[0] < body[1] / 2 ? 0 : p[0], p[1] - 4])
+                        cube([front_insert_boss_depth,
+                              p[0] < body[1] / 2 ? p[0] : body[1] - p[0], 8]);
+                }
                 translate([front_panel_rear_x - 0.1, p[0], p[1]])
                     rotate([0, 90, 0])
                         cylinder(h = front_insert_boss_depth + 0.2,
@@ -426,7 +424,7 @@ module front_button_mount_global() {
         [1, 0,  0, front_panel_inset[0]],
         [0, 1,  0, front_panel_inset[1]],
         [0, 0,  0, 1]
-    ]) translate([8.35, 133.35, 6 - 5.1]) mounting_plate();
+    ]) translate([15.35, 148.35, 12 - 5.1]) mounting_plate();
 }
 
 module front_button_visible_global() {
@@ -437,9 +435,9 @@ module front_button_visible_global() {
         [0, 1,  0, front_panel_inset[1]],
         [0, 0,  0, 1]
     ]) {
-        button_center = [8 + 45.2 / 2, 133 + 32.3 / 2];
-        translate([button_center[0], button_center[1], 3.2]) light_pipe();
-        translate([button_center[0], button_center[1], 7.8])
+        button_center = [15 + 45.2 / 2, 148 + 32.3 / 2];
+        translate([button_center[0], button_center[1], 9.2]) light_pipe();
+        translate([button_center[0], button_center[1], 13.8])
             nexgen_steam_logo_cap();
     }
 }
@@ -450,8 +448,8 @@ module front_usb_cassette_global() {
         [1, 0,  0, front_panel_inset[0]],
         [0, 1,  0, front_panel_inset[1]],
         [0, 0,  0, 1]
-    ]) translate([88 + (28.6 - 27.93) / 2,
-                   83 + (71.0 - 70.35) / 2, 6]) usb_cassette();
+    ]) translate([111 + (28.6 - 27.93) / 2,
+                   87 + (71.0 - 70.35) / 2, 12]) usb_cassette();
 }
 
 module ssd_cassette_global() {
