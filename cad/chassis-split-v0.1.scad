@@ -1,6 +1,7 @@
 // Split structural tunnel v0.1.
 // Two printable shell sections with an internal alignment collar.
 // External styling follows exterior-nyacom-v0.2.scad.
+include <lib/snap-interface.scad>
 
 $fn = 32;
 
@@ -14,6 +15,16 @@ collar_length = 9;
 collar_clearance = 0.35; // per side; tune with material coupon
 collar_wall = 2.4;
 assembly_gap = 12;
+
+intake_opening = [266, 119];
+intake_origin = [32, 18];
+panel_origin = [30, 12];
+panel_half_length = 135;
+receiver_x_local = [18, panel_half_length - 18];
+receiver_y = [panel_origin[1] + 4, panel_origin[1] + 131 - 4];
+receiver_block = [12, 9, 12];
+tray_ledge_z = 45;
+tray_ledge = [body[0] - 12, 7, 4];
 
 module oct_prism_x(length, width, height, cut) {
     translate([0, 0, height])
@@ -34,9 +45,58 @@ module full_open_shell() {
     }
 }
 
+module receiver_blocks() {
+    for (half_x = [panel_origin[0], panel_origin[0] + panel_half_length],
+         local_x = receiver_x_local,
+         y = receiver_y)
+        translate([
+            half_x + local_x - receiver_block[0] / 2,
+            y < body[1] / 2 ? 13 : body[1] - 13 - receiver_block[1],
+            body[2] - receiver_block[2]
+        ]) cube(receiver_block);
+}
+
+module tray_ledges() {
+    // Continuous ledges carry the tray; screw locations can be drilled into
+    // elongated tray slots after the physical fit check.
+    translate([6, 3.4, tray_ledge_z]) cube(tray_ledge);
+    translate([6, body[1] - 3.4 - tray_ledge[1], tray_ledge_z]) cube(tray_ledge);
+}
+
+module snap_receiver_cutouts() {
+    for (half_x = [panel_origin[0], panel_origin[0] + panel_half_length],
+         local_x = receiver_x_local,
+         y = receiver_y)
+        translate([
+            half_x + local_x - snap_arm_width / 2 - snap_slot_clearance,
+            y < body[1] / 2 ? 12.8 : body[1] - 12.8 - 5.2,
+            body[2] - snap_arm_drop - snap_slot_clearance - 0.5
+        ]) cube([
+            snap_arm_width + 2 * snap_slot_clearance,
+            5.2,
+            snap_arm_drop + snap_slot_clearance + 1
+        ]);
+}
+
+module functional_shell() {
+    difference() {
+        union() {
+            full_open_shell();
+            receiver_blocks();
+            tray_ledges();
+        }
+
+        // Large dual-fan intake. The split panels overlap this opening.
+        translate([intake_origin[0], intake_origin[1], body[2] - wall - 1])
+            cube([intake_opening[0], intake_opening[1], wall + 2]);
+
+        snap_receiver_cutouts();
+    }
+}
+
 module shell_slice(x0, length) {
     intersection() {
-        full_open_shell();
+        functional_shell();
         translate([x0, -1, -1]) cube([length, body[1] + 2, body[2] + 2]);
     }
 }
@@ -101,5 +161,8 @@ echo("part", part);
 echo("front_print_bounds_nominal_mm", [split_x + collar_length, body[1], body[2]]);
 echo("rear_print_bounds_nominal_mm", [body[0] - split_x, body[1], body[2]]);
 echo("collar_clearance_per_side_mm", collar_clearance);
+echo("intake_opening_mm", intake_opening);
+echo("snap_receiver_count", 8);
+echo("tray_ledge_top_z_mm", tray_ledge_z + tray_ledge[2]);
 assert(split_x + collar_length <= 250, "Front section exceeds preliminary 250 mm print-bed limit");
 assert(body[0] - split_x <= 250, "Rear section exceeds preliminary 250 mm print-bed limit");

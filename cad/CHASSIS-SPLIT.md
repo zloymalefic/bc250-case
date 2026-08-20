@@ -9,6 +9,15 @@ The 330 mm Nyacom-style structural tunnel is divided at X=165 mm:
 - initial radial assembly clearance is 0.35 mm per side;
 - hidden internal M3 bosses are included as the starting point for structural retention.
 
+## Functional interfaces added
+
+- JF13K intake opening: 266 × 119 mm;
+- eight hidden receiver pockets matching the two four-hook intake panels;
+- receiver blocks are integrated into the inner top perimeter, not glued-on parts;
+- continuous internal tray ledges run along both lower side walls;
+- ledge top is Z=49 mm, matching the integrated board-tray origin;
+- the intake opening and receiver pattern cross the chassis split without placing a hook directly on the joint.
+
 The collar clearance is provisional. Before printing complete shell sections, produce a short interface coupon using the selected material, layer height, and printer profile.
 
-This split defines the structural tunnel only. Snap-fit openings for the JF13K intake and service panels are added in the next stage.
+Receiver interference remains tied to the snap calibration coupon. Full chassis printing must wait until the selected material passes repeated insertion/removal testing.

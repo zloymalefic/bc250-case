@@ -16,3 +16,5 @@ Initial PETG/ASA snap parameters:
 - receiver clearance: 0.30 mm per side.
 
 These numbers are test values, not production values. Print `snap-fit-coupon-v0.1.scad` first. Test at least five insertion/removal cycles and reject any setting that creates whitening, root cracking, excessive looseness, or a release force likely to damage the panel.
+
+The matching eight receiver pockets are integrated into `chassis-split-v0.1.scad`. No hook is located on the structural front/rear chassis joint.
