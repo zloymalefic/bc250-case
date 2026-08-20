@@ -20,6 +20,8 @@
 
 `integration-assembly-v0.1.scad` combines the split shell, board tray, Cisco PSU rail, and BC-250 proxy. The first combined check moves the board plane to Z=65 mm to preserve the 12 mm PSU-to-board channel; see `INTEGRATION-CHECK-01.md`.
 
+`peripheral-bay-v0.1.scad` provides separate removable cassettes for a 7 mm 2.5-inch SSD and the provisional 60 × 60 mm ESP32 relay board. See `PERIPHERAL-BAY.md` for compatibility limits and thermal caveats.
+
 It is intentionally not a printable enclosure. The model is used to:
 
 - expose dimensional assumptions;
@@ -68,4 +70,6 @@ openscad -D 'part="panel"' -o exports/front-panel-nyacom-v0.1.stl front-service-
 openscad -D 'part="usb-cassette"' -o exports/usb-hub-cassette-v0.1.stl front-service-module-v0.1.scad
 openscad -D 'part="front"' -o exports/board-tray-front-v0.1.stl board-tray-v0.1.scad
 openscad -D 'part="rear"' -o exports/board-tray-rear-v0.1.stl board-tray-v0.1.scad
+openscad -D 'part="ssd7"' -o exports/ssd7-cassette-v0.1.stl peripheral-bay-v0.1.scad
+openscad -D 'part="esp32"' -o exports/esp32-relay-cassette-v0.1.stl peripheral-bay-v0.1.scad
 ```
