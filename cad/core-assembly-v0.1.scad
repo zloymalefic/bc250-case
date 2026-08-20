@@ -4,10 +4,11 @@
 
 use <board-spine-v0.1.scad>
 use <psu-universal-internal-v0.2.scad>
+use <front-service-module-v0.1.scad>
 
 $fn = 40;
 
-part = "assembly"; // front-core | rear-core | board-spine-front | board-spine-rear | rear-cover-horizontal | rear-cover-vertical | assembly
+part = "assembly"; // front-core | rear-core | board-spine-front | board-spine-rear | front-panel | rear-cover-horizontal | rear-cover-vertical | assembly
 exploded_gap = 0;
 show_fasteners = true;
 show_equipment = true;
@@ -104,6 +105,22 @@ psu_receiver_rear_x = 318;
 psu_bridge_overlap = 0.4;
 psu_bridge_depth = 3;
 psu_bridge_height = 4;
+
+// Recessed 125 x 165 mm front service panel. Its outer face sits 2 mm behind
+// the front frame and four hidden hooks enter accessible receiver pockets.
+front_panel_size = [125, 165, 4];
+front_panel_inset = [(body[1] - front_panel_size[0]) / 2,
+                     (body[2] - front_panel_size[1]) / 2];
+front_panel_front_x = 2;
+front_panel_rear_x = front_panel_front_x + front_panel_size[2];
+front_seat_depth = 2;
+front_seat_overlap = 2.35;
+front_snap_y = [front_panel_inset[0] + 18,
+                front_panel_inset[0] + front_panel_size[0] - 18];
+front_snap_z = [front_panel_inset[1] + 8,
+                front_panel_inset[1] + front_panel_size[1] - 8];
+front_snap_block = [10, 12, 12];
+front_snap_slot = [8.6, 9, 4.4]; // 0.30 mm per-side hook clearance
 
 module oct_prism_x(length, width, height, cut) {
     translate([0, 0, height])
@@ -234,6 +251,59 @@ module psu_receiver_bridges() {
     }
 }
 
+module front_panel_seat_and_receivers() {
+    difference() {
+        union() {
+            // Visible front ring, with the panel face recessed by 2 mm.
+            difference() {
+                oct_prism_x(front_panel_rear_x, body[1], body[2], chamfer);
+                translate([-0.1, front_panel_inset[0] - 0.35,
+                           front_panel_inset[1] - 0.35])
+                    cube([front_panel_rear_x + 0.2,
+                          front_panel_size[0] + 0.7,
+                          front_panel_size[1] + 0.7]);
+            }
+
+            // Rear shoulder carries the panel without glue or visible screws.
+            difference() {
+                translate([front_panel_rear_x, 0, 0])
+                    oct_prism_x(front_seat_depth, body[1], body[2], chamfer);
+                translate([front_panel_rear_x - 0.1,
+                           front_panel_inset[0] + front_seat_overlap,
+                           front_panel_inset[1] + front_seat_overlap])
+                    cube([front_seat_depth + 0.2,
+                          front_panel_size[0] - 2 * front_seat_overlap,
+                          front_panel_size[1] - 2 * front_seat_overlap]);
+            }
+
+            for (y = front_snap_y, z = front_snap_z)
+                translate([front_panel_rear_x, y - front_snap_block[1] / 2,
+                           z - front_snap_block[2] / 2])
+                    cube(front_snap_block);
+        }
+
+        // Slots open toward the service-panel aperture. A thin tool can depress
+        // each hook after the opposite edge of the panel is lifted.
+        for (y = front_snap_y, z = front_snap_z)
+            translate([front_panel_rear_x - 0.1,
+                       y - front_snap_slot[0] / 2,
+                       z - front_snap_slot[2] / 2])
+                cube([front_snap_slot[1] + 0.2,
+                      front_snap_slot[0], front_snap_slot[2]]);
+    }
+}
+
+module front_service_panel_global() {
+    // local panel X/Y become global Y/Z; local thickness points toward -X so
+    // its hooks extend into the chassis along +X.
+    multmatrix([
+        [0, 0, -1, front_panel_rear_x],
+        [1, 0,  0, front_panel_inset[0]],
+        [0, 1,  0, front_panel_inset[1]],
+        [0, 0,  0, 1]
+    ]) front_panel();
+}
+
 module rear_cover_screw_holes(x0, length) {
     for (y = rear_mount_y, z = rear_mount_z)
         translate([x0 - 0.1, y, z])
@@ -329,6 +399,7 @@ module complete_core() {
         spine_core_bosses();
         receiver();
         psu_receiver_bridges();
+        front_panel_seat_and_receivers();
     }
 }
 
@@ -379,6 +450,8 @@ else if (part == "board-spine-front")
 else if (part == "board-spine-rear")
     translate([-spine_origin[0] - spine_split_x, -spine_origin[1], -spine_origin[2]])
         board_spine_global("rear");
+else if (part == "front-panel")
+    front_panel();
 else if (part == "rear-cover-horizontal")
     translate([-body[0], 0, 0]) rear_cover_horizontal_global();
 else if (part == "rear-cover-vertical")
@@ -388,6 +461,7 @@ else {
     color([0.10, 0.11, 0.13]) front_core_global();
     color([0.16, 0.17, 0.19]) translate([exploded_gap, 0, 0]) rear_core_global();
     color([0.24, 0.25, 0.29]) board_spine_global();
+    color([0.76, 0.12, 0.09]) front_service_panel_global();
     if (show_fasteners && exploded_gap == 0) fastener_proxies();
     if (show_equipment && exploded_gap == 0) vertical_equipment_proxies();
     if (rear_cover == "horizontal")
@@ -426,7 +500,9 @@ echo("integrated PSU receiver bounds mm",
       psu_receiver_origin + psu_receiver_outer]);
 echo("PSU receiver rear setback mm", body[0] - psu_receiver_rear_x);
 echo("PSU interface", "NexGen 110 x 46.34 mm server/FlexATX/LOP family; receiver fused to rear core");
-echo("release status", "core validation only; end panels and tray not yet integrated");
+echo("front service panel/seat mm", [front_panel_size, front_panel_inset, front_panel_front_x]);
+echo("front service panel retention", "4 hidden snap hooks; 0.30 mm nominal receiver clearance");
+echo("release status", "core validation only; rear service blanks and peripheral bays not yet integrated");
 
 assert(split_x + collar_length <= 250, "Front core exceeds preliminary print envelope");
 assert(body[0] - split_x <= 250, "Rear core exceeds preliminary print envelope");
@@ -444,3 +520,6 @@ assert(abs(psu_receiver_origin[0] + psu_receiver_outer[0] - psu_receiver_rear_x)
        "PSU receiver constants drifted from the internal receiver source");
 assert(psu_receiver_rear_x < body[0] - wall,
        "PSU receiver reaches the rear exterior plane");
+assert(front_panel_size[0] + 2 * front_panel_inset[0] == body[1] &&
+       front_panel_size[1] + 2 * front_panel_inset[1] == body[2],
+       "Front service panel is not centred on the case end");

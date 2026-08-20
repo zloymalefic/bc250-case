@@ -31,6 +31,10 @@ below 6 mm. See `JF13K-PHOTO-FIT.md` for the evidence and residual checks.
 - its rear extent stops at X=318, leaving 12 mm to the outside rear plane;
 - server, FlexATX, and LOP adapter plates remain interchangeable service parts,
   while no PSU bracket protrudes outside the enclosure.
+- the 125 × 165 mm front service panel now has a 2 mm recessed seat, a rear
+  support shoulder, and four matching hidden snap receivers in the front core;
+- the panel remains separately printable and removable without opening the
+  structural chassis seam.
 
 ## Assembly sequence for the core
 
@@ -44,8 +48,9 @@ The exact screw length and insert pilot remain provisional until the fit coupon 
 
 ## Next required interfaces
 
-1. Front and rear bezel seats with accessible retention.
-2. Matching snap receivers for both end service panels.
+1. Add snap seats for the two vertical rear service blanks inside both common
+   rear-cover variants.
+2. Validate the front-panel hooks with the existing clearance coupon.
 3. Final BC-250 edge clamps and non-contact JF13K transport pads after physical
    keepout checks.
 4. Two rear-cover variants on one four-point M3 interface: a shallow horizontal
